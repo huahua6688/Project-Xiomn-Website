@@ -80,7 +80,7 @@ const translations = {
 };
 
 const projects = [
-  { title: "botTitle", status: "botStatus", text: "botText", tags: ["Telegram", "Gemini", "Live API", "Bot"] },
+  { title: "botTitle", status: "botStatus", text: "botText", tags: ["Telegram", "Gemini", "Live API", "Bot"], href: "/telegram-ai-bot" },
   { title: "cloudTitle", status: "cloudStatus", text: "cloudText", tags: ["VPS", "Nginx", "Docker", "HTTPS"] },
   { title: "siteTitle", status: "siteStatus", text: "siteText", tags: ["Astro", "GitHub", "Static Site"] },
 ];
@@ -102,6 +102,9 @@ const projects = [
           <p data-i18n={project.text}>{translations.zh[project.text]}</p>
           <div class="tags">
             {project.tags.map((tag) => <span>{tag}</span>)}
+            {project.href && (
+              <a href={project.href}><span>查看详情 →</span></a>
+            )}
           </div>
         </article>
       ))}

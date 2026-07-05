@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const serverStack = [
+  ["VPS", "腾讯云 Ubuntu 24.04，用来运行网站、Nginx、code-server 和后续服务。"],
+  ["Domain", "xiomn.com，DNS 由 Cloudflare 管理。"],
+  ["Nginx", "负责把 /var/www/html 里的静态文件对外展示。"],
+  ["HTTPS", "使用 Let's Encrypt / Certbot 申请证书。"],
+  ["Astro", "负责生成静态网站，源码在 ~/projects/xiomn-website。"],
+  ["GitHub", "保存项目代码，仓库为 huahua6688/Project-Xiomn-Website。"],
+  ["deploy.sh", "一键构建并同步 dist 到 /var/www/html。"],
+];
+
+const workflow = [
+  "在 code-server 或 Termius 中修改 Astro 源码。",
+  "执行 npm run build 生成 dist 静态文件。",
+  "执行 ./deploy.sh 同步到 /var/www/html。",
+  "Nginx 立即展示新的页面。",
+  "使用 git add / commit / push 保存到 GitHub。",
+];
+
+const commands = [
+  ["进入项目", "cd ~/projects/xiomn-website"],
+  ["构建网站", "npm run build"],
+  ["手动部署", "./deploy.sh"],
+  ["查看 Git 状态", "git status"],
+  ["提交代码", "git add . && git commit -m \"update site\""],
+  ["推送 GitHub", "git push"],
+];
+
+const notes = [
+  "不要直接长期修改 /var/www/html/index.html，因为那只是最终部署目录。",
+  "真正应该修改的是 src/pages 里的 Astro 源文件。",
+  "dist 是构建产物，可以重新生成，不应该手动当源码维护。",
+  "deploy.log 是服务器日志，不应该提交到 GitHub。",
+  "code-server 密码和 Cloudflare Token 这类敏感内容不要写进仓库。",
+];
+---
+
+<BaseLayout
+  title="服务器与自动部署 · Project Xiomn"
+  description="Project Xiomn 服务器、Nginx、Astro、GitHub 和部署流程文档。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">SERVER DOCS</p>
+    <h1 class="hero-title">服务器与自动部署。</h1>
+    <p class="lead">
+      这里记录 Project Xiomn 官网从源码、构建、部署到 GitHub 保存的完整流程。
+      后续所有网站页面都应该按这个流程维护。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">STACK</p>
+        <h2 class="section-title">当前技术栈</h2>
+      </div>
+      <p class="section-desc">
+        这套结构的核心是：Astro 负责生成页面，Nginx 负责展示页面，GitHub 负责保存版本。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {serverStack.map(([name, desc]) => (
+        <article class="card">
+          <h3>{name}</h3>
+          <p>{desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">WORKFLOW</p>
+        <h2 class="section-title">标准开发流程</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {workflow.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">COMMANDS</p>
+        <h2 class="section-title">常用命令</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {commands.map(([title, command]) => (
+        <article class="panel">
+          <p class="kicker">{title}</p>
+          <pre><code>{command}</code></pre>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">NOTES</p>
+        <h2 class="section-title">注意事项</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {notes.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
