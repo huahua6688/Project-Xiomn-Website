@@ -35,17 +35,26 @@ const year = new Date().getFullYear();
           <a class={active === "about" ? "active" : ""} href="/about" data-i18n="navAbout">关于</a>
         </div>
 
-        <label class="language-switcher" aria-label="选择语言">
-          <span class="language-icon">🌐</span>
-          <select data-language-select>
-            <option value="zh">中文</option>
-            <option value="en">English</option>
-            <option value="ja">日本語</option>
-            <option value="km">ខ្មែរ</option>
-            <option value="ms">Malay</option>
-          </select>
-          <span class="language-arrow">⌄</span>
-        </label>
+        <div class="language-switcher" data-language-menu>
+          <button
+            class="language-trigger"
+            type="button"
+            data-language-trigger
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <span data-current-language>中文</span>
+            <span class="chevron">⌄</span>
+          </button>
+
+          <div class="language-menu" data-language-list role="listbox" hidden>
+            <button type="button" data-lang="zh">中文</button>
+            <button type="button" data-lang="en">English</button>
+            <button type="button" data-lang="ja">日本語</button>
+            <button type="button" data-lang="km">ខ្មែរ</button>
+            <button type="button" data-lang="ms">Malay</button>
+          </div>
+        </div>
       </nav>
 
       <slot />
@@ -58,6 +67,14 @@ const year = new Date().getFullYear();
 
     <script define:vars={{ pageCopy: translations }}>
       const languages = ["zh", "en", "ja", "km", "ms"];
+
+      const languageLabels = {
+        zh: "中文",
+        en: "English",
+        ja: "日本語",
+        km: "ខ្មែរ",
+        ms: "Malay",
+      };
 
       const commonCopy = {
         zh: {
@@ -123,6 +140,14 @@ const year = new Date().getFullYear();
         return localStorage.getItem("xiomn-lang") || "zh";
       }
 
+      function closeLanguageMenu() {
+        const list = document.querySelector("[data-language-list]");
+        const trigger = document.querySelector("[data-language-trigger]");
+
+        if (list) list.hidden = true;
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+      }
+
       function applyLang(lang) {
         const safeLang = copy[lang] ? lang : "zh";
         const dict = copy[safeLang];
@@ -137,11 +162,12 @@ const year = new Date().getFullYear();
           }
         });
 
-        const languageSelect = document.querySelector("[data-language-select]");
+        const label = document.querySelector("[data-current-language]");
+        if (label) label.textContent = languageLabels[safeLang] || "中文";
 
-        if (languageSelect) {
-          languageSelect.value = safeLang;
-        }
+        document.querySelectorAll("[data-lang]").forEach((btn) => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang") === safeLang);
+        });
 
         if (dict.metaTitle) {
           document.title = dict.metaTitle;
@@ -150,13 +176,36 @@ const year = new Date().getFullYear();
         localStorage.setItem("xiomn-lang", safeLang);
       }
 
-      const languageSelect = document.querySelector("[data-language-select]");
+      const trigger = document.querySelector("[data-language-trigger]");
+      const list = document.querySelector("[data-language-list]");
+      const menu = document.querySelector("[data-language-menu]");
 
-      if (languageSelect) {
-        languageSelect.addEventListener("change", (event) => {
-          applyLang(event.target.value);
+      if (trigger && list) {
+        trigger.addEventListener("click", () => {
+          const willOpen = list.hidden;
+          list.hidden = !willOpen;
+          trigger.setAttribute("aria-expanded", String(willOpen));
         });
       }
+
+      document.querySelectorAll("[data-lang]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          applyLang(btn.getAttribute("data-lang"));
+          closeLanguageMenu();
+        });
+      });
+
+      document.addEventListener("click", (event) => {
+        if (menu && !menu.contains(event.target)) {
+          closeLanguageMenu();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeLanguageMenu();
+        }
+      });
 
       applyLang(getInitialLang());
     </script>
