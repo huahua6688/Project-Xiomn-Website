@@ -1,0 +1,181 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const envGroups = [
+  {
+    title: "Telegram",
+    items: [
+      ["BOT_TOKEN", "BotFather 提供的 Telegram Bot Token。"],
+    ],
+  },
+  {
+    title: "AI Provider",
+    items: [
+      ["AI_PROVIDER", "模型供应商，例如 gemini、gemini-live、openai-compatible。"],
+      ["AI_MODEL", "默认文本/多模态模型，例如 gemini-2.0-flash。"],
+      ["AI_API_KEY", "通用 AI Provider API Key。"],
+      ["AI_BASE_URL", "OpenAI-compatible 接口地址，可选。"],
+    ],
+  },
+  {
+    title: "Gemini",
+    items: [
+      ["GEMINI_API_KEY", "普通 Gemini API Key。"],
+      ["GEMINI_BASE_URL", "普通 Gemini API 地址，可选。"],
+      ["GEMINI_LIVE_API_KEY", "Gemini Live API Key。"],
+      ["GEMINI_LIVE_BASE_URL", "Gemini Live API 地址，可选。"],
+    ],
+  },
+  {
+    title: "Runtime",
+    items: [
+      ["DATABASE_FILE", "SQLite 数据库文件路径。"],
+      ["PASSWORD", "后台或管理密码。"],
+      ["PORT", "服务监听端口，Zeabur 通常会注入 PORT / WEB_PORT。"],
+    ],
+  },
+];
+
+const errors = [
+  {
+    title: "Zeabur BackOff",
+    text: "容器启动后反复重启，通常说明程序入口、环境变量、依赖或运行端口存在问题。需要优先查看 Zeabur Runtime Logs。",
+  },
+  {
+    title: "pdf-parse default export 错误",
+    text: "错误：The requested module 'pdf-parse' does not provide an export named 'default'。解决方向是改为命名导入或兼容 ESM 的导入方式。",
+  },
+  {
+    title: "Unexpected identifier 'parsePdf'",
+    text: "通常是上一轮修改后文件语法结构被破坏，比如函数定义位置、括号、import/export 写法不完整。",
+  },
+  {
+    title: "构建阶段缺 node_modules",
+    text: "如果在 Docker build 阶段尝试读取 node_modules，会失败。应保证依赖安装和构建步骤顺序正确。",
+  },
+];
+
+const roadmap = [
+  "先保证普通文本对话可部署运行。",
+  "再接入普通 Gemini 多模态能力。",
+  "把 Gemini Live 单独做成 live provider，避免和普通 Gemini 混在一起。",
+  "把 slash command 改成 Telegram inline button 交互。",
+  "补齐文件解析：PDF / DOCX / XLSX / TXT。",
+  "整理 Zeabur 环境变量模板。",
+  "发布一个可稳定部署的 v1 版本。",
+];
+---
+
+<BaseLayout
+  title="Telegram AI Bot 部署文档 · Project Xiomn"
+  description="Telegram AI Bot 部署、环境变量和错误记录。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">BOT DOCS</p>
+    <h1 class="hero-title">Telegram AI Bot 部署文档。</h1>
+    <p class="lead">
+      这里整理 Telegram-AI-Bot-Pro 的部署思路、环境变量、Gemini / Gemini Live 接入方式、
+      Zeabur 报错记录和下一步重构计划。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">GOAL</p>
+        <h2 class="section-title">目标版本</h2>
+      </div>
+      <p class="section-desc">
+        做一个真正可部署、可扩展、可交互的 Telegram AI Bot，而不是只能本地跑的 Demo。
+      </p>
+    </div>
+
+    <div class="grid three">
+      <article class="card">
+        <div class="card-icon">🤖</div>
+        <h3>普通 AI 对话</h3>
+        <p>支持 Gemini、OpenAI-compatible 等普通聊天模型，先保证基础对话稳定。</p>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🎙️</div>
+        <h3>Gemini Live</h3>
+        <p>把 Live API 单独设计成实时语音/音频能力，不和普通聊天逻辑混在一起。</p>
+      </article>
+
+      <article class="card">
+        <div class="card-icon">🧩</div>
+        <h3>按钮交互</h3>
+        <p>尽量减少 slash command，用 Telegram inline button 作为主要交互方式。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV</p>
+        <h2 class="section-title">环境变量</h2>
+      </div>
+      <p class="section-desc">
+        Zeabur 部署时最容易出错的地方就是环境变量。后续应提供一份完整 .env.example。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {envGroups.map((group) => (
+        <article class="panel">
+          <p class="kicker">{group.title}</p>
+          <div class="timeline">
+            {group.items.map(([key, desc], index) => (
+              <div class="timeline-item">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <p><strong>{key}</strong>：{desc}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ERRORS</p>
+        <h2 class="section-title">已遇到的问题</h2>
+      </div>
+      <p class="section-desc">
+        这些问题后续会变成部署排错文档，用来快速定位 Zeabur 启动失败原因。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {errors.map((item) => (
+        <article class="card">
+          <h3>{item.title}</h3>
+          <p>{item.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ROADMAP</p>
+        <h2 class="section-title">重构顺序</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {roadmap.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
