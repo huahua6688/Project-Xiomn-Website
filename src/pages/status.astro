@@ -1,209 +1,112 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const translations = {
+  zh: {
+    metaTitle: "状态 · Project Xiomn",
+    eyebrow: "STATUS",
+    title: "系统状态。",
+    intro: "记录 Project Xiomn 当前已经上线、正在开发和准备接入的服务。",
+    online: "在线",
+    connected: "已连接",
+    configured: "已配置",
+    developing: "开发中",
+    siteText: "Project Xiomn 官网已通过 Nginx 和 HTTPS 正常运行。",
+    codeText: "网页版 VS Code 开发环境已部署，可用于远程修改项目代码。",
+    githubText: "项目代码已通过 SSH 推送到 GitHub 仓库。",
+    deployText: "服务器可以通过 deploy.sh 手动部署，并继续升级自动化流程。",
+    botText: "后续会继续整理 Gemini、Gemini Live、按钮交互和 Zeabur 部署方案。",
+  },
+  en: {
+    metaTitle: "Status · Project Xiomn",
+    eyebrow: "STATUS",
+    title: "System status.",
+    intro: "Services that are online, in development or planned for Project Xiomn.",
+    online: "Online",
+    connected: "Connected",
+    configured: "Configured",
+    developing: "In development",
+    siteText: "The Project Xiomn website is running through Nginx and HTTPS.",
+    codeText: "The browser-based VS Code environment is available for remote development.",
+    githubText: "Project code is pushed to GitHub through SSH.",
+    deployText: "The server can deploy through deploy.sh and will keep improving automation.",
+    botText: "Gemini, Gemini Live, button interactions and Zeabur deployment will be organized next.",
+  },
+  ja: {
+    metaTitle: "状態 · Project Xiomn",
+    eyebrow: "STATUS",
+    title: "システム状態。",
+    intro: "Project Xiomn の稼働中、開発中、計画中のサービスを記録します。",
+    online: "稼働中",
+    connected: "接続済み",
+    configured: "設定済み",
+    developing: "開発中",
+    siteText: "Project Xiomn のサイトは Nginx と HTTPS で正常に稼働しています。",
+    codeText: "ブラウザ版 VS Code 開発環境が利用できます。",
+    githubText: "プロジェクトコードは SSH 経由で GitHub に push されています。",
+    deployText: "deploy.sh で手動デプロイ可能で、今後さらに自動化します。",
+    botText: "Gemini、Gemini Live、ボタン操作、Zeabur デプロイを整理します。",
+  },
+  km: {
+    metaTitle: "ស្ថានភាព · Project Xiomn",
+    eyebrow: "STATUS",
+    title: "ស្ថានភាពប្រព័ន្ធ។",
+    intro: "កត់ត្រាសេវាកម្មដែលដំណើរការ កំពុងអភិវឌ្ឍ និងគ្រោងបន្ថែម។",
+    online: "ដំណើរការ",
+    connected: "បានភ្ជាប់",
+    configured: "បានកំណត់",
+    developing: "កំពុងអភិវឌ្ឍ",
+    siteText: "គេហទំព័រ Project Xiomn ដំណើរការតាម Nginx និង HTTPS។",
+    codeText: "VS Code នៅលើ browser អាចប្រើសម្រាប់អភិវឌ្ឍពីចម្ងាយ។",
+    githubText: "កូដគម្រោងបាន push ទៅ GitHub តាម SSH។",
+    deployText: "Server អាច deploy តាម deploy.sh ហើយនឹងបន្ថែម automation។",
+    botText: "នឹងរៀបចំ Gemini, Gemini Live, button interaction និង Zeabur deployment។",
+  },
+  ms: {
+    metaTitle: "Status · Project Xiomn",
+    eyebrow: "STATUS",
+    title: "Status sistem.",
+    intro: "Servis yang online, dalam pembangunan atau dirancang untuk Project Xiomn.",
+    online: "Online",
+    connected: "Disambung",
+    configured: "Dikonfigurasi",
+    developing: "Dalam pembangunan",
+    siteText: "Website Project Xiomn berjalan melalui Nginx dan HTTPS.",
+    codeText: "Browser-based VS Code tersedia untuk remote development.",
+    githubText: "Kod projek telah dipush ke GitHub melalui SSH.",
+    deployText: "Server boleh deploy melalui deploy.sh dan automasi akan terus ditambah baik.",
+    botText: "Gemini, Gemini Live, button interaction dan Zeabur deployment akan disusun selepas ini.",
+  },
+};
+
 const services = [
-  {
-    name: "xiomn.com",
-    status: "在线",
-    level: "online",
-    description: "Project Xiomn 官网已通过 Nginx 和 HTTPS 正常运行。",
-  },
-  {
-    name: "code.xiomn.com",
-    status: "在线",
-    level: "online",
-    description: "网页版 VS Code 开发环境已部署，可用于远程修改项目代码。",
-  },
-  {
-    name: "GitHub",
-    status: "已连接",
-    level: "online",
-    description: "项目代码已通过 SSH 推送到 GitHub 仓库。",
-  },
-  {
-    name: "自动部署",
-    status: "已配置",
-    level: "progress",
-    description: "服务器会检查 GitHub 更新，并可通过 deploy.sh 手动部署。",
-  },
-  {
-    name: "Telegram AI Bot",
-    status: "开发中",
-    level: "progress",
-    description: "后续会继续整理 Gemini、Gemini Live、按钮交互和 Zeabur 部署方案。",
-  },
+  { name: "xiomn.com", badge: "online", text: "siteText", level: "online" },
+  { name: "code.xiomn.com", badge: "online", text: "codeText", level: "online" },
+  { name: "GitHub", badge: "connected", text: "githubText", level: "online" },
+  { name: "Deployment", badge: "configured", text: "deployText", level: "progress" },
+  { name: "Telegram AI Bot", badge: "developing", text: "botText", level: "progress" },
 ];
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>状态 · Project Xiomn</title>
-    <meta name="description" content="Project Xiomn 服务状态页。" />
-  </head>
+<BaseLayout title="状态 · Project Xiomn" description="Project Xiomn 服务状态页。" active="status" translations={translations}>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
 
-  <body>
-    <main class="page">
-      <nav>
-        <a href="/">首页</a>
-        <a href="/projects">项目</a>
-        <a href="/docs">文档</a>
-      </nav>
-
-      <section class="hero">
-        <p>STATUS</p>
-        <h1>系统状态。</h1>
-        <span>
-          这里记录 Project Xiomn 当前已经上线、正在开发和后续准备接入的服务。
-        </span>
-      </section>
-
-      <section class="list">
-        {services.map((service) => (
-          <article class="item">
-            <div>
-              <span class={`dot ${service.level}`}></span>
-              <strong>{service.name}</strong>
-            </div>
-            <b>{service.status}</b>
-            <p>{service.description}</p>
-          </article>
-        ))}
-      </section>
-    </main>
-
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --text: rgba(255, 255, 255, 0.94);
-        --muted: rgba(255, 255, 255, 0.64);
-        --line: rgba(255, 255, 255, 0.14);
-        --card: rgba(255, 255, 255, 0.08);
-        --cyan: #77ffe1;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(119, 255, 225, 0.16), transparent 34rem),
-          radial-gradient(circle at bottom right, rgba(98, 168, 255, 0.18), transparent 32rem),
-          var(--bg);
-        color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .page {
-        width: min(1000px, calc(100% - 32px));
-        margin: 0 auto;
-        padding: 28px 0 80px;
-      }
-
-      nav {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 80px;
-      }
-
-      nav a {
-        color: var(--muted);
-      }
-
-      nav a:hover {
-        color: var(--text);
-      }
-
-      .hero {
-        margin-bottom: 48px;
-      }
-
-      .hero p {
-        color: var(--cyan);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-
-      h1 {
-        max-width: 900px;
-        margin: 0;
-        font-size: clamp(54px, 9vw, 112px);
-        line-height: 0.92;
-        letter-spacing: -0.08em;
-      }
-
-      .hero span {
-        display: block;
-        max-width: 720px;
-        margin-top: 26px;
-        color: var(--muted);
-        font-size: 20px;
-        line-height: 1.7;
-      }
-
-      .list {
-        display: grid;
-        gap: 14px;
-      }
-
-      .item {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 10px 22px;
-        padding: 24px;
-        border: 1px solid var(--line);
-        border-radius: 26px;
-        background: var(--card);
-        backdrop-filter: blur(20px);
-      }
-
-      .item p {
-        grid-column: 1 / -1;
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-
-      .dot {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        margin-right: 10px;
-        border-radius: 50%;
-      }
-
-      .online {
-        background: #70ffb5;
-        box-shadow: 0 0 18px rgba(112, 255, 181, 0.65);
-      }
-
-      .progress {
-        background: #ffd36e;
-        box-shadow: 0 0 18px rgba(255, 211, 110, 0.65);
-      }
-
-      b {
-        color: var(--cyan);
-      }
-
-      @media (max-width: 700px) {
-        .item {
-          grid-template-columns: 1fr;
-        }
-
-        nav {
-          flex-wrap: wrap;
-        }
-      }
-    </style>
-  </body>
-</html>
+  <section class="section">
+    <div class="status-list">
+      {services.map((service) => (
+        <article class="status-item">
+          <div class="status-name">
+            <span class={`dot ${service.level}`}></span>
+            {service.name}
+          </div>
+          <div class="status-badge" data-i18n={service.badge}>{translations.zh[service.badge]}</div>
+          <p data-i18n={service.text}>{translations.zh[service.text]}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

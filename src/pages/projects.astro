@@ -1,203 +1,110 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const translations = {
+  zh: {
+    metaTitle: "项目 · Project Xiomn",
+    eyebrow: "PROJECTS",
+    title: "项目中心。",
+    intro: "这里展示 Project Xiomn 正在构建、已经上线和计划扩展的项目。",
+    botTitle: "Telegram AI Bot",
+    botStatus: "开发中",
+    botText: "一个万能 Telegram AI 机器人，支持 Gemini、Gemini Live、语音、识图、文件解析和消息按钮交互。",
+    cloudTitle: "Xiomn Cloud",
+    cloudStatus: "在线",
+    cloudText: "基于 VPS、Nginx、Docker、HTTPS 和自动部署组成的个人云端实验环境。",
+    siteTitle: "Project Xiomn Website",
+    siteStatus: "在线",
+    siteText: "Project Xiomn 的公开主页、项目展示入口和后续文档中心。",
+  },
+  en: {
+    metaTitle: "Projects · Project Xiomn",
+    eyebrow: "PROJECTS",
+    title: "Project center.",
+    intro: "A place for projects being built, deployed and expanded under Project Xiomn.",
+    botTitle: "Telegram AI Bot",
+    botStatus: "In development",
+    botText: "A universal Telegram AI bot with Gemini, Gemini Live, voice, vision, file parsing and inline-button interactions.",
+    cloudTitle: "Xiomn Cloud",
+    cloudStatus: "Online",
+    cloudText: "A personal cloud environment powered by VPS, Nginx, Docker, HTTPS and deployment automation.",
+    siteTitle: "Project Xiomn Website",
+    siteStatus: "Online",
+    siteText: "The public homepage, project entrance and future documentation center for Project Xiomn.",
+  },
+  ja: {
+    metaTitle: "プロジェクト · Project Xiomn",
+    eyebrow: "PROJECTS",
+    title: "プロジェクトセンター。",
+    intro: "Project Xiomn で構築・公開・拡張しているプロジェクトをまとめます。",
+    botTitle: "Telegram AI Bot",
+    botStatus: "開発中",
+    botText: "Gemini、Gemini Live、音声、画像認識、ファイル解析、インラインボタン操作に対応する Telegram AI Bot。",
+    cloudTitle: "Xiomn Cloud",
+    cloudStatus: "稼働中",
+    cloudText: "VPS、Nginx、Docker、HTTPS、自動デプロイで構成された個人クラウド環境。",
+    siteTitle: "Project Xiomn Website",
+    siteStatus: "稼働中",
+    siteText: "Project Xiomn の公開ホームページ、プロジェクト入口、将来のドキュメントセンター。",
+  },
+  km: {
+    metaTitle: "គម្រោង · Project Xiomn",
+    eyebrow: "PROJECTS",
+    title: "មជ្ឈមណ្ឌលគម្រោង។",
+    intro: "ទីនេះបង្ហាញគម្រោងដែលកំពុងបង្កើត ដាក់ឱ្យដំណើរការ និងពង្រីកក្រោម Project Xiomn។",
+    botTitle: "Telegram AI Bot",
+    botStatus: "កំពុងអភិវឌ្ឍ",
+    botText: "Telegram AI Bot ដែលគាំទ្រ Gemini, Gemini Live, សំឡេង, រូបភាព, ឯកសារ និងប៊ូតុងក្នុងសារ។",
+    cloudTitle: "Xiomn Cloud",
+    cloudStatus: "ដំណើរការ",
+    cloudText: "បរិស្ថាន Cloud ផ្ទាល់ខ្លួន ដែលប្រើ VPS, Nginx, Docker, HTTPS និង deployment automation។",
+    siteTitle: "Project Xiomn Website",
+    siteStatus: "ដំណើរការ",
+    siteText: "គេហទំព័រសាធារណៈ ច្រកចូលគម្រោង និងមជ្ឈមណ្ឌលឯកសារនាពេលក្រោយ។",
+  },
+  ms: {
+    metaTitle: "Projek · Project Xiomn",
+    eyebrow: "PROJECTS",
+    title: "Pusat projek.",
+    intro: "Tempat untuk projek yang sedang dibina, dideploy dan dikembangkan di bawah Project Xiomn.",
+    botTitle: "Telegram AI Bot",
+    botStatus: "Dalam pembangunan",
+    botText: "Telegram AI Bot universal dengan Gemini, Gemini Live, suara, visi, parsing fail dan interaksi butang inline.",
+    cloudTitle: "Xiomn Cloud",
+    cloudStatus: "Online",
+    cloudText: "Persekitaran cloud peribadi berasaskan VPS, Nginx, Docker, HTTPS dan deployment automation.",
+    siteTitle: "Project Xiomn Website",
+    siteStatus: "Online",
+    siteText: "Homepage awam, pintu masuk projek dan pusat dokumentasi masa depan untuk Project Xiomn.",
+  },
+};
+
 const projects = [
-  {
-    title: "Telegram AI Bot",
-    status: "开发中",
-    description:
-      "一个万能 Telegram AI 机器人，支持 Gemini、Gemini Live、语音、识图、文件解析和消息按钮交互。",
-    tags: ["Telegram", "Gemini", "Live API", "Bot"],
-  },
-  {
-    title: "Xiomn Cloud",
-    status: "在线",
-    description:
-      "基于 VPS、Nginx、Docker、HTTPS 和自动部署组成的个人云端实验环境。",
-    tags: ["VPS", "Nginx", "Docker", "HTTPS"],
-  },
-  {
-    title: "Project Xiomn Website",
-    status: "在线",
-    description:
-      "Project Xiomn 的公开主页、项目展示入口和后续文档中心。",
-    tags: ["Astro", "GitHub", "Static Site"],
-  },
+  { title: "botTitle", status: "botStatus", text: "botText", tags: ["Telegram", "Gemini", "Live API", "Bot"] },
+  { title: "cloudTitle", status: "cloudStatus", text: "cloudText", tags: ["VPS", "Nginx", "Docker", "HTTPS"] },
+  { title: "siteTitle", status: "siteStatus", text: "siteText", tags: ["Astro", "GitHub", "Static Site"] },
 ];
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>项目 · Project Xiomn</title>
-    <meta name="description" content="Project Xiomn 正在构建的项目。" />
-  </head>
+<BaseLayout title="项目 · Project Xiomn" description="Project Xiomn 项目中心。" active="projects" translations={translations}>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
 
-  <body>
-    <main class="page">
-      <nav>
-        <a href="/">← 返回 Xiomn 首页</a>
-      </nav>
-
-      <section class="hero">
-        <p>PROJECTS</p>
-        <h1>正在构建的项目。</h1>
-        <span>Project Xiomn 是 AI Bot、云端服务、自动化工具和开源实验一起成长的地方。</span>
-      </section>
-
-      <section class="grid">
-        {projects.map((project) => (
-          <article class="card">
-            <div class="top">
-              <h2>{project.title}</h2>
-              <strong>{project.status}</strong>
-            </div>
-            <p>{project.description}</p>
-            <div class="tags">
-              {project.tags.map((tag) => <span>{tag}</span>)}
-            </div>
-          </article>
-        ))}
-      </section>
-    </main>
-
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --text: rgba(255, 255, 255, 0.94);
-        --muted: rgba(255, 255, 255, 0.64);
-        --line: rgba(255, 255, 255, 0.14);
-        --card: rgba(255, 255, 255, 0.08);
-        --cyan: #77ffe1;
-        --blue: #62a8ff;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(98, 168, 255, 0.22), transparent 34rem),
-          radial-gradient(circle at bottom right, rgba(119, 255, 225, 0.12), transparent 32rem),
-          var(--bg);
-        color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .page {
-        width: min(1100px, calc(100% - 32px));
-        margin: 0 auto;
-        padding: 28px 0 80px;
-      }
-
-      nav {
-        margin-bottom: 80px;
-      }
-
-      nav a {
-        color: var(--muted);
-      }
-
-      nav a:hover {
-        color: var(--text);
-      }
-
-      .hero {
-        margin-bottom: 48px;
-      }
-
-      .hero p {
-        color: var(--cyan);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-
-      h1 {
-        max-width: 900px;
-        margin: 0;
-        font-size: clamp(54px, 9vw, 112px);
-        line-height: 0.92;
-        letter-spacing: -0.08em;
-      }
-
-      .hero span {
-        display: block;
-        max-width: 720px;
-        margin-top: 26px;
-        color: var(--muted);
-        font-size: 20px;
-        line-height: 1.7;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .card {
-        min-height: 300px;
-        padding: 26px;
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        background: var(--card);
-        backdrop-filter: blur(20px);
-      }
-
-      .top {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        align-items: flex-start;
-      }
-
-      h2 {
-        margin: 0;
-        font-size: 28px;
-        letter-spacing: -0.045em;
-      }
-
-      strong {
-        white-space: nowrap;
-        color: var(--cyan);
-        font-size: 13px;
-      }
-
-      .card p {
-        margin-top: 42px;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 28px;
-      }
-
-      .tags span {
-        padding: 7px 10px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 13px;
-      }
-
-      @media (max-width: 860px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </body>
-</html>
+  <section class="section">
+    <div class="grid three">
+      {projects.map((project) => (
+        <article class="card">
+          <h2 data-i18n={project.title}>{translations.zh[project.title]}</h2>
+          <p class="status-badge" data-i18n={project.status}>{translations.zh[project.status]}</p>
+          <p data-i18n={project.text}>{translations.zh[project.text]}</p>
+          <div class="tags">
+            {project.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

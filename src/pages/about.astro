@@ -1,221 +1,110 @@
 ---
-const stack = [
-  "Astro",
-  "Nginx",
-  "Ubuntu",
-  "GitHub",
-  "Docker",
-  "Telegram Bot",
-  "Gemini",
-  "Cloudflare",
-];
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const translations = {
+  zh: {
+    metaTitle: "关于 · Project Xiomn",
+    eyebrow: "ABOUT",
+    title: "一个不断生长的 AI 实验室。",
+    intro: "Project Xiomn 是一个个人技术项目，用来把 AI、Telegram Bot、云服务、自动化和开源工程整合到一起。",
+    whyLabel: "为什么做这个？",
+    whyTitle: "把想法变成可运行的产品。",
+    whyText: "Project Xiomn 不是一个单独的网站，而是一个长期项目。它会记录服务器搭建、网站开发、Telegram AI Bot、Gemini Live 接入、自动部署和后续所有 AI 工具的构建过程。",
+    focusLabel: "核心方向",
+    focusTitle: "AI Bot、云端服务和开源沉淀。",
+    focusText: "当前重点是把 Telegram AI Bot 做成真正可部署、可扩展、可交互的万能 AI 助手，同时把官网、文档和服务状态整理成公开入口。",
+    stackLabel: "TECH STACK",
+    stackTitle: "正在使用的技术栈",
+  },
+  en: {
+    metaTitle: "About · Project Xiomn",
+    eyebrow: "ABOUT",
+    title: "A growing personal AI lab.",
+    intro: "Project Xiomn brings AI, Telegram bots, cloud services, automation and open-source engineering together.",
+    whyLabel: "Why build this?",
+    whyTitle: "Turn ideas into running products.",
+    whyText: "Project Xiomn is not just a website. It is a long-term project that records server setup, website development, Telegram AI Bot work, Gemini Live integration, auto deployment and future AI tools.",
+    focusLabel: "Core direction",
+    focusTitle: "AI bots, cloud services and open-source knowledge.",
+    focusText: "The current focus is to make the Telegram AI Bot deployable, extensible and interactive, while turning the website, docs and status pages into a public entrance.",
+    stackLabel: "TECH STACK",
+    stackTitle: "Technologies in use",
+  },
+  ja: {
+    metaTitle: "概要 · Project Xiomn",
+    eyebrow: "ABOUT",
+    title: "成長し続ける個人 AI ラボ。",
+    intro: "Project Xiomn は AI、Telegram Bot、クラウドサービス、自動化、オープンソース開発を一つにまとめる個人技術プロジェクトです。",
+    whyLabel: "なぜ作るのか？",
+    whyTitle: "アイデアを動く製品へ。",
+    whyText: "Project Xiomn は単なるサイトではなく、サーバー構築、サイト開発、Telegram AI Bot、Gemini Live 接続、自動デプロイ、AI ツールの制作過程を記録する長期プロジェクトです。",
+    focusLabel: "中心方向",
+    focusTitle: "AI Bot、クラウドサービス、オープンソース蓄積。",
+    focusText: "現在は Telegram AI Bot をデプロイ可能・拡張可能・インタラクティブな AI アシスタントにし、サイト、文書、状態ページを公開入口に整えています。",
+    stackLabel: "TECH STACK",
+    stackTitle: "使用中の技術",
+  },
+  km: {
+    metaTitle: "អំពី · Project Xiomn",
+    eyebrow: "ABOUT",
+    title: "បន្ទប់ពិសោធន៍ AI ផ្ទាល់ខ្លួនដែលកំពុងលូតលាស់។",
+    intro: "Project Xiomn បញ្ចូល AI, Telegram Bot, cloud service, automation និង open-source engineering ជាមួយគ្នា។",
+    whyLabel: "ហេតុអ្វីធ្វើវា?",
+    whyTitle: "បម្លែងគំនិតឱ្យក្លាយជាផលិតផលដែលដំណើរការ។",
+    whyText: "Project Xiomn មិនមែនជាគេហទំព័រតែមួយទេ ប៉ុន្តែជាគម្រោងរយៈពេលវែងសម្រាប់កត់ត្រា server setup, website development, Telegram AI Bot, Gemini Live, auto deployment និង AI tools។",
+    focusLabel: "ទិសដៅសំខាន់",
+    focusTitle: "AI Bot, Cloud services និង Open Source។",
+    focusText: "បច្ចុប្បន្នផ្តោតលើការធ្វើ Telegram AI Bot ឱ្យ deploy បាន ពង្រីកបាន និងមាន interaction ព្រមទាំងរៀបចំ website, docs និង status pages។",
+    stackLabel: "TECH STACK",
+    stackTitle: "បច្ចេកវិទ្យាកំពុងប្រើ",
+  },
+  ms: {
+    metaTitle: "Tentang · Project Xiomn",
+    eyebrow: "ABOUT",
+    title: "Makmal AI peribadi yang terus berkembang.",
+    intro: "Project Xiomn menggabungkan AI, Telegram Bot, servis cloud, automasi dan open-source engineering.",
+    whyLabel: "Kenapa bina ini?",
+    whyTitle: "Tukar idea menjadi produk yang berjalan.",
+    whyText: "Project Xiomn bukan sekadar website. Ia ialah projek jangka panjang untuk merekod server setup, website development, Telegram AI Bot, Gemini Live integration, auto deployment dan AI tools seterusnya.",
+    focusLabel: "Arah utama",
+    focusTitle: "AI Bot, cloud services dan open-source knowledge.",
+    focusText: "Fokus sekarang ialah menjadikan Telegram AI Bot boleh dideploy, dikembangkan dan interaktif, sambil menyusun website, docs dan status pages sebagai pintu masuk awam.",
+    stackLabel: "TECH STACK",
+    stackTitle: "Teknologi yang digunakan",
+  },
+};
+
+const stack = ["Astro", "Nginx", "Ubuntu", "GitHub", "Docker", "Telegram Bot", "Gemini", "Cloudflare"];
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>关于 · Project Xiomn</title>
-    <meta name="description" content="关于 Project Xiomn。" />
-  </head>
+<BaseLayout title="关于 · Project Xiomn" description="关于 Project Xiomn。" active="about" translations={translations}>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
 
-  <body>
-    <main class="page">
-      <nav>
-        <a href="/">首页</a>
-        <a href="/projects">项目</a>
-        <a href="/docs">文档</a>
-        <a href="/status">状态</a>
-      </nav>
+  <section class="section">
+    <div class="grid two">
+      <article class="panel">
+        <p class="kicker" data-i18n="whyLabel">{translations.zh.whyLabel}</p>
+        <h2 class="section-title" data-i18n="whyTitle">{translations.zh.whyTitle}</h2>
+        <p data-i18n="whyText">{translations.zh.whyText}</p>
+      </article>
 
-      <section class="hero">
-        <p>ABOUT</p>
-        <h1>一个不断生长的 AI 实验室。</h1>
-        <span>
-          Project Xiomn 是一个个人技术项目，用来把 AI、Telegram Bot、云服务、自动化和开源工程整合到一起。
-        </span>
-      </section>
+      <article class="panel">
+        <p class="kicker" data-i18n="focusLabel">{translations.zh.focusLabel}</p>
+        <h2 class="section-title" data-i18n="focusTitle">{translations.zh.focusTitle}</h2>
+        <p data-i18n="focusText">{translations.zh.focusText}</p>
+      </article>
+    </div>
+  </section>
 
-      <section class="story">
-        <article>
-          <strong>为什么做这个？</strong>
-          <h2>把想法变成可运行的产品。</h2>
-          <p>
-            Project Xiomn 不是一个单独的网站，而是一个长期项目。它会记录服务器搭建、网站开发、
-            Telegram AI Bot、Gemini Live 接入、自动部署和后续所有 AI 工具的构建过程。
-          </p>
-        </article>
-
-        <article>
-          <strong>核心方向</strong>
-          <h2>AI Bot、云端服务和开源沉淀。</h2>
-          <p>
-            当前重点是把 Telegram AI Bot 做成真正可部署、可扩展、可交互的万能 AI 助手，
-            同时把官网、文档和服务状态整理成公开入口。
-          </p>
-        </article>
-      </section>
-
-      <section class="section">
-        <p class="label">TECH STACK</p>
-        <h2>正在使用的技术栈</h2>
-
-        <div class="tags">
-          {stack.map((item) => <span>{item}</span>)}
-        </div>
-      </section>
-
-      <section class="section panel">
-        <p class="label">NEXT</p>
-        <h2>下一阶段</h2>
-        <p>
-          下一步会继续完善文档系统、Telegram AI Bot 展示页、自动部署流程和多语言内容结构。
-        </p>
-      </section>
-    </main>
-
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --text: rgba(255, 255, 255, 0.94);
-        --muted: rgba(255, 255, 255, 0.64);
-        --line: rgba(255, 255, 255, 0.14);
-        --card: rgba(255, 255, 255, 0.08);
-        --cyan: #77ffe1;
-        --blue: #62a8ff;
-        --purple: #b58cff;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(181, 140, 255, 0.2), transparent 34rem),
-          radial-gradient(circle at bottom right, rgba(119, 255, 225, 0.13), transparent 32rem),
-          var(--bg);
-        color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .page {
-        width: min(1100px, calc(100% - 32px));
-        margin: 0 auto;
-        padding: 28px 0 80px;
-      }
-
-      nav {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 80px;
-        flex-wrap: wrap;
-      }
-
-      nav a {
-        color: var(--muted);
-      }
-
-      nav a:hover {
-        color: var(--text);
-      }
-
-      .hero {
-        margin-bottom: 70px;
-      }
-
-      .hero p,
-      .label {
-        color: var(--cyan);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-
-      h1 {
-        max-width: 1000px;
-        margin: 0;
-        font-size: clamp(52px, 8vw, 104px);
-        line-height: 0.96;
-        letter-spacing: -0.075em;
-      }
-
-      .hero span {
-        display: block;
-        max-width: 780px;
-        margin-top: 26px;
-        color: var(--muted);
-        font-size: 20px;
-        line-height: 1.7;
-      }
-
-      .story {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-        margin-bottom: 80px;
-      }
-
-      article,
-      .panel {
-        padding: 28px;
-        border: 1px solid var(--line);
-        border-radius: 30px;
-        background: var(--card);
-        backdrop-filter: blur(20px);
-      }
-
-      strong {
-        color: var(--cyan);
-        font-size: 13px;
-      }
-
-      h2 {
-        margin: 18px 0 0;
-        font-size: clamp(32px, 4vw, 54px);
-        line-height: 1.05;
-        letter-spacing: -0.055em;
-      }
-
-      article p,
-      .panel p {
-        color: var(--muted);
-        line-height: 1.8;
-        font-size: 17px;
-      }
-
-      .section {
-        margin-top: 70px;
-      }
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 28px;
-      }
-
-      .tags span {
-        padding: 10px 14px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.06);
-        color: rgba(255, 255, 255, 0.82);
-      }
-
-      @media (max-width: 860px) {
-        .story {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
-  </body>
-</html>
+  <section class="section">
+    <p class="kicker" data-i18n="stackLabel">{translations.zh.stackLabel}</p>
+    <h2 class="section-title" data-i18n="stackTitle">{translations.zh.stackTitle}</h2>
+    <div class="tags">
+      {stack.map((item) => <span>{item}</span>)}
+    </div>
+  </section>
+</BaseLayout>

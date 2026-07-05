@@ -1,188 +1,118 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const translations = {
+  zh: {
+    metaTitle: "文档 · Project Xiomn",
+    eyebrow: "DOCS",
+    title: "文档中心。",
+    intro: "记录 Project Xiomn 的部署过程、AI Bot 配置、Gemini 接入、服务器维护和自动化流程。",
+    d1Title: "Project Xiomn 入门",
+    d1Text: "了解项目结构、服务器、域名、GitHub 和部署流程。",
+    d2Title: "Telegram AI Bot 部署",
+    d2Text: "记录 Zeabur / VPS 部署方式、环境变量和常见错误。",
+    d3Title: "Gemini 与 Gemini Live",
+    d3Text: "整理普通 Gemini、Gemini Live、语音对话、识图和文件解析的接入方案。",
+    d4Title: "服务器与自动部署",
+    d4Text: "记录 Nginx、HTTPS、Astro、GitHub、自动部署脚本和维护命令。",
+    started: "已开始",
+    planning: "计划中",
+    sorting: "整理中",
+  },
+  en: {
+    metaTitle: "Docs · Project Xiomn",
+    eyebrow: "DOCS",
+    title: "Documentation center.",
+    intro: "Deployment notes, AI bot configuration, Gemini integration, server maintenance and automation workflows.",
+    d1Title: "Getting started",
+    d1Text: "Project structure, server, domain, GitHub and deployment workflow.",
+    d2Title: "Telegram AI Bot deployment",
+    d2Text: "Zeabur / VPS deployment, environment variables and common errors.",
+    d3Title: "Gemini and Gemini Live",
+    d3Text: "Gemini, Gemini Live, voice dialog, vision and file parsing integration.",
+    d4Title: "Server and auto deployment",
+    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts and maintenance commands.",
+    started: "Started",
+    planning: "Planned",
+    sorting: "Sorting",
+  },
+  ja: {
+    metaTitle: "ドキュメント · Project Xiomn",
+    eyebrow: "DOCS",
+    title: "ドキュメントセンター。",
+    intro: "デプロイ、AI Bot 設定、Gemini 接続、サーバー保守、自動化フローを記録します。",
+    d1Title: "Project Xiomn 入門",
+    d1Text: "プロジェクト構造、サーバー、ドメイン、GitHub、デプロイ手順。",
+    d2Title: "Telegram AI Bot デプロイ",
+    d2Text: "Zeabur / VPS のデプロイ方法、環境変数、よくあるエラー。",
+    d3Title: "Gemini と Gemini Live",
+    d3Text: "Gemini、Gemini Live、音声対話、画像認識、ファイル解析の接続方法。",
+    d4Title: "サーバーと自動デプロイ",
+    d4Text: "Nginx、HTTPS、Astro、GitHub、デプロイスクリプト、保守コマンド。",
+    started: "開始済み",
+    planning: "計画中",
+    sorting: "整理中",
+  },
+  km: {
+    metaTitle: "ឯកសារ · Project Xiomn",
+    eyebrow: "DOCS",
+    title: "មជ្ឈមណ្ឌលឯកសារ។",
+    intro: "កត់ត្រា deployment, AI Bot config, Gemini integration, server maintenance និង automation workflow។",
+    d1Title: "ចាប់ផ្តើម Project Xiomn",
+    d1Text: "រចនាសម្ព័ន្ធគម្រោង server domain GitHub និង deployment workflow។",
+    d2Title: "Telegram AI Bot deployment",
+    d2Text: "Zeabur / VPS deployment, environment variables និង errors ធម្មតា។",
+    d3Title: "Gemini និង Gemini Live",
+    d3Text: "Gemini, Gemini Live, voice, vision និង file parsing integration។",
+    d4Title: "Server និង auto deployment",
+    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts និង maintenance commands។",
+    started: "បានចាប់ផ្តើម",
+    planning: "គ្រោង",
+    sorting: "កំពុងរៀបចំ",
+  },
+  ms: {
+    metaTitle: "Dokumen · Project Xiomn",
+    eyebrow: "DOCS",
+    title: "Pusat dokumentasi.",
+    intro: "Nota deployment, konfigurasi AI Bot, integrasi Gemini, penyelenggaraan server dan workflow automasi.",
+    d1Title: "Mula dengan Project Xiomn",
+    d1Text: "Struktur projek, server, domain, GitHub dan deployment workflow.",
+    d2Title: "Deployment Telegram AI Bot",
+    d2Text: "Zeabur / VPS deployment, environment variables dan errors biasa.",
+    d3Title: "Gemini dan Gemini Live",
+    d3Text: "Integrasi Gemini, Gemini Live, suara, visi dan file parsing.",
+    d4Title: "Server dan auto deployment",
+    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts dan maintenance commands.",
+    started: "Dimulakan",
+    planning: "Dirancang",
+    sorting: "Disusun",
+  },
+};
+
 const docs = [
-  {
-    title: "Project Xiomn 入门",
-    description: "了解 Project Xiomn 的结构、服务器、域名、GitHub 和部署流程。",
-    status: "已开始",
-  },
-  {
-    title: "Telegram AI Bot 部署",
-    description: "记录 Telegram AI Bot 在 Zeabur / VPS 上的部署方式、环境变量和常见错误。",
-    status: "整理中",
-  },
-  {
-    title: "Gemini 与 Gemini Live",
-    description: "整理普通 Gemini、Gemini Live、语音对话、识图和文件解析的接入方案。",
-    status: "计划中",
-  },
-  {
-    title: "服务器与自动部署",
-    description: "记录 Nginx、HTTPS、Astro、GitHub、自动部署脚本和常用维护命令。",
-    status: "已开始",
-  },
+  { status: "started", title: "d1Title", text: "d1Text" },
+  { status: "sorting", title: "d2Title", text: "d2Text" },
+  { status: "planning", title: "d3Title", text: "d3Text" },
+  { status: "started", title: "d4Title", text: "d4Text" },
 ];
 ---
 
-<html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>文档 · Project Xiomn</title>
-    <meta name="description" content="Project Xiomn 文档中心。" />
-  </head>
+<BaseLayout title="文档 · Project Xiomn" description="Project Xiomn 文档中心。" active="docs" translations={translations}>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
 
-  <body>
-    <main class="page">
-      <nav>
-        <a href="/">← 返回 Xiomn 首页</a>
-        <a href="/projects">项目</a>
-      </nav>
-
-      <section class="hero">
-        <p>DOCS</p>
-        <h1>文档中心。</h1>
-        <span>
-          这里会记录 Project Xiomn 的部署过程、AI Bot 配置、Gemini 接入、服务器维护和自动化流程。
-        </span>
-      </section>
-
-      <section class="grid">
-        {docs.map((item) => (
-          <article class="card">
-            <div>
-              <strong>{item.status}</strong>
-              <h2>{item.title}</h2>
-            </div>
-            <p>{item.description}</p>
-          </article>
-        ))}
-      </section>
-    </main>
-
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #05060a;
-        --text: rgba(255, 255, 255, 0.94);
-        --muted: rgba(255, 255, 255, 0.64);
-        --line: rgba(255, 255, 255, 0.14);
-        --card: rgba(255, 255, 255, 0.08);
-        --cyan: #77ffe1;
-        --blue: #62a8ff;
-        --purple: #b58cff;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(98, 168, 255, 0.22), transparent 34rem),
-          radial-gradient(circle at bottom right, rgba(181, 140, 255, 0.16), transparent 32rem),
-          var(--bg);
-        color: var(--text);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .page {
-        width: min(1100px, calc(100% - 32px));
-        margin: 0 auto;
-        padding: 28px 0 80px;
-      }
-
-      nav {
-        display: flex;
-        gap: 20px;
-        margin-bottom: 80px;
-      }
-
-      nav a {
-        color: var(--muted);
-      }
-
-      nav a:hover {
-        color: var(--text);
-      }
-
-      .hero {
-        margin-bottom: 48px;
-      }
-
-      .hero p {
-        color: var(--cyan);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 0.18em;
-      }
-
-      h1 {
-        max-width: 900px;
-        margin: 0;
-        font-size: clamp(54px, 9vw, 112px);
-        line-height: 0.92;
-        letter-spacing: -0.08em;
-      }
-
-      .hero span {
-        display: block;
-        max-width: 760px;
-        margin-top: 26px;
-        color: var(--muted);
-        font-size: 20px;
-        line-height: 1.7;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-      }
-
-      .card {
-        min-height: 230px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 26px;
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        background: var(--card);
-        backdrop-filter: blur(20px);
-      }
-
-      strong {
-        color: var(--cyan);
-        font-size: 13px;
-      }
-
-      h2 {
-        margin: 16px 0 0;
-        font-size: 30px;
-        letter-spacing: -0.045em;
-      }
-
-      .card p {
-        color: var(--muted);
-        line-height: 1.7;
-      }
-
-      @media (max-width: 860px) {
-        .grid {
-          grid-template-columns: 1fr;
-        }
-
-        nav {
-          flex-wrap: wrap;
-        }
-      }
-    </style>
-  </body>
-</html>
+  <section class="section">
+    <div class="grid two">
+      {docs.map((doc) => (
+        <article class="card">
+          <p class="status-badge" data-i18n={doc.status}>{translations.zh[doc.status]}</p>
+          <h2 data-i18n={doc.title}>{translations.zh[doc.title]}</h2>
+          <p data-i18n={doc.text}>{translations.zh[doc.text]}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
