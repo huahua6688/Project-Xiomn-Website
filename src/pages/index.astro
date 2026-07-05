@@ -1,11 +1,780 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const year = new Date().getFullYear();
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Xiomn</title>
+    <meta
+      name="description"
+      content="Project Xiomn is a personal AI, Telegram bot, cloud and open-source lab."
+    />
+  </head>
+
+  <body>
+    <main class="page">
+      <nav class="nav">
+        <a class="brand" href="/">
+          <span class="brand-mark">X</span>
+          <span>Project Xiomn</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="#projects" data-i18n="navProjects">项目</a>
+          <a href="#roadmap" data-i18n="navRoadmap">路线图</a>
+          <a href="#status" data-i18n="navStatus">状态</a>
+        </div>
+
+        <div class="lang">
+          <button data-lang="zh" class="active">中</button>
+          <button data-lang="en">EN</button>
+          <button data-lang="ja">日</button>
+          <button data-lang="km">ខ្មែរ</button>
+          <button data-lang="ms">MS</button>
+        </div>
+      </nav>
+
+      <section class="hero">
+        <p class="eyebrow" data-i18n="eyebrow">AI · Telegram · Cloud · Open Source</p>
+        <h1>
+          <span data-i18n="heroTitleA">Build once.</span>
+          <span class="gradient" data-i18n="heroTitleB">Grow forever.</span>
+        </h1>
+        <p class="hero-text" data-i18n="heroText">
+          Project Xiomn 是一个个人 AI 实验室，用来构建 Telegram AI Bot、云端服务、自动化工具和开源项目。
+        </p>
+
+        <div class="actions">
+          <a class="btn primary" href="#projects" data-i18n="primaryBtn">查看项目</a>
+          <a class="btn ghost" href="https://github.com/huahua6688" target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        </div>
+
+        <div class="hero-panel">
+          <div class="terminal">
+            <div class="dots">
+              <span></span><span></span><span></span>
+            </div>
+            <pre><code>project@xiomn:~$ npm run build
+✓ Astro generated production site
+✓ Deployed to xiomn.com
+
+status: online
+mode: build in public</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-head">
+          <p class="eyebrow" data-i18n="projectsEyebrow">PROJECTS</p>
+          <h2 data-i18n="projectsTitle">正在构建的东西</h2>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <div class="icon">🤖</div>
+            <h3 data-i18n="botTitle">Telegram AI Bot</h3>
+            <p data-i18n="botText">
+              支持普通 Gemini、Gemini Live、语音、识图、文件解析和按钮交互的万能 Telegram AI Bot。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">☁️</div>
+            <h3 data-i18n="cloudTitle">Xiomn Cloud</h3>
+            <p data-i18n="cloudText">
+              基于 VPS、Nginx、Docker、HTTPS 和自动部署组成的个人云端实验环境。
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="icon">🧩</div>
+            <h3 data-i18n="ossTitle">Open Source Lab</h3>
+            <p data-i18n="ossText">
+              用 GitHub 管理版本，把每一次修改都沉淀成可复用、可部署、可公开展示的项目。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="roadmap" class="section split">
+        <div>
+          <p class="eyebrow" data-i18n="roadmapEyebrow">ROADMAP</p>
+          <h2 data-i18n="roadmapTitle">下一步计划</h2>
+          <p class="muted" data-i18n="roadmapText">
+            Project Xiomn 会从一个个人主页，逐步发展成 AI 工具、Bot、文档和服务的统一入口。
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <span>01</span>
+            <p data-i18n="stepOne">完成官网首页和多语言切换</p>
+          </div>
+          <div class="step">
+            <span>02</span>
+            <p data-i18n="stepTwo">接入 GitHub 自动部署流程</p>
+          </div>
+          <div class="step">
+            <span>03</span>
+            <p data-i18n="stepThree">上线 Telegram AI Bot 展示页</p>
+          </div>
+          <div class="step">
+            <span>04</span>
+            <p data-i18n="stepFour">发布文档、博客和服务状态页</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="status" class="section status">
+        <p class="eyebrow" data-i18n="statusEyebrow">STATUS</p>
+        <h2 data-i18n="statusTitle">系统状态</h2>
+
+        <div class="status-grid">
+          <div>
+            <span class="dot online"></span>
+            <strong>xiomn.com</strong>
+            <p data-i18n="statusSite">官网在线</p>
+          </div>
+          <div>
+            <span class="dot online"></span>
+            <strong>code.xiomn.com</strong>
+            <p data-i18n="statusCode">开发环境在线</p>
+          </div>
+          <div>
+            <span class="dot progress"></span>
+            <strong>Telegram AI Bot</strong>
+            <p data-i18n="statusBot">开发中</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>© {year} Project Xiomn</span>
+        <span data-i18n="footerText">Built with Astro, Nginx and GitHub.</span>
+      </footer>
+    </main>
+
+    <script>
+      const copy = {
+        zh: {
+          navProjects: "项目",
+          navRoadmap: "路线图",
+          navStatus: "状态",
+          eyebrow: "AI · Telegram · Cloud · Open Source",
+          heroTitleA: "Build once.",
+          heroTitleB: "Grow forever.",
+          heroText:
+            "Project Xiomn 是一个个人 AI 实验室，用来构建 Telegram AI Bot、云端服务、自动化工具和开源项目。",
+          primaryBtn: "查看项目",
+          projectsEyebrow: "PROJECTS",
+          projectsTitle: "正在构建的东西",
+          botTitle: "Telegram AI Bot",
+          botText:
+            "支持普通 Gemini、Gemini Live、语音、识图、文件解析和按钮交互的万能 Telegram AI Bot。",
+          cloudTitle: "Xiomn Cloud",
+          cloudText:
+            "基于 VPS、Nginx、Docker、HTTPS 和自动部署组成的个人云端实验环境。",
+          ossTitle: "Open Source Lab",
+          ossText:
+            "用 GitHub 管理版本，把每一次修改都沉淀成可复用、可部署、可公开展示的项目。",
+          roadmapEyebrow: "ROADMAP",
+          roadmapTitle: "下一步计划",
+          roadmapText:
+            "Project Xiomn 会从一个个人主页，逐步发展成 AI 工具、Bot、文档和服务的统一入口。",
+          stepOne: "完成官网首页和多语言切换",
+          stepTwo: "接入 GitHub 自动部署流程",
+          stepThree: "上线 Telegram AI Bot 展示页",
+          stepFour: "发布文档、博客和服务状态页",
+          statusEyebrow: "STATUS",
+          statusTitle: "系统状态",
+          statusSite: "官网在线",
+          statusCode: "开发环境在线",
+          statusBot: "开发中",
+          footerText: "Built with Astro, Nginx and GitHub.",
+        },
+        en: {
+          navProjects: "Projects",
+          navRoadmap: "Roadmap",
+          navStatus: "Status",
+          eyebrow: "AI · Telegram · Cloud · Open Source",
+          heroTitleA: "Build once.",
+          heroTitleB: "Grow forever.",
+          heroText:
+            "Project Xiomn is a personal AI lab for building Telegram AI bots, cloud services, automation tools and open-source projects.",
+          primaryBtn: "View projects",
+          projectsEyebrow: "PROJECTS",
+          projectsTitle: "What is being built",
+          botTitle: "Telegram AI Bot",
+          botText:
+            "A universal Telegram AI Bot with Gemini, Gemini Live, voice, vision, file parsing and inline-button interactions.",
+          cloudTitle: "Xiomn Cloud",
+          cloudText:
+            "A personal cloud lab powered by VPS, Nginx, Docker, HTTPS and deployment workflows.",
+          ossTitle: "Open Source Lab",
+          ossText:
+            "Versioned with GitHub so every change becomes reusable, deployable and presentable.",
+          roadmapEyebrow: "ROADMAP",
+          roadmapTitle: "What comes next",
+          roadmapText:
+            "Project Xiomn will grow from a personal homepage into a unified entrance for AI tools, bots, docs and services.",
+          stepOne: "Finish homepage and language switching",
+          stepTwo: "Add GitHub-based auto deployment",
+          stepThree: "Launch the Telegram AI Bot page",
+          stepFour: "Publish docs, blog and status pages",
+          statusEyebrow: "STATUS",
+          statusTitle: "System status",
+          statusSite: "Website online",
+          statusCode: "Dev environment online",
+          statusBot: "In development",
+          footerText: "Built with Astro, Nginx and GitHub.",
+        },
+        ja: {
+          navProjects: "プロジェクト",
+          navRoadmap: "ロードマップ",
+          navStatus: "ステータス",
+          eyebrow: "AI · Telegram · Cloud · Open Source",
+          heroTitleA: "一度作り、",
+          heroTitleB: "ずっと育てる。",
+          heroText:
+            "Project Xiomn は、Telegram AI Bot、クラウドサービス、自動化ツール、オープンソースプロジェクトを作るための個人 AI ラボです。",
+          primaryBtn: "プロジェクトを見る",
+          projectsEyebrow: "PROJECTS",
+          projectsTitle: "現在構築中のもの",
+          botTitle: "Telegram AI Bot",
+          botText:
+            "Gemini、Gemini Live、音声、画像認識、ファイル解析、インラインボタン操作に対応する Telegram AI Bot。",
+          cloudTitle: "Xiomn Cloud",
+          cloudText:
+            "VPS、Nginx、Docker、HTTPS、自動デプロイで構成された個人クラウドラボ。",
+          ossTitle: "Open Source Lab",
+          ossText:
+            "GitHub で変更を管理し、再利用・デプロイ・公開できる形にしていきます。",
+          roadmapEyebrow: "ROADMAP",
+          roadmapTitle: "次の計画",
+          roadmapText:
+            "Project Xiomn は個人ホームページから、AI ツール、Bot、ドキュメント、サービスの入口へ成長していきます。",
+          stepOne: "トップページと多言語切替を完成",
+          stepTwo: "GitHub 自動デプロイを追加",
+          stepThree: "Telegram AI Bot ページを公開",
+          stepFour: "ドキュメント、ブログ、ステータスページを公開",
+          statusEyebrow: "STATUS",
+          statusTitle: "システム状態",
+          statusSite: "サイト稼働中",
+          statusCode: "開発環境稼働中",
+          statusBot: "開発中",
+          footerText: "Astro、Nginx、GitHub で構築。",
+        },
+        km: {
+          navProjects: "គម្រោង",
+          navRoadmap: "ផែនការ",
+          navStatus: "ស្ថានភាព",
+          eyebrow: "AI · Telegram · Cloud · Open Source",
+          heroTitleA: "បង្កើតម្តង។",
+          heroTitleB: "អភិវឌ្ឍជានិច្ច។",
+          heroText:
+            "Project Xiomn គឺជាបន្ទប់ពិសោធន៍ AI ផ្ទាល់ខ្លួន សម្រាប់បង្កើត Telegram AI Bot សេវាកម្ម Cloud ឧបករណ៍ស្វ័យប្រវត្តិ និងគម្រោង Open Source។",
+          primaryBtn: "មើលគម្រោង",
+          projectsEyebrow: "PROJECTS",
+          projectsTitle: "អ្វីដែលកំពុងបង្កើត",
+          botTitle: "Telegram AI Bot",
+          botText:
+            "Telegram AI Bot ដែលគាំទ្រ Gemini, Gemini Live, សំឡេង, រូបភាព, ឯកសារ និងប៊ូតុងក្នុងសារ។",
+          cloudTitle: "Xiomn Cloud",
+          cloudText:
+            "បរិស្ថាន Cloud ផ្ទាល់ខ្លួន ដែលប្រើ VPS, Nginx, Docker, HTTPS និងការដាក់ឱ្យដំណើរការ។",
+          ossTitle: "Open Source Lab",
+          ossText:
+            "គ្រប់គ្រងកំណែដោយ GitHub ដើម្បីឱ្យរាល់ការកែប្រែអាចប្រើឡើងវិញ និងដាក់ឱ្យដំណើរការបាន។",
+          roadmapEyebrow: "ROADMAP",
+          roadmapTitle: "ផែនការបន្ទាប់",
+          roadmapText:
+            "Project Xiomn នឹងរីកចម្រើនពីគេហទំព័រផ្ទាល់ខ្លួន ទៅជាច្រកចូលសម្រាប់ AI tools, Bots, Docs និង Services។",
+          stepOne: "បញ្ចប់ទំព័រដើម និងការប្តូរភាសា",
+          stepTwo: "បន្ថែមការដាក់ឱ្យដំណើរការដោយ GitHub",
+          stepThree: "បង្ហាញទំព័រ Telegram AI Bot",
+          stepFour: "ផ្សព្វផ្សាយ Docs, Blog និង Status page",
+          statusEyebrow: "STATUS",
+          statusTitle: "ស្ថានភាពប្រព័ន្ធ",
+          statusSite: "គេហទំព័រដំណើរការ",
+          statusCode: "បរិស្ថានអភិវឌ្ឍន៍ដំណើរការ",
+          statusBot: "កំពុងអភិវឌ្ឍ",
+          footerText: "បង្កើតដោយ Astro, Nginx និង GitHub។",
+        },
+        ms: {
+          navProjects: "Projek",
+          navRoadmap: "Pelan",
+          navStatus: "Status",
+          eyebrow: "AI · Telegram · Cloud · Open Source",
+          heroTitleA: "Bina sekali.",
+          heroTitleB: "Berkembang selamanya.",
+          heroText:
+            "Project Xiomn ialah makmal AI peribadi untuk membina Telegram AI Bot, servis cloud, alat automasi dan projek sumber terbuka.",
+          primaryBtn: "Lihat projek",
+          projectsEyebrow: "PROJECTS",
+          projectsTitle: "Apa yang sedang dibina",
+          botTitle: "Telegram AI Bot",
+          botText:
+            "Telegram AI Bot universal dengan Gemini, Gemini Live, suara, visi, parsing fail dan interaksi butang inline.",
+          cloudTitle: "Xiomn Cloud",
+          cloudText:
+            "Makmal cloud peribadi berasaskan VPS, Nginx, Docker, HTTPS dan workflow deployment.",
+          ossTitle: "Open Source Lab",
+          ossText:
+            "Diurus dengan GitHub supaya setiap perubahan boleh digunakan semula, dideploy dan dipamerkan.",
+          roadmapEyebrow: "ROADMAP",
+          roadmapTitle: "Langkah seterusnya",
+          roadmapText:
+            "Project Xiomn akan berkembang daripada homepage peribadi kepada pintu masuk untuk AI tools, bots, docs dan services.",
+          stepOne: "Siapkan homepage dan penukaran bahasa",
+          stepTwo: "Tambah auto deployment berasaskan GitHub",
+          stepThree: "Lancarkan halaman Telegram AI Bot",
+          stepFour: "Terbitkan docs, blog dan status page",
+          statusEyebrow: "STATUS",
+          statusTitle: "Status sistem",
+          statusSite: "Website online",
+          statusCode: "Persekitaran dev online",
+          statusBot: "Dalam pembangunan",
+          footerText: "Dibina dengan Astro, Nginx dan GitHub.",
+        },
+      };
+
+      const applyLang = (lang) => {
+        const dict = copy[lang] || copy.zh;
+        document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+        document.querySelectorAll("[data-lang]").forEach((btn) => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+        });
+        localStorage.setItem("xiomn-lang", lang);
+      };
+
+      document.querySelectorAll("[data-lang]").forEach((btn) => {
+        btn.addEventListener("click", () => applyLang(btn.getAttribute("data-lang")));
+      });
+
+      applyLang(localStorage.getItem("xiomn-lang") || "zh");
+    </script>
+
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #05060a;
+        --card: rgba(255, 255, 255, 0.08);
+        --card-strong: rgba(255, 255, 255, 0.13);
+        --text: rgba(255, 255, 255, 0.94);
+        --muted: rgba(255, 255, 255, 0.64);
+        --line: rgba(255, 255, 255, 0.14);
+        --blue: #62a8ff;
+        --cyan: #77ffe1;
+        --purple: #b58cff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(98, 168, 255, 0.22), transparent 36rem),
+          radial-gradient(circle at top right, rgba(181, 140, 255, 0.18), transparent 34rem),
+          radial-gradient(circle at bottom, rgba(119, 255, 225, 0.1), transparent 35rem),
+          var(--bg);
+        color: var(--text);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+        background-size: 64px 64px;
+        mask-image: linear-gradient(to bottom, black, transparent 75%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        width: min(1160px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        position: sticky;
+        top: 16px;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 16px 0 64px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(5, 6, 10, 0.62);
+        backdrop-filter: blur(24px);
+      }
+
+      .brand,
+      .nav-links,
+      .lang {
+        display: flex;
+        align-items: center;
+      }
+
+      .brand {
+        gap: 10px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--blue), var(--purple));
+        box-shadow: 0 0 32px rgba(98, 168, 255, 0.38);
+      }
+
+      .nav-links {
+        gap: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .lang {
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .lang button {
+        border: 0;
+        border-radius: 999px;
+        padding: 7px 10px;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .lang button.active {
+        background: white;
+        color: #05060a;
+      }
+
+      .hero {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 40px 0 110px;
+      }
+
+      .eyebrow {
+        margin: 0 0 16px;
+        color: var(--cyan);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 950px;
+        font-size: clamp(56px, 11vw, 132px);
+        line-height: 0.92;
+        letter-spacing: -0.08em;
+      }
+
+      h1 span {
+        display: block;
+      }
+
+      .gradient {
+        background: linear-gradient(90deg, #fff, var(--blue), var(--cyan), var(--purple));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .hero-text {
+        max-width: 720px;
+        margin: 28px auto 0;
+        color: var(--muted);
+        font-size: clamp(18px, 2vw, 22px);
+        line-height: 1.75;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 34px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid var(--line);
+      }
+
+      .btn.primary {
+        background: white;
+        color: #05060a;
+      }
+
+      .btn.ghost {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-panel {
+        width: min(760px, 100%);
+        margin-top: 52px;
+        padding: 1px;
+        border-radius: 28px;
+        background: linear-gradient(135deg, rgba(98, 168, 255, 0.6), rgba(119, 255, 225, 0.2), rgba(181, 140, 255, 0.55));
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.45);
+      }
+
+      .terminal {
+        text-align: left;
+        border-radius: 27px;
+        padding: 18px;
+        background: rgba(6, 8, 14, 0.88);
+        backdrop-filter: blur(20px);
+      }
+
+      .dots {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .dots span {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.32);
+      }
+
+      pre {
+        margin: 0;
+        overflow-x: auto;
+      }
+
+      code {
+        color: rgba(255, 255, 255, 0.82);
+        font: 14px/1.8 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+
+      .section {
+        padding: 88px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head {
+        max-width: 720px;
+        margin-bottom: 32px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(34px, 5vw, 66px);
+        line-height: 1.05;
+        letter-spacing: -0.055em;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .card,
+      .status-grid > div,
+      .step {
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        background: var(--card);
+        backdrop-filter: blur(20px);
+      }
+
+      .card {
+        min-height: 270px;
+        padding: 28px;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        background: var(--card-strong);
+      }
+
+      .icon {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        margin-bottom: 42px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.11);
+        font-size: 26px;
+      }
+
+      h3 {
+        margin: 0 0 12px;
+        font-size: 24px;
+        letter-spacing: -0.035em;
+      }
+
+      .card p,
+      .muted,
+      .status-grid p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .split {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 48px;
+        align-items: start;
+      }
+
+      .steps {
+        display: grid;
+        gap: 12px;
+      }
+
+      .step {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        padding: 18px;
+      }
+
+      .step span {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--cyan);
+        font-weight: 800;
+      }
+
+      .step p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .status-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 32px;
+      }
+
+      .status-grid > div {
+        padding: 24px;
+      }
+
+      .dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 8px;
+        border-radius: 50%;
+      }
+
+      .online {
+        background: #70ffb5;
+        box-shadow: 0 0 18px rgba(112, 255, 181, 0.65);
+      }
+
+      .progress {
+        background: #ffd36e;
+        box-shadow: 0 0 18px rgba(255, 211, 110, 0.65);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 34px 0 52px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 860px) {
+        .nav {
+          align-items: stretch;
+          border-radius: 28px;
+          flex-direction: column;
+        }
+
+        .nav-links {
+          justify-content: center;
+        }
+
+        .lang {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .grid,
+        .split,
+        .status-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 22px;
+        }
+
+        .footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </body>
+</html>
