@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const features = [
+  "普通 Gemini 对话",
+  "Gemini Live 原生语音对话",
+  "识图与图片理解",
+  "文件解析：PDF / DOCX / XLSX / TXT",
+  "Telegram inline button 按钮交互",
+  "语音转文字与语音回复",
+  "Zeabur / VPS 部署支持",
+  "多模型 Provider 扩展",
+];
+
+const envs = [
+  "BOT_TOKEN",
+  "AI_PROVIDER",
+  "AI_MODEL",
+  "AI_API_KEY",
+  "GEMINI_API_KEY",
+  "GEMINI_LIVE_API_KEY",
+  "DATABASE_FILE",
+  "PASSWORD",
+  "PORT",
+];
+
+const nextActions = [
+  "整理当前 Telegram-AI-Bot-Pro 仓库结构",
+  "确认普通 Gemini 与 Gemini Live 的分层设计",
+  "修复 Zeabur 部署中的启动错误",
+  "统一环境变量说明",
+  "把命令式交互改成按钮式交互",
+  "整理可部署版本 v1",
+];
+
+const translations = {
+  zh: {
+    metaTitle: "Telegram AI Bot · Project Xiomn",
+    eyebrow: "TELEGRAM AI BOT",
+    title: "万能 Telegram AI Bot。",
+    intro:
+      "这个页面记录 Telegram AI Bot 项目的目标、功能、部署状态和下一步计划。核心目标是做一个支持 Gemini、Gemini Live、语音、识图、文件解析和按钮交互的可部署 AI Bot。",
+    featureTitle: "目标功能",
+    envTitle: "核心环境变量",
+    nextTitle: "下一步行动",
+    statusTitle: "当前状态",
+    statusText:
+      "项目仍处于重构和部署调试阶段。重点是先解决 Zeabur 启动错误，再整理普通 Gemini 和 Gemini Live 的统一接入方式。",
+  },
+  en: {
+    metaTitle: "Telegram AI Bot · Project Xiomn",
+    eyebrow: "TELEGRAM AI BOT",
+    title: "Universal Telegram AI Bot.",
+    intro:
+      "This page tracks the Telegram AI Bot project: goals, features, deployment status and next actions. The goal is a deployable AI bot with Gemini, Gemini Live, voice, vision, file parsing and inline-button interactions.",
+    featureTitle: "Target features",
+    envTitle: "Core environment variables",
+    nextTitle: "Next actions",
+    statusTitle: "Current status",
+    statusText:
+      "The project is still being refactored and debugged for deployment. The priority is to fix Zeabur startup errors and unify regular Gemini with Gemini Live integration.",
+  },
+};
+---
+
+<BaseLayout
+  title="Telegram AI Bot · Project Xiomn"
+  description="Project Xiomn Telegram AI Bot 项目页。"
+  active="projects"
+  translations={translations}
+>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
+
+  <section class="section">
+    <div class="grid two">
+      <article class="panel">
+        <p class="kicker" data-i18n="statusTitle">{translations.zh.statusTitle}</p>
+        <p data-i18n="statusText">{translations.zh.statusText}</p>
+      </article>
+
+      <article class="panel">
+        <p class="kicker">REPOSITORY</p>
+        <h2 class="section-title">Telegram-AI-Bot-Pro</h2>
+        <p>
+          GitHub 仓库：huahua6688/Telegram-AI-Bot-Pro
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title" data-i18n="featureTitle">{translations.zh.featureTitle}</h2>
+    </div>
+
+    <div class="grid two">
+      {features.map((item) => (
+        <article class="card">
+          <p>{item}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title" data-i18n="envTitle">{translations.zh.envTitle}</h2>
+    </div>
+
+    <div class="tags">
+      {envs.map((item) => <span>{item}</span>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title" data-i18n="nextTitle">{translations.zh.nextTitle}</h2>
+    </div>
+
+    <div class="timeline">
+      {nextActions.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
