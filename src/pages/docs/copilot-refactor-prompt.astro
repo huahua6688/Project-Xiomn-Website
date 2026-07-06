@@ -1,0 +1,191 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const goals = [
+  "把项目重构成可稳定部署的 Telegram AI Bot，而不是临时 Demo。",
+  "支持普通 Gemini 文本 / 图片 / 文件处理。",
+  "支持 Gemini Live 原生音频对话，但要和普通 Gemini Provider 分开。",
+  "减少 slash command，主要使用 Telegram inline button 做交互。",
+  "整理环境变量，更新 .env.example。",
+  "修复 Zeabur 部署启动错误，保证容器可运行。",
+  "整理文件解析能力：PDF / DOCX / XLSX / TXT。",
+  "保持代码结构清晰，方便后续继续扩展 OpenAI-compatible、Qwen、DeepSeek 等 Provider。",
+];
+
+const architecture = [
+  ["src/config", "读取和校验环境变量。"],
+  ["src/providers", "不同 AI Provider：gemini、gemini-live、openai-compatible。"],
+  ["src/telegram", "Telegram 消息处理、按钮交互、回复封装。"],
+  ["src/parsers", "文件解析：PDF、DOCX、XLSX、TXT。"],
+  ["src/storage", "数据库、会话状态、用户设置。"],
+  ["src/utils", "通用工具函数。"],
+];
+
+const envs = [
+  "BOT_TOKEN",
+  "AI_PROVIDER",
+  "AI_MODEL",
+  "AI_API_KEY",
+  "AI_BASE_URL",
+  "GEMINI_API_KEY",
+  "GEMINI_MODEL",
+  "GEMINI_LIVE_API_KEY",
+  "GEMINI_LIVE_MODEL",
+  "GEMINI_LIVE_BASE_URL",
+  "DATABASE_FILE",
+  "PASSWORD",
+  "PORT",
+];
+
+const prompt = `请你作为 GitHub Copilot 智能体，重构这个 Telegram AI Bot 项目。
+
+项目目标：
+这是一个要部署到 Zeabur / VPS 的 Telegram AI Bot，不是本地 Demo。请优先保证项目可以稳定构建、启动和部署。
+
+核心要求：
+1. 支持普通 Gemini：
+   - 文本对话
+   - 图片理解
+   - 文件内容总结
+   - 多轮上下文
+
+2. 支持 Gemini Live：
+   - 原生音频对话
+   - 实时语音能力
+   - 与普通 Gemini Provider 分开实现
+   - 不要把 Live API 当普通 chat completion 使用
+
+3. Telegram 交互：
+   - 尽量减少 slash command
+   - 使用 inline keyboard / inline button 作为主要交互方式
+   - 用户点击按钮可以切换模式、选择模型、查看帮助、进入设置
+
+4. 文件解析：
+   - 支持 txt / md / json / csv
+   - 支持 pdf
+   - 支持 docx
+   - 支持 xlsx
+   - 注意 pdf-parse 在 ESM 项目中的导入兼容性
+
+5. Zeabur 部署：
+   - 必须监听 process.env.PORT
+   - 确保 npm start 能启动
+   - 确保 Docker / Zeabur 环境不会因为缺少环境变量直接崩溃
+   - 对必要环境变量给出清晰错误提示
+   - 更新 README 和 .env.example
+
+6. 建议代码结构：
+   - src/config：读取环境变量
+   - src/providers/gemini：普通 Gemini
+   - src/providers/gemini-live：Gemini Live
+   - src/telegram：Telegram bot handlers
+   - src/parsers：文件解析
+   - src/storage：数据库和会话
+   - src/utils：通用工具
+
+7. 环境变量请至少包含：
+   - BOT_TOKEN
+   - AI_PROVIDER
+   - AI_MODEL
+   - AI_API_KEY
+   - AI_BASE_URL
+   - GEMINI_API_KEY
+   - GEMINI_MODEL
+   - GEMINI_LIVE_API_KEY
+   - GEMINI_LIVE_MODEL
+   - GEMINI_LIVE_BASE_URL
+   - DATABASE_FILE
+   - PASSWORD
+   - PORT
+
+8. 请特别修复或避免这些问题：
+   - Zeabur BackOff / 容器反复重启
+   - pdf-parse default export 错误
+   - Unexpected identifier 'parsePdf'
+   - Docker build 阶段错误读取 node_modules
+   - 缺少 PORT 监听
+   - 环境变量不完整导致启动崩溃
+
+请先扫描整个仓库，给出重构计划，然后按模块逐步修改。每次修改后请确保：
+- npm install 可以成功
+- npm run build 或 npm start 不报错
+- README 和 .env.example 与代码一致
+- Zeabur 可以根据 PORT 正常启动服务
+`;
+---
+
+<BaseLayout
+  title="Copilot 重构提示词 · Project Xiomn"
+  description="给 GitHub Copilot 智能体使用的 Telegram AI Bot 重构提示词。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">COPILOT PROMPT</p>
+    <h1 class="hero-title">Copilot 智能体重构提示词。</h1>
+    <p class="lead">
+      这份文档是给 GitHub Copilot Agent 使用的完整重构说明，目标是让它按 Project Xiomn 的要求重构 Telegram-AI-Bot-Pro。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">GOALS</p>
+        <h2 class="section-title">重构目标</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {goals.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ARCHITECTURE</p>
+        <h2 class="section-title">建议目录结构</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {architecture.map(([name, desc]) => (
+        <article class="card">
+          <h3>{name}</h3>
+          <p>{desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV</p>
+        <h2 class="section-title">环境变量清单</h2>
+      </div>
+    </div>
+
+    <div class="tags">
+      {envs.map((item) => <span>{item}</span>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">COPY THIS</p>
+        <h2 class="section-title">可直接复制给 Copilot 的提示词</h2>
+      </div>
+    </div>
+
+    <article class="panel">
+      <pre><code>{prompt}</code></pre>
+    </article>
+  </section>
+</BaseLayout>
