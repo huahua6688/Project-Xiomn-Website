@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const checks = [
+  ["01", "先看 Runtime Logs", "Zeabur 出现 BackOff 时，不要先乱改代码，先看启动日志最后 30 行。"],
+  ["02", "确认启动命令", "检查 package.json 里的 start 脚本是否正确，入口文件是否存在。"],
+  ["03", "确认端口", "Zeabur 通常会注入 PORT，代码必须监听 process.env.PORT。"],
+  ["04", "确认环境变量", "BOT_TOKEN、AI_PROVIDER、AI_MODEL、API KEY、DATABASE_FILE 等必须完整。"],
+  ["05", "确认依赖安装", "不要在 build 阶段读取 node_modules 里的文件，依赖安装顺序要正确。"],
+];
+
+const errors = [
+  {
+    title: "Back-off restarting failed container",
+    cause: "程序启动后立即崩溃，Zeabur 会不断重启容器。",
+    fix: "查看 Runtime Logs，优先确认入口文件、环境变量、端口监听和依赖错误。",
+  },
+  {
+    title: "pdf-parse does not provide an export named default",
+    cause: "ESM 项目里使用了不兼容的 default import。",
+    fix: "把 import pdfParse from 'pdf-parse' 改成兼容写法，例如 import * as pdfParse from 'pdf-parse'，或按当前库导出结构调整。",
+  },
+  {
+    title: "Unexpected identifier 'parsePdf'",
+    cause: "文件修改后语法结构损坏，比如括号缺失、函数位置错误、import/export 写坏。",
+    fix: "不要只盯着这一行，检查它上面几十行的括号、函数、对象、export 是否完整。",
+  },
+  {
+    title: "copy root directory node_modules 失败",
+    cause: "构建阶段尝试读取还没安装好的 node_modules，或者 Dockerfile 步骤顺序不对。",
+    fix: "先 npm install，再运行构建或启动；不要把调试命令写进 Docker build 里的错误阶段。",
+  },
+];
+
+const envs = [
+  "BOT_TOKEN",
+  "AI_PROVIDER",
+  "AI_MODEL",
+  "AI_API_KEY",
+  "AI_BASE_URL",
+  "GEMINI_API_KEY",
+  "GEMINI_LIVE_API_KEY",
+  "DATABASE_FILE",
+  "PASSWORD",
+  "PORT",
+];
+
+const deployOrder = [
+  "先让最小 Bot 启动成功，只接收消息并回复固定文本。",
+  "再打开普通 Gemini 文本对话。",
+  "再接入图片、文件解析等多模态能力。",
+  "最后再接 Gemini Live 语音能力。",
+  "每加一个功能就重新部署一次，不要一次性堆完所有功能。",
+];
+---
+
+<BaseLayout
+  title="Zeabur 部署排错 · Project Xiomn"
+  description="Telegram AI Bot 在 Zeabur 部署时的常见错误和排查顺序。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">ZEABUR DEBUG</p>
+    <h1 class="hero-title">Zeabur 部署排错。</h1>
+    <p class="lead">
+      这个页面专门记录 Telegram AI Bot 在 Zeabur 部署时遇到的 BackOff、依赖、端口、
+      环境变量和 ESM 导入问题。以后每次报错，都先按这个顺序排查。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">CHECKLIST</p>
+        <h2 class="section-title">第一轮排查顺序</h2>
+      </div>
+      <p class="section-desc">
+        BackOff 不代表 Zeabur 坏了，通常是程序启动时崩溃。
+      </p>
+    </div>
+
+    <div class="timeline">
+      {checks.map(([num, title, text]) => (
+        <div class="timeline-item">
+          <span>{num}</span>
+          <p><strong>{title}</strong>：{text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ERRORS</p>
+        <h2 class="section-title">已遇到的典型错误</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {errors.map((item) => (
+        <article class="card">
+          <h3>{item.title}</h3>
+          <p><strong>原因：</strong>{item.cause}</p>
+          <p><strong>处理：</strong>{item.fix}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV</p>
+        <h2 class="section-title">部署前必须确认的环境变量</h2>
+      </div>
+      <p class="section-desc">
+        Zeabur 面板里少一个关键变量，Bot 都可能直接启动失败。
+      </p>
+    </div>
+
+    <div class="tags">
+      {envs.map((item) => <span>{item}</span>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ORDER</p>
+        <h2 class="section-title">推荐上线顺序</h2>
+      </div>
+      <p class="section-desc">
+        先让最小版本跑起来，再逐步加功能，这样最容易定位问题。
+      </p>
+    </div>
+
+    <div class="timeline">
+      {deployOrder.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
