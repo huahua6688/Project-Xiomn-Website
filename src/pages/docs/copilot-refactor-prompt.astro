@@ -184,8 +184,37 @@ const prompt = `请你作为 GitHub Copilot 智能体，重构这个 Telegram AI
       </div>
     </div>
 
-    <article class="panel">
-      <pre><code>{prompt}</code></pre>
+    <article class="panel prompt-panel">
+      <div class="prompt-toolbar">
+        <span>Copilot Prompt</span>
+        <button type="button" data-copy-prompt>复制提示词</button>
+      </div>
+
+      <pre class="prompt-code"><code data-prompt-text>{prompt}</code></pre>
     </article>
+
+    <script>
+      const copyButton = document.querySelector("[data-copy-prompt]");
+      const promptText = document.querySelector("[data-prompt-text]");
+
+      if (copyButton && promptText) {
+        copyButton.addEventListener("click", async () => {
+          const text = promptText.textContent?.trim() || "";
+
+          try {
+            await navigator.clipboard.writeText(text);
+            copyButton.textContent = "已复制";
+            setTimeout(() => {
+              copyButton.textContent = "复制提示词";
+            }, 1600);
+          } catch (error) {
+            copyButton.textContent = "复制失败，请长按复制";
+            setTimeout(() => {
+              copyButton.textContent = "复制提示词";
+            }, 2200);
+          }
+        });
+      }
+    </script>
   </section>
 </BaseLayout>
