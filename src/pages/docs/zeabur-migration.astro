@@ -1,0 +1,158 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const keepItems = [
+  ["GitHub 仓库", "网站源码、Bot 源码、Dockerfile、package.json、README 都应该保存在 GitHub。"],
+  ["Cloudflare 域名", "xiomn.com、code.xiomn.com、bot.xiomn.com 等域名不要绑定死在某台服务器上。"],
+  ["项目文档", "环境变量、端口、启动命令、数据路径都要写进文档，方便以后恢复。"],
+  ["代码结构", "只要代码结构清晰，换 Zeabur、换 VPS、换平台都不需要重写项目。"],
+];
+
+const rebuildItems = [
+  ["服务器节点", "换服务器后，需要重新接入 Zeabur / K3s 节点。"],
+  ["环境变量", "Zeabur 项目的环境变量需要重新填写，例如 BOT_TOKEN、GEMINI_API_KEY 等。"],
+  ["域名绑定", "需要在新 Zeabur 项目里重新绑定 xiomn.com、bot.xiomn.com 等域名。"],
+  ["数据卷", "如果项目使用 SQLite、上传文件或持久化数据，需要提前备份并恢复。"],
+  ["数据库", "如果使用 PostgreSQL、MySQL、Redis 等，需要迁移数据或重新创建。"],
+];
+
+const migrationSteps = [
+  "确认所有项目代码都已经推送到 GitHub。",
+  "导出或记录旧 Zeabur 项目的环境变量。",
+  "备份 Volume / 数据库 / 上传文件。",
+  "准备新 Zeabur 账号、工作区或服务器节点。",
+  "从 GitHub 重新创建项目并部署。",
+  "把环境变量重新填回新项目。",
+  "恢复数据库或持久化数据。",
+  "绑定域名，并在 Cloudflare 调整 DNS。",
+  "测试 xiomn.com、code.xiomn.com、bot.xiomn.com 是否正常。",
+];
+
+const projectChecklist = [
+  ["Project-Xiomn-Website", "GitHub 仓库、构建命令、启动命令、域名 xiomn.com / www.xiomn.com。"],
+  ["Telegram-AI-Bot-Pro", "BOT_TOKEN、Gemini Key、AI_PROVIDER、AI_MODEL、数据库路径、Volume。"],
+  ["code-server", "镜像、PASSWORD、端口 8080、Volume 路径 /home/coder/project、域名 code.xiomn.com。"],
+];
+
+const rules = [
+  "代码必须进 GitHub，不要只放在服务器本地。",
+  "真实 API Key 不要提交到 GitHub。",
+  "Zeabur 环境变量要有单独备份。",
+  "有数据库或 Volume 的服务，换平台前必须先备份。",
+  "入口统一交给 Zeabur，不要再用 Nginx 抢 80/443。",
+];
+---
+
+<BaseLayout
+  title="Zeabur 迁移恢复 · Project Xiomn"
+  description="记录以后换服务器、换 Zeabur、换平台时如何恢复 Project Xiomn。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">MIGRATION</p>
+    <h1 class="hero-title">Zeabur 迁移与恢复。</h1>
+    <p class="lead">
+      这份文档记录以后换服务器、换 Zeabur 账号、换 Zeabur 工作区，甚至换到其他平台时，
+      Project Xiomn 应该怎么恢复，哪些东西不会丢，哪些东西必须提前备份。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">KEEP</p>
+        <h2 class="section-title">换服务器也不会丢的东西</h2>
+      </div>
+      <p class="section-desc">
+        只要这些东西保管好，项目本身就不怕迁移。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {keepItems.map(([title, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">REBUILD</p>
+        <h2 class="section-title">换 Zeabur 后需要重新配置的东西</h2>
+      </div>
+      <p class="section-desc">
+        这些属于部署平台或服务器环境，不属于代码仓库。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {rebuildItems.map(([title, text]) => (
+        <article class="panel">
+          <p class="kicker">{title}</p>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">STEPS</p>
+        <h2 class="section-title">标准迁移流程</h2>
+      </div>
+      <p class="section-desc">
+        以后真要换服务器或换 Zeabur，就按这个顺序做。
+      </p>
+    </div>
+
+    <div class="timeline">
+      {migrationSteps.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">PROJECTS</p>
+        <h2 class="section-title">当前项目迁移清单</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {projectChecklist.map(([title, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">以后必须遵守的规则</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
