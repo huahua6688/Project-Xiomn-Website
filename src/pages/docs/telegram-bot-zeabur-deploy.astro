@@ -1,0 +1,155 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const steps = [
+  "确认 Telegram-AI-Bot-Pro 代码已经推送到 GitHub。",
+  "确认 package.json 有正确的 start 脚本。",
+  "确认代码监听 process.env.PORT。",
+  "在 Zeabur 从 GitHub 创建项目。",
+  "填写 BOT_TOKEN、AI_PROVIDER、AI_MODEL、Gemini Key 等环境变量。",
+  "如果使用 SQLite，创建 Volume 并挂载到 /data。",
+  "先部署最小文本 Bot，确认不会 BackOff。",
+  "再打开 Gemini 文本和图片能力。",
+  "最后再接 Gemini Live、语音、文件解析和按钮交互。"
+];
+
+const envs = [
+  "BOT_TOKEN",
+  "AI_PROVIDER",
+  "AI_MODEL",
+  "AI_API_KEY",
+  "AI_BASE_URL",
+  "GEMINI_API_KEY",
+  "GEMINI_MODEL",
+  "GEMINI_LIVE_API_KEY",
+  "GEMINI_LIVE_MODEL",
+  "DATABASE_FILE",
+  "PASSWORD",
+  "PORT",
+];
+
+const failureChecks = [
+  "BackOff：先看 Runtime Logs 最后 100 行。",
+  "端口错误：确认代码使用 process.env.PORT。",
+  "环境变量缺失：确认 BOT_TOKEN 和模型 Key 已填写。",
+  "pdf-parse 错误：检查 ESM 导入方式。",
+  "数据库丢失：确认 DATABASE_FILE 指向 Volume 路径。",
+  "功能太多导致难排错：先关掉 Live 和文件解析，只保留文本 Bot。"
+];
+
+const recommendedEnv = `AI_PROVIDER=gemini
+AI_MODEL=gemini-2.0-flash
+DATABASE_FILE=/data/database.sqlite
+PORT=8080
+
+# Telegram
+BOT_TOKEN=
+
+# Gemini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.0-flash
+
+# Gemini Live
+GEMINI_LIVE_API_KEY=
+GEMINI_LIVE_MODEL=gemini-2.5-flash-preview-native-audio-dialog`;
+
+const deploymentRule = `推荐部署顺序：
+
+1. 固定回复 Bot
+2. 普通 Gemini 文本
+3. 图片理解
+4. 文件解析
+5. Inline button 交互
+6. Gemini Live 语音能力
+
+不要一次性全部打开，否则排错会很麻烦。`;
+---
+
+<BaseLayout
+  title="Telegram Bot Zeabur 部署 · Project Xiomn"
+  description="Telegram-AI-Bot-Pro 在 Zeabur 上的部署流程。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">BOT DEPLOY</p>
+    <h1 class="hero-title">Telegram Bot 的 Zeabur 部署流程。</h1>
+    <p class="lead">
+      这页专门记录 Telegram-AI-Bot-Pro 以后怎么部署到 Zeabur，怎么填环境变量，怎么避免 BackOff。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">STEPS</p>
+        <h2 class="section-title">标准部署顺序</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {steps.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV</p>
+        <h2 class="section-title">环境变量</h2>
+      </div>
+    </div>
+
+    <div class="tags">
+      {envs.map((item) => <span>{item}</span>)}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV TEMPLATE</p>
+        <h2 class="section-title">推荐模板</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{recommendedEnv}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ORDER</p>
+        <h2 class="section-title">上线顺序</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{deploymentRule}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DEBUG</p>
+        <h2 class="section-title">失败时先查这里</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {failureChecks.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

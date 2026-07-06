@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const volumes = [
+  ["code-server", "/home/coder/project", "保存 code-server 里的项目文件、临时工作目录和编辑内容。"],
+  ["Telegram Bot", "/data", "推荐保存 SQLite 数据库、用户设置、上传文件、运行状态。"],
+  ["数据库服务", "数据库数据目录", "如果后续使用 PostgreSQL、MySQL、Redis，需要单独备份数据。"],
+];
+
+const backupTargets = [
+  "SQLite 数据库文件，例如 /data/database.sqlite。",
+  "用户上传的文件、图片、语音、文档。",
+  "Bot 用户设置、管理员设置、会话数据。",
+  "code-server 工作目录里还没有 push 到 GitHub 的文件。",
+  "Zeabur 项目的 Volume 配置和挂载路径。"
+];
+
+const rules = [
+  "代码优先放 GitHub，不要只存在 Volume 里。",
+  "Volume 只保存运行数据，不要当唯一代码仓库。",
+  "换服务器前，先停应用或暂停写入，再备份数据库。",
+  "恢复时先创建 Volume，再启动应用。",
+  "数据库路径要固定，例如 /data/database.sqlite，避免每次部署位置变化。"
+];
+
+const botVolumeTemplate = `Telegram Bot 推荐 Volume：
+
+卷名称：
+telegram-bot-data
+
+挂载路径：
+/data
+
+环境变量：
+DATABASE_FILE=/data/database.sqlite
+
+用途：
+保存数据库、用户设置、上传文件和 Bot 运行数据。`;
+
+const codeVolumeTemplate = `code-server 推荐 Volume：
+
+卷名称：
+code-server-data
+
+挂载路径：
+/home/coder/project
+
+启动命令：
+code-server --bind-addr 0.0.0.0:8080 --auth password /home/coder/project`;
+---
+
+<BaseLayout
+  title="数据卷备份 · Project Xiomn"
+  description="记录 Zeabur Volume、数据库和运行数据的备份规则。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">VOLUME BACKUP</p>
+    <h1 class="hero-title">数据卷与数据库备份。</h1>
+    <p class="lead">
+      代码可以从 GitHub 重新部署，但数据库、上传文件、用户设置和 Volume 数据需要单独备份。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">VOLUMES</p>
+        <h2 class="section-title">当前推荐 Volume</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {volumes.map(([title, path, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p class="kicker">{path}</p>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">BOT VOLUME</p>
+        <h2 class="section-title">Telegram Bot Volume 模板</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{botVolumeTemplate}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">CODE VOLUME</p>
+        <h2 class="section-title">code-server Volume 模板</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{codeVolumeTemplate}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">TARGETS</p>
+        <h2 class="section-title">必须备份的内容</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {backupTargets.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">备份规则</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

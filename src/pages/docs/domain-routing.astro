@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const currentRoutes = [
+  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
+  ["bot.xiomn.com", "Telegram Bot 服务，未来可选", "HTTP :8080 或 Bot Webhook 端口"],
+];
+
+const rules = [
+  "同一个域名只能绑定到一个 Zeabur 服务。",
+  "code.xiomn.com 不要绑到官网服务，否则打开的还是官网。",
+  "xiomn.com 和 www.xiomn.com 应该绑定到官网服务。",
+  "如果 Bot 使用 polling，不一定需要 bot.xiomn.com。",
+  "如果 Bot 使用 webhook，就需要 HTTPS 域名，例如 bot.xiomn.com。",
+  "不要用 Nginx 抢 80 / 443，入口统一交给 Zeabur ingress-controller。"
+];
+
+const cloudflareNotes = [
+  "DNS 只负责把域名指向服务器或 Zeabur 要求的地址。",
+  "真正决定打开哪个服务的是 Zeabur 里的域名绑定。",
+  "如果 code.xiomn.com 打开官网，通常不是 DNS 错，而是 Zeabur 绑定到了官网服务。",
+  "换服务器时，Cloudflare 只需要改到新服务器 IP 或 Zeabur 给的新目标。"
+];
+
+const normalState = `当前正确入口结构：
+
+Zeabur ingress-controller
+├─ xiomn.com        → Project Xiomn 官网服务
+├─ www.xiomn.com    → Project Xiomn 官网服务
+└─ code.xiomn.com   → code-server 服务
+
+不要再让 Nginx 监听 80 / 443。`;
+---
+
+<BaseLayout
+  title="域名与入口规则 · Project Xiomn"
+  description="记录 Project Xiomn 的域名绑定、Zeabur 路由和 Cloudflare 规则。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">ROUTING</p>
+    <h1 class="hero-title">域名与入口规则。</h1>
+    <p class="lead">
+      这页记录 xiomn.com、www.xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪个 Zeabur 服务。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">CURRENT ROUTES</p>
+        <h2 class="section-title">当前域名绑定</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {currentRoutes.map(([domain, service, port]) => (
+        <article class="card">
+          <h3>{domain}</h3>
+          <p>{service}</p>
+          <p class="kicker">{port}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">NORMAL</p>
+        <h2 class="section-title">正确结构</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{normalState}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">绑定规则</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">CLOUDFLARE</p>
+        <h2 class="section-title">Cloudflare 注意事项</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {cloudflareNotes.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

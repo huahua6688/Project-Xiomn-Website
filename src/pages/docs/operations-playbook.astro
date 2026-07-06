@@ -1,0 +1,140 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const docLinks = [
+  ["当前服务器状态", "/docs/current-infrastructure", "记录 Zeabur 腾讯服务器、K3s、Nginx、端口、域名的真实状态。"],
+  ["Zeabur 迁移恢复", "/docs/zeabur-migration", "以后换服务器、换 Zeabur、换平台时按这个恢复。"],
+  ["环境变量备份", "/docs/secrets-env-backup", "记录每个项目需要哪些环境变量，真实 Key 不进 GitHub。"],
+  ["数据卷备份", "/docs/volume-backup", "记录 code-server、Bot、数据库、上传文件如何备份。"],
+  ["Telegram Bot 部署", "/docs/telegram-bot-zeabur-deploy", "记录 Telegram-AI-Bot-Pro 在 Zeabur 的部署顺序。"],
+  ["域名与入口规则", "/docs/domain-routing", "记录 xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪里。"],
+];
+
+const dailyChecks = [
+  "确认 Zeabur 面板没有服务器系统组件异常。",
+  "确认 ingress-controller、coredns、zeabur-log-api 都是 Running。",
+  "确认 nginx 是 inactive，不要占用 80 / 443。",
+  "确认 xiomn.com、www.xiomn.com、code.xiomn.com 都能打开。",
+  "确认 GitHub 代码已经提交，Zeabur 部署版本和 GitHub 对得上。",
+];
+
+const emergencyRules = [
+  "网站打不开，先看 Zeabur 部署日志，不要先启动 nginx。",
+  "服务器组件异常，先查 ingress-controller 是否 Running。",
+  "80 / 443 被占用，先查是不是 nginx 抢端口。",
+  "Bot 部署失败，先看环境变量和 PORT，再看代码错误。",
+  "换服务器前，先备份环境变量和 Volume。"
+];
+
+const checkCommands = `sudo systemctl status k3s --no-pager
+sudo systemctl status nginx --no-pager
+sudo k3s kubectl get pods -A
+sudo k3s kubectl get pods -A | grep -v Running
+sudo ss -lntp | grep -E ':80|:443|:6443'`;
+
+const deployFlow = `以后官网更新：
+
+cd ~/projects/xiomn-website
+npm run build
+git add .
+git commit -m "update website"
+git push
+
+然后等待 Zeabur 自动部署，或者在 Zeabur 手动重新部署。`;
+---
+
+<BaseLayout
+  title="总运维手册 · Project Xiomn"
+  description="Project Xiomn 的总运维入口，集中管理服务器、Zeabur、域名、备份和部署规则。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">PLAYBOOK</p>
+    <h1 class="hero-title">Project Xiomn 总运维手册。</h1>
+    <p class="lead">
+      以后服务器、Zeabur、域名、Bot、code-server、备份和迁移都从这里开始查。
+      这页是 Project Xiomn 的总入口。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DOCS</p>
+        <h2 class="section-title">核心文档入口</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {docLinks.map(([title, href, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <a href={href}>打开 →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DAILY</p>
+        <h2 class="section-title">日常检查</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {dailyChecks.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">EMERGENCY</p>
+        <h2 class="section-title">出问题时先看这里</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {emergencyRules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">COMMANDS</p>
+        <h2 class="section-title">快速检查命令</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{checkCommands}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DEPLOY</p>
+        <h2 class="section-title">官网更新流程</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{deployFlow}</code></pre>
+    </article>
+  </section>
+</BaseLayout>
