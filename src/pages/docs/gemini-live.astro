@@ -1,0 +1,133 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const compare = [
+  ["普通 Gemini", "适合文本对话、识图、文件内容总结、普通多轮聊天。"],
+  ["Gemini Live", "适合实时语音、原生音频对话、低延迟交互，不应该和普通聊天逻辑混在一起。"],
+  ["统一 Provider", "Bot 内部应该有 provider 层，根据 AI_PROVIDER 切换 gemini、gemini-live、openai-compatible 等。"],
+  ["模型配置", "模型名不应该写死在代码里，应通过 AI_MODEL / GEMINI_LIVE_MODEL 等环境变量控制。"],
+];
+
+const providerPlan = [
+  "先保留普通 Gemini Provider，负责文本、图片、文件类请求。",
+  "新增 Gemini Live Provider，专门处理语音、实时音频和 Live 会话。",
+  "Telegram 收到不同类型消息后，由 Router 判断进入普通对话还是 Live 流程。",
+  "按钮交互层只负责用户选择，不直接调用模型。",
+  "模型调用结果统一返回给 Telegram Reply 层，由 Reply 层决定文本、按钮、语音或文件回复。",
+];
+
+const envs = [
+  ["AI_PROVIDER", "主模型供应商，例如 gemini 或 gemini-live。"],
+  ["AI_MODEL", "普通文本/多模态模型名。"],
+  ["GEMINI_API_KEY", "普通 Gemini API Key。"],
+  ["GEMINI_BASE_URL", "普通 Gemini API 地址，可选。"],
+  ["GEMINI_LIVE_API_KEY", "Gemini Live API Key。"],
+  ["GEMINI_LIVE_MODEL", "Gemini Live 使用的模型名。"],
+  ["GEMINI_LIVE_BASE_URL", "Gemini Live API 地址，可选。"],
+  ["VOICE_MODE", "是否启用语音 / Live 相关功能，可选。"],
+];
+
+const warnings = [
+  "不要把 Live API 当成普通 HTTP chat completion 用。",
+  "不要把模型名写死在代码里，否则换模型很麻烦。",
+  "不要把 Telegram command、按钮、模型调用混在同一个文件里。",
+  "Live 语音能力应单独做会话管理，否则容易出现状态混乱。",
+  "Zeabur 部署时要先保证普通文本 Bot 能启动，再逐步打开 Live 功能。",
+];
+---
+
+<BaseLayout
+  title="Gemini 与 Gemini Live · Project Xiomn"
+  description="Gemini / Gemini Live 接入设计文档。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">GEMINI DOCS</p>
+    <h1 class="hero-title">Gemini 与 Gemini Live 接入设计。</h1>
+    <p class="lead">
+      这个页面记录 Telegram AI Bot 中普通 Gemini、Gemini Live、语音对话、多模态和 Provider 架构的设计思路。
+      当前重点不是立刻堆功能，而是先把结构分清楚。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DIFFERENCE</p>
+        <h2 class="section-title">普通 Gemini 和 Live 的区别</h2>
+      </div>
+      <p class="section-desc">
+        两者都属于 Gemini 生态，但在 Bot 里的使用方式不一样，应分层处理。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {compare.map(([title, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ARCHITECTURE</p>
+        <h2 class="section-title">推荐架构</h2>
+      </div>
+      <p class="section-desc">
+        Bot 应该拆成 Router、Provider、Reply、Storage 几层，避免所有逻辑堆在一个入口文件里。
+      </p>
+    </div>
+
+    <div class="timeline">
+      {providerPlan.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ENV</p>
+        <h2 class="section-title">建议环境变量</h2>
+      </div>
+      <p class="section-desc">
+        先把配置层整理清楚，后续接模型、换模型、排查部署错误都会更简单。
+      </p>
+    </div>
+
+    <div class="grid two">
+      {envs.map(([key, desc]) => (
+        <article class="panel">
+          <p class="kicker">{key}</p>
+          <p>{desc}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">WARNINGS</p>
+        <h2 class="section-title">容易踩坑的点</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {warnings.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
