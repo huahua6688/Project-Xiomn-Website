@@ -1,0 +1,166 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const currentState = [
+  ["服务器", "Zeabur 购买的腾讯云服务器，底层运行 K3s。"],
+  ["入口", "Zeabur ingress-controller 接管 80 / 443。"],
+  ["Nginx", "已关闭并禁用，不能再启动，否则会和 Zeabur 抢 80 / 443。"],
+  ["官网", "xiomn.com / www.xiomn.com 已迁移到 Zeabur 官网服务。"],
+  ["code-server", "code.xiomn.com 已迁移到 Zeabur code-server 服务。"],
+  ["部署方式", "以后网站更新走 GitHub → Zeabur，不再走 /var/www/html。"],
+];
+
+const domainMap = [
+  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
+];
+
+const commands = [
+  ["查看 K3s 状态", "sudo systemctl status k3s --no-pager"],
+  ["查看 Nginx 状态", "sudo systemctl status nginx --no-pager"],
+  ["查看 Zeabur 组件", "sudo k3s kubectl get pods -A"],
+  ["查看异常 Pod", "sudo k3s kubectl get pods -A | grep -v Running"],
+  ["查看 80 / 443 / 6443", "sudo ss -lntp | grep -E ':80|:443|:6443'"],
+];
+
+const rules = [
+  "不要执行 sudo systemctl start nginx。",
+  "不要再用 /var/www/html 部署官网。",
+  "网站代码修改后提交到 GitHub，再让 Zeabur 重新部署。",
+  "Zeabur 服务端口统一使用 process.env.PORT。",
+  "有数据的服务必须配置 Volume。",
+  "真实 API Key 只放环境变量，不提交到 GitHub。",
+];
+
+const normalPorts = `正常端口状态应该类似：
+
+*:80    Zeabur ingress-controller
+*:443   Zeabur ingress-controller
+*:6443  k3s-server
+
+如果 80 / 443 显示 nginx，说明 Nginx 又抢了 Zeabur 的入口。`;
+
+const deployFlow = `以后官网更新流程：
+
+cd ~/projects/xiomn-website
+npm run build
+git add .
+git commit -m "update website"
+git push
+
+然后在 Zeabur 里等待自动部署，或者手动点重新部署。`;
+---
+
+<BaseLayout
+  title="当前服务器状态 · Project Xiomn"
+  description="记录当前 Zeabur 腾讯服务器的真实运行状态、端口规则和运维命令。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">INFRASTRUCTURE</p>
+    <h1 class="hero-title">当前服务器运行状态。</h1>
+    <p class="lead">
+      这页记录 Project Xiomn 当前真实的服务器结构。以后排错时先看这里，避免再次让 Nginx 和 Zeabur 抢 80 / 443。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">CURRENT</p>
+        <h2 class="section-title">当前状态</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {currentState.map(([title, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DOMAINS</p>
+        <h2 class="section-title">域名绑定关系</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {domainMap.map(([domain, service, port]) => (
+        <article class="panel">
+          <p class="kicker">{domain}</p>
+          <h3>{service}</h3>
+          <p>{port}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">COMMANDS</p>
+        <h2 class="section-title">常用检查命令</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {commands.map(([title, cmd]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <pre><code>{cmd}</code></pre>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">PORTS</p>
+        <h2 class="section-title">正常端口状态</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{normalPorts}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DEPLOY</p>
+        <h2 class="section-title">以后官网更新流程</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{deployFlow}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">必须遵守的规则</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
