@@ -1,164 +1,296 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const translations = {
-  zh: {
-    metaTitle: "文档 · Project Xiomn",
-    eyebrow: "DOCS",
-    title: "文档中心。",
-    intro: "记录 Project Xiomn 的部署过程、AI Bot 配置、Gemini 接入、服务器维护和自动化流程。",
-    d1Title: "Project Xiomn 入门",
-    d1Text: "了解项目结构、服务器、域名、GitHub 和部署流程。",
-    d2Title: "Telegram AI Bot 部署",
-    d2Text: "记录 Zeabur / VPS 部署方式、环境变量和常见错误。",
-    d2Link: "查看部署文档 →",
-    d3Title: "Gemini 与 Gemini Live",
-    d3Text: "整理普通 Gemini、Gemini Live、语音对话、识图和文件解析的接入方案。",
-    d3Link: "查看 Gemini 文档 →",
-    d4Title: "服务器与自动部署",
-    d4Text: "记录 Nginx、HTTPS、Astro、GitHub、自动部署脚本和维护命令。",
-    d4Link: "查看服务器文档 →",
-    d5Title: "Zeabur 部署排错",
-    d5Text: "整理 BackOff、环境变量、端口、pdf-parse 和启动失败等常见问题。",
-    d5Link: "查看排错文档 →",
-    d6Title: "Copilot 重构提示词",
-    d6Text: "给 GitHub Copilot 智能体使用的完整 Telegram AI Bot 重构说明。",
-    d6Link: "查看提示词 →",
-    d7Title: "Zeabur 迁移恢复",
-    d7Text: "记录换服务器、换 Zeabur、换平台时如何恢复官网、Bot、code-server 和数据。",
-    d7Link: "查看迁移文档 →",
-    d8Title: "当前服务器状态",
-    d8Text: "记录当前 Zeabur 腾讯服务器、K3s、Nginx、端口和域名绑定关系。",
-    d8Link: "查看服务器状态 →",
-    started: "已开始",
-    planning: "计划中",
-    sorting: "整理中",
-  },
-  en: {
-    metaTitle: "Docs · Project Xiomn",
-    eyebrow: "DOCS",
-    title: "Documentation center.",
-    intro: "Deployment notes, AI bot configuration, Gemini integration, server maintenance and automation workflows.",
-    d1Title: "Getting started",
-    d1Text: "Project structure, server, domain, GitHub and deployment workflow.",
-    d2Title: "Telegram AI Bot deployment",
-    d2Text: "Zeabur / VPS deployment, environment variables and common errors.",
-    d2Link: "Open deployment docs →",
-    d3Title: "Gemini and Gemini Live",
-    d3Text: "Gemini, Gemini Live, voice dialog, vision and file parsing integration.",
-    d3Link: "Open Gemini docs →",
-    d4Title: "Server and auto deployment",
-    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts and maintenance commands.",
-    d4Link: "Open server docs →",
-    d5Title: "Zeabur troubleshooting",
-    d5Text: "BackOff, environment variables, ports, pdf-parse and startup failures.",
-    d5Link: "Open troubleshooting docs →",
-    d6Title: "Copilot refactor prompt",
-    d6Text: "How to recover the website, bot, code-server and data when moving servers or platforms.",
-    d6Link: "Open prompt →",
-    d7Title: "Zeabur migration recovery",
-    d7Text: "Recover Project Xiomn when moving servers, Zeabur workspaces or platforms.",
-    d7Link: "Open migration docs →",
-    d8Title: "Current infrastructure",
-    d8Text: "Current Zeabur server, K3s, Nginx, ports and domain routing status.",
-    d8Link: "Open infrastructure docs →",
-    started: "Started",
-    planning: "Planned",
-    sorting: "Sorting",
-  },
-  ja: {
-    metaTitle: "ドキュメント · Project Xiomn",
-    eyebrow: "DOCS",
-    title: "ドキュメントセンター。",
-    intro: "デプロイ、AI Bot 設定、Gemini 接続、サーバー保守、自動化フローを記録します。",
-    d1Title: "Project Xiomn 入門",
-    d1Text: "プロジェクト構造、サーバー、ドメイン、GitHub、デプロイ手順。",
-    d2Title: "Telegram AI Bot デプロイ",
-    d2Text: "Zeabur / VPS のデプロイ方法、環境変数、よくあるエラー。",
-    d3Title: "Gemini と Gemini Live",
-    d3Text: "Gemini、Gemini Live、音声対話、画像認識、ファイル解析の接続方法。",
-    d4Title: "サーバーと自動デプロイ",
-    d4Text: "Nginx、HTTPS、Astro、GitHub、デプロイスクリプト、保守コマンド。",
-    started: "開始済み",
-    planning: "計画中",
-    sorting: "整理中",
-  },
-  km: {
-    metaTitle: "ឯកសារ · Project Xiomn",
-    eyebrow: "DOCS",
-    title: "មជ្ឈមណ្ឌលឯកសារ។",
-    intro: "កត់ត្រា deployment, AI Bot config, Gemini integration, server maintenance និង automation workflow។",
-    d1Title: "ចាប់ផ្តើម Project Xiomn",
-    d1Text: "រចនាសម្ព័ន្ធគម្រោង server domain GitHub និង deployment workflow។",
-    d2Title: "Telegram AI Bot deployment",
-    d2Text: "Zeabur / VPS deployment, environment variables និង errors ធម្មតា។",
-    d3Title: "Gemini និង Gemini Live",
-    d3Text: "Gemini, Gemini Live, voice, vision និង file parsing integration។",
-    d4Title: "Server និង auto deployment",
-    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts និង maintenance commands។",
-    started: "បានចាប់ផ្តើម",
-    planning: "គ្រោង",
-    sorting: "កំពុងរៀបចំ",
-  },
-  ms: {
-    metaTitle: "Dokumen · Project Xiomn",
-    eyebrow: "DOCS",
-    title: "Pusat dokumentasi.",
-    intro: "Nota deployment, konfigurasi AI Bot, integrasi Gemini, penyelenggaraan server dan workflow automasi.",
-    d1Title: "Mula dengan Project Xiomn",
-    d1Text: "Struktur projek, server, domain, GitHub dan deployment workflow.",
-    d2Title: "Deployment Telegram AI Bot",
-    d2Text: "Zeabur / VPS deployment, environment variables dan errors biasa.",
-    d3Title: "Gemini dan Gemini Live",
-    d3Text: "Integrasi Gemini, Gemini Live, suara, visi dan file parsing.",
-    d4Title: "Server dan auto deployment",
-    d4Text: "Nginx, HTTPS, Astro, GitHub, deploy scripts dan maintenance commands.",
-    started: "Dimulakan",
-    planning: "Dirancang",
-    sorting: "Disusun",
-  },
-};
-
-const docs = [
-  { status: "started", title: "d1Title", text: "d1Text", href: "" },
-  { status: "sorting", title: "d2Title", text: "d2Text", href: "/docs/telegram-ai-bot", link: "d2Link" },
-  { status: "planning", title: "d3Title", text: "d3Text", href: "/docs/gemini-live", link: "d3Link" },
-  { status: "started", title: "d4Title", text: "d4Text", href: "/docs/server-deployment", link: "d4Link" },
-  { status: "sorting", title: "d5Title", text: "d5Text", href: "/docs/zeabur-troubleshooting", link: "d5Link" },
-  { status: "started", title: "d6Title", text: "d6Text", href: "/docs/copilot-refactor-prompt", link: "d6Link" },
-  { status: "important", title: "d7Title", text: "d7Text", href: "/docs/zeabur-migration", link: "d7Link" },
-  { status: "live", title: "d8Title", text: "d8Text", href: "/docs/current-infrastructure", link: "d8Link" },
-
-  { status: "hub", title: "总运维手册", text: "服务器、Zeabur、域名、备份、部署和排错的总入口。", href: "/docs/operations-playbook", link: "打开手册 →" },
-  { status: "important", title: "环境变量备份", text: "记录每个项目需要哪些环境变量，真实 Key 不进 GitHub。", href: "/docs/secrets-env-backup", link: "查看变量模板 →" },
-  { status: "important", title: "数据卷备份", text: "记录 Volume、SQLite、上传文件、code-server 工作目录的备份规则。", href: "/docs/volume-backup", link: "查看备份规则 →" },
-  { status: "next", title: "Telegram Bot Zeabur 部署", text: "记录 Telegram-AI-Bot-Pro 部署到 Zeabur 的顺序、变量和排错点。", href: "/docs/telegram-bot-zeabur-deploy", link: "查看部署文档 →" },
-  { status: "routing", title: "域名与入口规则", text: "记录 xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪个服务。", href: "/docs/domain-routing", link: "查看域名规则 →" },
+const primaryDocs = [
+  ["总运维手册", "/docs/operations-playbook", "服务器、Zeabur、域名、备份、部署和排错的总入口。", "HUB"],
+  ["当前服务器状态", "/docs/current-infrastructure", "记录当前 Zeabur 腾讯服务器、K3s、Nginx、端口和域名关系。", "LIVE"],
+  ["域名与入口规则", "/docs/domain-routing", "记录 xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪里。", "ROUTING"],
+  ["Zeabur 迁移恢复", "/docs/zeabur-migration", "以后换服务器、换 Zeabur、换平台时按这个恢复。", "MIGRATION"],
 ];
+
+const deployDocs = [
+  ["服务器部署记录", "/docs/server-deployment", "早期 Nginx、HTTPS、Astro、GitHub、deploy.sh 的部署记录。"],
+  ["Zeabur 部署排错", "/docs/zeabur-troubleshooting", "BackOff、端口、环境变量、pdf-parse、启动失败排查。"],
+  ["Telegram Bot Zeabur 部署", "/docs/telegram-bot-zeabur-deploy", "Telegram-AI-Bot-Pro 在 Zeabur 的部署顺序、变量和排错点。"],
+];
+
+const botDocs = [
+  ["Telegram AI Bot", "/docs/telegram-ai-bot", "Bot 功能、环境变量、已知错误、下一步计划。"],
+  ["Gemini 与 Gemini Live", "/docs/gemini-live", "普通 Gemini、Gemini Live、语音、Provider 架构设计。"],
+  ["Copilot 重构提示词", "/docs/copilot-refactor-prompt", "可直接给 GitHub Copilot Agent 的完整重构要求。"],
+];
+
+const backupDocs = [
+  ["环境变量备份", "/docs/secrets-env-backup", "记录变量名、用途和模板，真实 Key 不进 GitHub。"],
+  ["数据卷备份", "/docs/volume-backup", "记录 Volume、SQLite、上传文件、code-server 工作目录备份规则。"],
+];
+
+const routeMap = [
+  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
+  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
+  ["bot.xiomn.com", "Telegram Bot 服务，未来可选", "HTTP :8080 / Webhook"],
+];
+
+const quickCommands = [
+  ["检查 K3s", "sudo systemctl status k3s --no-pager"],
+  ["检查 Nginx", "sudo systemctl status nginx --no-pager"],
+  ["看全部 Pod", "sudo k3s kubectl get pods -A"],
+  ["看异常 Pod", "sudo k3s kubectl get pods -A | grep -v Running"],
+  ["看入口端口", "sudo ss -lntp | grep -E ':80|:443|:6443'"],
+];
+
+const rules = [
+  "不要再启动 Nginx，80 / 443 交给 Zeabur ingress-controller。",
+  "官网更新走 GitHub → Zeabur，不再走 /var/www/html。",
+  "真实 API Key 只放 Zeabur 环境变量，不提交到 GitHub。",
+  "有数据库、文件、用户设置的服务必须配置 Volume。",
+  "换服务器或换 Zeabur 前，先备份环境变量和 Volume。",
+];
+
+const nextActions = [
+  "把 Telegram-AI-Bot-Pro 整理成 Zeabur 可部署版本。",
+  "补齐 Bot 的 Dockerfile、.env.example、README 和启动命令。",
+  "先部署固定回复版 Bot，确认不会 BackOff。",
+  "再接普通 Gemini 文本、图片、文件解析。",
+  "最后接 Gemini Live、语音对话和 inline button。"
+];
+
+const architecture = `当前正确架构：
+
+Zeabur 腾讯服务器
+│
+├─ K3s / Zeabur 系统组件
+│
+├─ Zeabur ingress-controller
+│  ├─ 80
+│  └─ 443
+│
+├─ Project Xiomn 官网服务
+│  ├─ xiomn.com
+│  └─ www.xiomn.com
+│
+├─ code-server 服务
+│  └─ code.xiomn.com
+│
+└─ Telegram Bot 服务
+   └─ bot.xiomn.com，未来可选
+
+注意：
+Nginx 已关闭，不要再启动。`;
+
+const updateFlow = `以后官网更新流程：
+
+cd ~/projects/xiomn-website
+npm run build
+git add .
+git commit -m "update website"
+git push
+
+然后等待 Zeabur 自动部署，或者在 Zeabur 手动重新部署。`;
 ---
 
-<BaseLayout title="文档 · Project Xiomn" description="Project Xiomn 文档中心。" active="docs" translations={translations}>
+<BaseLayout
+  title="文档中心 · Project Xiomn"
+  description="Project Xiomn 的文档中心、运维手册、部署规则、备份规则和 Bot 开发入口。"
+  active="docs"
+>
   <section class="hero">
-    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
-    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
-    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+    <p class="kicker">DOCUMENTATION CENTER</p>
+    <h1 class="hero-title">Project Xiomn 文档中心。</h1>
+    <p class="lead">
+      这里不是普通文章列表，而是 Project Xiomn 的运维控制台。
+      服务器、Zeabur、域名、code-server、Bot、备份、迁移和排错都从这里进入。
+    </p>
+    <div class="hero-actions">
+      <a class="primary-action" href="/docs/operations-playbook">打开总运维手册</a>
+      <a class="secondary-action" href="/docs/current-infrastructure">查看服务器状态</a>
+    </div>
   </section>
 
   <section class="section">
-    <div class="grid two">
-      {docs.map((doc) => (
+    <div class="section-head">
+      <div>
+        <p class="kicker">CURRENT ARCHITECTURE</p>
+        <h2 class="section-title">当前真实架构</h2>
+      </div>
+      <p class="section-desc">
+        现在入口已经交给 Zeabur，Nginx 不再负责公网 80 / 443。
+      </p>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{architecture}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">IMPORTANT</p>
+        <h2 class="section-title">最重要的入口</h2>
+      </div>
+      <p class="section-desc">
+        出问题时优先看这几个，不要先乱改服务器。
+      </p>
+    </div>
+
+    <div class="doc-dashboard">
+      {primaryDocs.map(([title, href, text, tag]) => (
+        <a class="doc-dashboard-card" href={href}>
+          <span>{tag}</span>
+          <h3>{title}</h3>
+          <p>{text}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ROUTES</p>
+        <h2 class="section-title">域名绑定关系</h2>
+      </div>
+      <p class="section-desc">
+        如果某个域名打开错页面，优先检查它在 Zeabur 绑定到了哪个服务。
+      </p>
+    </div>
+
+    <div class="route-table">
+      {routeMap.map(([domain, service, port]) => (
+        <div class="route-row">
+          <strong>{domain}</strong>
+          <span>{service}</span>
+          <em>{port}</em>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">DEPLOYMENT</p>
+        <h2 class="section-title">部署与排错</h2>
+      </div>
+    </div>
+
+    <div class="grid three">
+      {deployDocs.map(([title, href, text]) => (
         <article class="card">
-          <p class="status-badge" data-i18n={doc.status}>{translations.zh[doc.status]}</p>
-          <h2 data-i18n={doc.title}>{translations.zh[doc.title]}</h2>
-          <p data-i18n={doc.text}>{translations.zh[doc.text]}</p>
-          {doc.href && (
-            <div class="tags">
-              <a href={doc.href}>
-                <span data-i18n={doc.link}>{translations.zh[doc.link]}</span>
-              </a>
-            </div>
-          )}
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <a href={href}>打开 →</a>
         </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">BOT DEVELOPMENT</p>
+        <h2 class="section-title">Telegram AI Bot 开发</h2>
+      </div>
+    </div>
+
+    <div class="grid three">
+      {botDocs.map(([title, href, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <a href={href}>打开 →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">BACKUP</p>
+        <h2 class="section-title">备份与迁移</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {backupDocs.map(([title, href, text]) => (
+        <article class="card">
+          <h3>{title}</h3>
+          <p>{text}</p>
+          <a href={href}>打开 →</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">COMMANDS</p>
+        <h2 class="section-title">常用检查命令</h2>
+      </div>
+      <p class="section-desc">
+        这些命令只负责查看状态，不会破坏服务器。
+      </p>
+    </div>
+
+    <div class="command-grid">
+      {quickCommands.map(([title, command]) => (
+        <article class="command-card">
+          <h3>{title}</h3>
+          <pre><code>{command}</code></pre>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">UPDATE FLOW</p>
+        <h2 class="section-title">官网更新流程</h2>
+      </div>
+    </div>
+
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{updateFlow}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">必须遵守的规则</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">NEXT</p>
+        <h2 class="section-title">下一步要做的事</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {nextActions.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
       ))}
     </div>
   </section>
