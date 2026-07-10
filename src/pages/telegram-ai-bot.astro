@@ -2,35 +2,37 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const features = [
-  "普通 Gemini 对话",
-  "Gemini Live 原生语音对话",
-  "识图与图片理解",
-  "文件解析：PDF / DOCX / XLSX / TXT",
-  "Telegram inline button 按钮交互",
-  "语音转文字与语音回复",
-  "Zeabur / VPS 部署支持",
-  "多模型 Provider 扩展",
+  "多 AI Provider：Gemini、OpenRouter、Groq 等，并支持用户独立选择",
+  "自动故障转移：重试、冷却、模型回退和 Provider 切换",
+  "自然语言自动路由：聊天、翻译、搜索、写作和问答",
+  "联网搜索与网页读取，可自动处理用户发送的链接",
+  "图片理解、语音转文字、文字转语音与 Gemini Live 可选接入",
+  "文件解析与总结：PDF / DOCX / XLSX / TXT / Markdown / CSV",
+  "Telegram 内联按钮、回复操作条、模型/语言/人格/记忆设置",
+  "SQLite 持久化、管理员控制、配额限制与健康检查",
+  "Zeabur / VPS / Docker 部署支持",
 ];
 
 const envs = [
   "BOT_TOKEN",
-  "AI_PROVIDER",
-  "AI_MODEL",
-  "AI_API_KEY",
+  "ADMIN_USER_IDS",
+  "DEFAULT_AI_PROVIDER",
+  "DEFAULT_AI_MODEL",
   "GEMINI_API_KEY",
+  "OPENROUTER_API_KEY",
+  "GROQ_API_KEY",
   "GEMINI_LIVE_API_KEY",
+  "ENABLE_PROVIDER_FALLBACK",
   "DATABASE_FILE",
-  "PASSWORD",
   "PORT",
 ];
 
 const nextActions = [
-  "整理当前 Telegram-AI-Bot-Pro 仓库结构",
-  "确认普通 Gemini 与 Gemini Live 的分层设计",
-  "修复 Zeabur 部署中的启动错误",
-  "统一环境变量说明",
-  "把命令式交互改成按钮式交互",
-  "整理可部署版本 v1",
+  "优化回答格式与链接展示，默认避免冗长裸链接",
+  "继续完善 Gemini Live 音频、TTS 和实时翻译",
+  "增强 Provider 状态诊断、额度错误提示和自动恢复",
+  "补齐部署文档、环境变量模板和运维说明",
+  "持续增加回归测试、线上监控和长期稳定性验证",
 ];
 
 const translations = {
@@ -39,28 +41,31 @@ const translations = {
     eyebrow: "TELEGRAM AI BOT",
     title: "万能 Telegram AI Bot。",
     intro:
-      "这个页面记录 Telegram AI Bot 项目的目标、功能、部署状态和下一步计划。核心目标是做一个支持 Gemini、Gemini Live、语音、识图、文件解析和按钮交互的可部署 AI Bot。",
-    featureTitle: "目标功能",
+      "Telegram-AI-Bot-Pro 已从启动调试阶段进入可用部署与持续迭代阶段。当前版本强调自然语言交互、多 Provider 自动切换、多模态处理、持久化记忆和 Telegram 内联操作。",
+    featureTitle: "当前已实现",
     envTitle: "核心环境变量",
-    nextTitle: "下一步行动",
+    nextTitle: "接下来继续完善",
     statusTitle: "当前状态",
     statusText:
-      "项目仍处于重构和部署调试阶段。重点是先解决 Zeabur 启动错误，再整理普通 Gemini 和 Gemini Live 的统一接入方式。",
+      "Bot 已在 Zeabur 运行。基础对话、自动路由、多 Provider、故障转移、联网搜索、网页读取、图片/语音/文件处理、内联按钮、设置中心、记忆和管理功能已经落地；Gemini Live 实时音频、图片生成和回答格式仍会按配置与额度继续完善。",
+    repoLabel: "打开 GitHub 仓库",
   },
   en: {
     metaTitle: "Telegram AI Bot · Project Xiomn",
     eyebrow: "TELEGRAM AI BOT",
     title: "Universal Telegram AI Bot.",
     intro:
-      "This page tracks the Telegram AI Bot project: goals, features, deployment status and next actions. The goal is a deployable AI bot with Gemini, Gemini Live, voice, vision, file parsing and inline-button interactions.",
-    featureTitle: "Target features",
+      "Telegram-AI-Bot-Pro has moved from startup debugging into a usable deployment and continuous iteration stage. The current version focuses on natural-language interaction, multi-provider fallback, multimodal handling, persistent memory and Telegram inline actions.",
+    featureTitle: "Implemented now",
     envTitle: "Core environment variables",
-    nextTitle: "Next actions",
+    nextTitle: "Next improvements",
     statusTitle: "Current status",
     statusText:
-      "The project is still being refactored and debugged for deployment. The priority is to fix Zeabur startup errors and unify regular Gemini with Gemini Live integration.",
+      "The bot is running on Zeabur. Core chat, automatic routing, multiple providers, fallback, web search, URL reading, image/voice/file handling, inline actions, settings, memory and admin controls are in place. Gemini Live audio, image generation and reply formatting will continue to improve based on configuration and available quota.",
+    repoLabel: "Open GitHub repository",
   },
 };
+
 ---
 
 <BaseLayout
@@ -85,9 +90,18 @@ const translations = {
       <article class="panel">
         <p class="kicker">REPOSITORY</p>
         <h2 class="section-title">Telegram-AI-Bot-Pro</h2>
-        <p>
-          GitHub 仓库：huahua6688/Telegram-AI-Bot-Pro
-        </p>
+        <p>huahua6688/Telegram-AI-Bot-Pro</p>
+        <div class="actions" style="margin-top: 18px;">
+          <a
+            class="btn primary"
+            href="https://github.com/huahua6688/Telegram-AI-Bot-Pro"
+            target="_blank"
+            rel="noreferrer"
+            data-i18n="repoLabel"
+          >
+            {translations.zh.repoLabel}
+          </a>
+        </div>
       </article>
     </div>
   </section>
