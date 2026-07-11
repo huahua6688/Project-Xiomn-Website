@@ -1,0 +1,162 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const services = [
+  {
+    domain: "xiomn.com",
+    type: "个人主页 / 统一入口",
+    origin: "GitHub 仓库 huahua6688/Project-Xiomn-Website，使用 Astro 构建，并作为独立网站服务部署。",
+    expected: "浏览器应该打开 Project Xiomn 主页、项目、服务、文档和状态页面。",
+    restore: "检查 xiomn.com 是否绑定到 Project-Xiomn-Website 对应的 Zeabur 网站服务。",
+  },
+  {
+    domain: "code.xiomn.com",
+    type: "浏览器远程开发环境",
+    origin: "之前部署的 code-server / Coder 服务，用浏览器进入类似 VS Code 的开发界面。",
+    expected: "浏览器打开后进入开发环境登录页或工作区。",
+    restore: "检查 DNS、Zeabur 中的 code-server 服务、服务端口和该服务自己的密码配置。",
+  },
+  {
+    domain: "panel.xiomn.com:2053",
+    type: "3X-UI 管理面板",
+    origin: "在 VPS 上安装的 3X-UI，用于管理 Xray、Reality、入站和客户端连接配置。",
+    expected: "浏览器打开后进入 3X-UI 登录页。端口 2053 是面板当前使用的 HTTPS 端口。",
+    restore: "检查 panel.xiomn.com DNS、VPS 防火墙、3X-UI 服务状态、面板端口和证书。",
+  },
+  {
+    domain: "node.xiomn.com",
+    type: "Xray / Reality 节点域名",
+    origin: "给 Shadowrocket、V2RayN 等代理客户端连接节点使用，通常解析到 VPS 公网 IP。",
+    expected: "它不是普通网站。Safari 打不开或没有网页是正常现象；应在代理客户端中测试连接。",
+    restore: "检查 DNS 是否解析到正确 VPS、节点端口是否开放、3X-UI 入站是否运行，以及客户端参数是否匹配。",
+  },
+  {
+    domain: "bot.xiomn.com",
+    type: "Telegram AI Bot 后端",
+    origin: "GitHub 仓库 huahua6688/Telegram-AI-Bot-Pro，作为独立 Zeabur 服务运行。",
+    expected: "根地址或 /health 可能显示 JSON；/status 是给人看的状态页；/app 是 Telegram Mini App。",
+    restore: "检查 Bot 服务是否运行、域名是否仍绑定到 Bot 服务、PORT 是否正确，以及 Telegram Mini App 配置。",
+  },
+  {
+    domain: "xiomn.com/system",
+    type: "密码保护系统中心",
+    origin: "由 Project-Xiomn-Website 的 server.js 提供，不是另一个独立服务。",
+    expected: "输入 SYSTEM_PORTAL_TOKEN 后，显示 code、panel、node、Bot 状态和 GitHub 运维入口。",
+    restore: "在网站服务设置 SYSTEM_PORTAL_TOKEN 与 SESSION_SECRET，然后重新部署。",
+  },
+];
+
+const envTemplate = `Project-Xiomn-Website 的 Zeabur 环境变量：
+
+PORT=3000
+SYSTEM_PORTAL_TOKEN=填写你自己的长密码
+SESSION_SECRET=填写另一串随机字符
+SYSTEM_SESSION_HOURS=12
+TRUST_PROXY=true
+
+注意：
+- 这些变量加在“个人主页网站服务”，不是 Telegram Bot 服务。
+- 不要把真实密码写进 GitHub。
+- 修改环境变量后重新部署网站服务。`;
+
+const architecture = `当前目标结构：
+
+Project-Xiomn-Website 网站服务
+├─ xiomn.com
+├─ /services            公开服务入口
+├─ /docs                公开文档
+├─ /status              公开状态
+└─ /system              密码保护管理入口
+
+独立服务
+├─ code.xiomn.com       code-server / Coder
+├─ panel.xiomn.com:2053 3X-UI 管理面板
+├─ node.xiomn.com       Xray / Reality 节点域名
+└─ bot.xiomn.com        Telegram AI Bot 后端`;
+
+const rules = [
+  "同一个域名在同一区域只能绑定到一个 Zeabur 服务。",
+  "xiomn.com 只绑定个人主页网站服务；bot.xiomn.com 只绑定 Bot 服务。",
+  "node.xiomn.com 是节点地址，不应当期待它显示网页。",
+  "bot.xiomn.com/app 必须从 Telegram 内打开，普通浏览器没有 Telegram 身份会显示无权限。",
+  "3X-UI、code-server 和 /system 各自有独立登录保护，密码不要写进公开文档。",
+  "真实 API Key、Bot Token、UUID、Private Key、Short ID 和数据库文件不得提交到 GitHub。",
+];
+---
+
+<BaseLayout
+  title="服务与域名来源 · Project Xiomn"
+  description="记录 Project Xiomn 每个域名、网页和服务是怎么来的，以及打不开时如何恢复。"
+  active="docs"
+>
+  <section class="hero">
+    <p class="kicker">SERVICES & DOMAINS</p>
+    <h1 class="hero-title">这些网页和域名是怎么来的。</h1>
+    <p class="lead">
+      这页专门解决“这个地址是做什么的、当时怎么部署的、以后打不开先检查哪里”。
+      这里只记录结构和恢复方法，不保存密码、Token 或节点密钥。
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">ARCHITECTURE</p>
+        <h2 class="section-title">当前结构</h2>
+      </div>
+    </div>
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{architecture}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">SERVICE HISTORY</p>
+        <h2 class="section-title">每个地址的来源与用途</h2>
+      </div>
+    </div>
+
+    <div class="grid two">
+      {services.map((service) => (
+        <article class="card">
+          <p class="kicker">{service.domain}</p>
+          <h3>{service.type}</h3>
+          <p><strong>怎么来的：</strong>{service.origin}</p>
+          <p><strong>正常表现：</strong>{service.expected}</p>
+          <p><strong>打不开先检查：</strong>{service.restore}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">SYSTEM PASSWORD</p>
+        <h2 class="section-title">启用 /system 密码保护</h2>
+      </div>
+    </div>
+    <article class="panel prompt-panel">
+      <pre class="prompt-code"><code>{envTemplate}</code></pre>
+    </article>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker">RULES</p>
+        <h2 class="section-title">以后必须记住的规则</h2>
+      </div>
+    </div>
+    <div class="timeline">
+      {rules.map((item, index) => (
+        <div class="timeline-item">
+          <span>{String(index + 1).padStart(2, "0")}</span>
+          <p>{item}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

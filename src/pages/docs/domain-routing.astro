@@ -2,48 +2,56 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const currentRoutes = [
-  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
-  ["bot.xiomn.com", "Telegram Bot 服务，未来可选", "HTTP :8080 或 Bot Webhook 端口"],
+  ["xiomn.com", "Project-Xiomn-Website 个人主页服务", "HTTP :3000 / Zeabur PORT"],
+  ["www.xiomn.com", "可选：同一个个人主页服务", "HTTP :3000 / Zeabur PORT"],
+  ["code.xiomn.com", "code-server / Coder 独立服务", "该服务自己的 HTTP 端口"],
+  ["panel.xiomn.com:2053", "3X-UI 独立管理面板", "HTTPS :2053"],
+  ["node.xiomn.com", "Xray / Reality 节点域名", "解析到 VPS；不是网页"],
+  ["bot.xiomn.com", "Telegram-AI-Bot-Pro 独立服务", "HTTP :8080 / Zeabur PORT"],
 ];
 
 const rules = [
-  "同一个域名只能绑定到一个 Zeabur 服务。",
-  "code.xiomn.com 不要绑到官网服务，否则打开的还是官网。",
-  "xiomn.com 和 www.xiomn.com 应该绑定到官网服务。",
-  "如果 Bot 使用 polling，不一定需要 bot.xiomn.com。",
-  "如果 Bot 使用 webhook，就需要 HTTPS 域名，例如 bot.xiomn.com。",
-  "不要用 Nginx 抢 80 / 443，入口统一交给 Zeabur ingress-controller。"
+  "同一个域名在同一区域只能绑定到一个 Zeabur 服务。",
+  "xiomn.com 只绑定 Project-Xiomn-Website，不再绑定旧 Xiomn-Portal。",
+  "bot.xiomn.com 只绑定 Telegram AI Bot 服务。",
+  "code.xiomn.com 只绑定 code-server / Coder 服务。",
+  "panel.xiomn.com:2053 是 3X-UI 面板入口，进入后仍需面板账号密码。",
+  "node.xiomn.com 是节点连接域名，不是网站；应使用 Shadowrocket 或 V2RayN 测试。",
+  "公开入口放 /services，管理员入口放 /system。"
 ];
 
 const cloudflareNotes = [
-  "DNS 只负责把域名指向服务器或 Zeabur 要求的地址。",
-  "真正决定打开哪个服务的是 Zeabur 里的域名绑定。",
-  "如果 code.xiomn.com 打开官网，通常不是 DNS 错，而是 Zeabur 绑定到了官网服务。",
-  "换服务器时，Cloudflare 只需要改到新服务器 IP 或 Zeabur 给的新目标。"
+  "DNS 负责把域名指向服务器或 Zeabur 给出的目标；Zeabur 域名绑定决定请求进入哪个服务。",
+  "节点域名通常需要直接连接 VPS，不要因为 Safari 打不开就判断节点故障。",
+  "panel.xiomn.com 使用自定义端口 2053，排错时需要同时检查 DNS、端口、防火墙、证书和 3X-UI 服务。",
+  "更换服务器时，先记录旧 IP、端口、证书和服务配置，再修改 DNS。",
 ];
 
-const normalState = `当前正确入口结构：
+const normalState = `当前目标入口结构：
 
-Zeabur ingress-controller
-├─ xiomn.com        → Project Xiomn 官网服务
-├─ www.xiomn.com    → Project Xiomn 官网服务
-└─ code.xiomn.com   → code-server 服务
+xiomn.com
+└─ Project-Xiomn-Website
+   ├─ /services
+   ├─ /docs
+   ├─ /status
+   └─ /system（密码保护）
 
-不要再让 Nginx 监听 80 / 443。`;
+code.xiomn.com       → code-server / Coder
+panel.xiomn.com:2053 → 3X-UI
+node.xiomn.com       → Xray / Reality 节点
+bot.xiomn.com        → Telegram AI Bot`;
 ---
 
 <BaseLayout
   title="域名与入口规则 · Project Xiomn"
-  description="记录 Project Xiomn 的域名绑定、Zeabur 路由和 Cloudflare 规则。"
+  description="记录 Project Xiomn 的域名绑定、Zeabur 路由和节点入口规则。"
   active="docs"
 >
   <section class="hero">
     <p class="kicker">ROUTING</p>
     <h1 class="hero-title">域名与入口规则。</h1>
     <p class="lead">
-      这页记录 xiomn.com、www.xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪个 Zeabur 服务。
+      记录 xiomn.com、code.xiomn.com、panel.xiomn.com、node.xiomn.com 和 bot.xiomn.com 分别属于哪个服务。
     </p>
   </section>
 
@@ -100,8 +108,8 @@ Zeabur ingress-controller
   <section class="section">
     <div class="section-head">
       <div>
-        <p class="kicker">CLOUDFLARE</p>
-        <h2 class="section-title">Cloudflare 注意事项</h2>
+        <p class="kicker">DNS</p>
+        <h2 class="section-title">DNS 与连接注意事项</h2>
       </div>
     </div>
 

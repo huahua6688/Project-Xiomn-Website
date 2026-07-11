@@ -2,164 +2,121 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const currentState = [
-  ["服务器", "Zeabur 购买的腾讯云服务器，底层运行 K3s。"],
-  ["入口", "Zeabur ingress-controller 接管 80 / 443。"],
-  ["Nginx", "已关闭并禁用，不能再启动，否则会和 Zeabur 抢 80 / 443。"],
-  ["官网", "xiomn.com / www.xiomn.com 已迁移到 Zeabur 官网服务。"],
-  ["code-server", "code.xiomn.com 已迁移到 Zeabur code-server 服务。"],
-  ["部署方式", "以后网站更新走 GitHub → Zeabur，不再走 /var/www/html。"],
+  ["个人主页", "Project-Xiomn-Website 使用 Astro 构建，通过 GitHub → Zeabur 自动部署，绑定 xiomn.com。"],
+  ["系统中心", "xiomn.com/system 由网站 server.js 动态提供，使用环境变量密码和 HttpOnly Cookie 保护。"],
+  ["code-server", "code.xiomn.com 是独立的浏览器开发环境服务。"],
+  ["3X-UI", "panel.xiomn.com:2053 是独立服务器管理面板，并由 3X-UI 自己的账号密码二次保护。"],
+  ["Xray 节点", "node.xiomn.com 是代理客户端节点域名，不是普通网页。"],
+  ["Telegram Bot", "bot.xiomn.com 是 Telegram-AI-Bot-Pro 独立 Zeabur 服务。"],
 ];
 
 const domainMap = [
-  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
+  ["xiomn.com", "Project-Xiomn-Website", "公开主页 + /system"],
+  ["code.xiomn.com", "code-server / Coder", "开发环境"],
+  ["panel.xiomn.com:2053", "3X-UI", "管理面板"],
+  ["node.xiomn.com", "Xray / Reality", "节点连接域名"],
+  ["bot.xiomn.com", "Telegram-AI-Bot-Pro", "Bot 后端与状态页"],
 ];
 
 const commands = [
   ["查看 K3s 状态", "sudo systemctl status k3s --no-pager"],
-  ["查看 Nginx 状态", "sudo systemctl status nginx --no-pager"],
   ["查看 Zeabur 组件", "sudo k3s kubectl get pods -A"],
   ["查看异常 Pod", "sudo k3s kubectl get pods -A | grep -v Running"],
-  ["查看 80 / 443 / 6443", "sudo ss -lntp | grep -E ':80|:443|:6443'"],
+  ["查看 3X-UI 状态", "sudo x-ui status"],
+  ["查看监听端口", "sudo ss -lntp"],
+  ["检查节点 DNS", "getent hosts node.xiomn.com"],
 ];
 
 const rules = [
-  "不要执行 sudo systemctl start nginx。",
-  "不要再用 /var/www/html 部署官网。",
-  "网站代码修改后提交到 GitHub，再让 Zeabur 重新部署。",
-  "Zeabur 服务端口统一使用 process.env.PORT。",
-  "有数据的服务必须配置 Volume。",
-  "真实 API Key 只放环境变量，不提交到 GitHub。",
+  "不要把 xiomn.com 同时绑定到旧 Portal 和个人主页服务。",
+  "网站更新走 GitHub → Zeabur，不再手动复制到 /var/www/html。",
+  "Zeabur 服务端口必须读取 process.env.PORT。",
+  "有数据库、上传文件或用户设置的服务必须挂载 Volume。",
+  "真实 API Key、密码和节点密钥只放环境变量或受保护配置，不提交 GitHub。",
+  "node.xiomn.com 浏览器打不开时，先查 DNS、端口和客户端连接，不要把它当普通网站排查。",
 ];
 
-const normalPorts = `正常端口状态应该类似：
+const normalPorts = `各服务端口不是同一个概念：
 
-*:80    Zeabur ingress-controller
-*:443   Zeabur ingress-controller
-*:6443  k3s-server
+Zeabur 网站服务
+└─ 读取 process.env.PORT（当前模板默认 3000）
 
-如果 80 / 443 显示 nginx，说明 Nginx 又抢了 Zeabur 的入口。`;
+Telegram Bot 服务
+└─ 读取自己的 PORT（常用 8080）
+
+3X-UI 管理面板
+└─ https://panel.xiomn.com:2053
+
+Xray / Reality 节点
+└─ 使用 3X-UI 入站中配置的节点端口`;
 
 const deployFlow = `以后官网更新流程：
 
-cd ~/projects/xiomn-website
-npm run build
-git add .
-git commit -m "update website"
-git push
+1. 修改 Project-Xiomn-Website
+2. npm run build
+3. node --test
+4. git add .
+5. git commit -m "update website"
+6. git push
 
-然后在 Zeabur 里等待自动部署，或者手动点重新部署。`;
+Zeabur 检测到 GitHub 更新后重新构建并部署。`;
 ---
 
 <BaseLayout
-  title="当前服务器状态 · Project Xiomn"
-  description="记录当前 Zeabur 腾讯服务器的真实运行状态、端口规则和运维命令。"
+  title="当前基础设施 · Project Xiomn"
+  description="记录 Project Xiomn 当前网站、code-server、3X-UI、节点和 Telegram Bot 的关系。"
   active="docs"
 >
   <section class="hero">
     <p class="kicker">INFRASTRUCTURE</p>
-    <h1 class="hero-title">当前服务器运行状态。</h1>
+    <h1 class="hero-title">当前服务运行结构。</h1>
     <p class="lead">
-      这页记录 Project Xiomn 当前真实的服务器结构。以后排错时先看这里，避免再次让 Nginx 和 Zeabur 抢 80 / 443。
+      这页记录每个服务属于哪里。以后看到某个域名时，可以先确认它是网页、管理面板、节点地址还是程序接口。
     </p>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">CURRENT</p>
-        <h2 class="section-title">当前状态</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">CURRENT</p><h2 class="section-title">当前状态</h2></div></div>
     <div class="grid two">
       {currentState.map(([title, text]) => (
-        <article class="card">
-          <h3>{title}</h3>
-          <p>{text}</p>
-        </article>
+        <article class="card"><h3>{title}</h3><p>{text}</p></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">DOMAINS</p>
-        <h2 class="section-title">域名绑定关系</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">DOMAINS</p><h2 class="section-title">域名绑定关系</h2></div></div>
     <div class="grid two">
-      {domainMap.map(([domain, service, port]) => (
-        <article class="panel">
-          <p class="kicker">{domain}</p>
-          <h3>{service}</h3>
-          <p>{port}</p>
-        </article>
+      {domainMap.map(([domain, service, role]) => (
+        <article class="panel"><p class="kicker">{domain}</p><h3>{service}</h3><p>{role}</p></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">COMMANDS</p>
-        <h2 class="section-title">常用检查命令</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">COMMANDS</p><h2 class="section-title">常用检查命令</h2></div></div>
     <div class="grid two">
       {commands.map(([title, cmd]) => (
-        <article class="card">
-          <h3>{title}</h3>
-          <pre><code>{cmd}</code></pre>
-        </article>
+        <article class="card"><h3>{title}</h3><pre><code>{cmd}</code></pre></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">PORTS</p>
-        <h2 class="section-title">正常端口状态</h2>
-      </div>
-    </div>
-
-    <article class="panel prompt-panel">
-      <pre class="prompt-code"><code>{normalPorts}</code></pre>
-    </article>
+    <div class="section-head"><div><p class="kicker">PORTS</p><h2 class="section-title">端口关系</h2></div></div>
+    <article class="panel prompt-panel"><pre class="prompt-code"><code>{normalPorts}</code></pre></article>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">DEPLOY</p>
-        <h2 class="section-title">以后官网更新流程</h2>
-      </div>
-    </div>
-
-    <article class="panel prompt-panel">
-      <pre class="prompt-code"><code>{deployFlow}</code></pre>
-    </article>
+    <div class="section-head"><div><p class="kicker">DEPLOY</p><h2 class="section-title">官网更新流程</h2></div></div>
+    <article class="panel prompt-panel"><pre class="prompt-code"><code>{deployFlow}</code></pre></article>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">RULES</p>
-        <h2 class="section-title">必须遵守的规则</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">RULES</p><h2 class="section-title">必须遵守的规则</h2></div></div>
     <div class="timeline">
       {rules.map((item, index) => (
-        <div class="timeline-item">
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <p>{item}</p>
-        </div>
+        <div class="timeline-item"><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></div>
       ))}
     </div>
   </section>
