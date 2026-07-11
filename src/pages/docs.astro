@@ -2,9 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const primaryDocs = [
+  ["服务与域名来源", "/docs/services-and-domains", "记录每个网页、域名、面板和节点是怎么来的，以及打不开时先检查什么。", "MAP"],
   ["总运维手册", "/docs/operations-playbook", "服务器、Zeabur、域名、备份、部署和排错的总入口。", "HUB"],
-  ["当前服务器状态", "/docs/current-infrastructure", "记录当前 Zeabur 腾讯服务器、K3s、Nginx、端口和域名关系。", "LIVE"],
-  ["域名与入口规则", "/docs/domain-routing", "记录 xiomn.com、code.xiomn.com、bot.xiomn.com 应该绑定到哪里。", "ROUTING"],
+  ["当前基础设施", "/docs/current-infrastructure", "记录网站、code-server、3X-UI、节点和 Telegram Bot 的关系。", "LIVE"],
+  ["域名与入口规则", "/docs/domain-routing", "记录 xiomn.com、code、panel、node、bot 应该绑定到哪里。", "ROUTING"],
   ["Zeabur 迁移恢复", "/docs/zeabur-migration", "以后换服务器、换 Zeabur、换平台时按这个恢复。", "MIGRATION"],
 ];
 
@@ -26,271 +27,145 @@ const backupDocs = [
 ];
 
 const routeMap = [
-  ["xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["www.xiomn.com", "Project Xiomn 官网服务", "HTTP :8080"],
-  ["code.xiomn.com", "code-server 服务", "HTTP :8080"],
-  ["bot.xiomn.com", "Telegram Bot 服务，未来可选", "HTTP :8080 / Webhook"],
+  ["xiomn.com", "Project-Xiomn-Website", "个人主页 + 文档 + /system"],
+  ["code.xiomn.com", "code-server / Coder", "浏览器开发环境"],
+  ["panel.xiomn.com:2053", "3X-UI", "节点管理面板"],
+  ["node.xiomn.com", "Xray / Reality", "节点域名，不是网页"],
+  ["bot.xiomn.com", "Telegram-AI-Bot-Pro", "Bot 后端；/status 给人查看"],
 ];
 
 const quickCommands = [
   ["检查 K3s", "sudo systemctl status k3s --no-pager"],
-  ["检查 Nginx", "sudo systemctl status nginx --no-pager"],
   ["看全部 Pod", "sudo k3s kubectl get pods -A"],
   ["看异常 Pod", "sudo k3s kubectl get pods -A | grep -v Running"],
-  ["看入口端口", "sudo ss -lntp | grep -E ':80|:443|:6443'"],
+  ["检查 3X-UI", "sudo x-ui status"],
+  ["检查节点 DNS", "getent hosts node.xiomn.com"],
 ];
 
 const rules = [
-  "不要再启动 Nginx，80 / 443 交给 Zeabur ingress-controller。",
+  "同一个域名只绑定一个服务，xiomn.com 不再同时绑定旧 Portal。",
   "官网更新走 GitHub → Zeabur，不再走 /var/www/html。",
-  "真实 API Key 只放 Zeabur 环境变量，不提交到 GitHub。",
+  "真实 API Key、密码、Bot Token 和节点密钥不提交 GitHub。",
   "有数据库、文件、用户设置的服务必须配置 Volume。",
-  "换服务器或换 Zeabur 前，先备份环境变量和 Volume。",
+  "node.xiomn.com 是客户端节点地址，不用浏览器网页是否打开来判断。",
+  "bot.xiomn.com/app 是 Telegram Mini App，必须从 Telegram 内打开。",
 ];
 
-const nextActions = [
-  "把 Telegram-AI-Bot-Pro 整理成 Zeabur 可部署版本。",
-  "补齐 Bot 的 Dockerfile、.env.example、README 和启动命令。",
-  "先部署固定回复版 Bot，确认不会 BackOff。",
-  "再接普通 Gemini 文本、图片、文件解析。",
-  "最后接 Gemini Live、语音对话和 inline button。"
-];
+const architecture = `当前结构：
 
-const architecture = `当前正确架构：
+Project-Xiomn-Website
+├─ xiomn.com
+├─ /services
+├─ /docs
+├─ /status
+└─ /system（密码保护）
 
-Zeabur 腾讯服务器
-│
-├─ K3s / Zeabur 系统组件
-│
-├─ Zeabur ingress-controller
-│  ├─ 80
-│  └─ 443
-│
-├─ Project Xiomn 官网服务
-│  ├─ xiomn.com
-│  └─ www.xiomn.com
-│
-├─ code-server 服务
-│  └─ code.xiomn.com
-│
-└─ Telegram Bot 服务
-   └─ bot.xiomn.com，未来可选
-
-注意：
-Nginx 已关闭，不要再启动。`;
+独立服务
+├─ code.xiomn.com       code-server / Coder
+├─ panel.xiomn.com:2053 3X-UI
+├─ node.xiomn.com       Xray / Reality 节点
+└─ bot.xiomn.com        Telegram AI Bot`;
 
 const updateFlow = `以后官网更新流程：
 
-cd ~/projects/xiomn-website
 npm run build
+node --test
 git add .
 git commit -m "update website"
 git push
 
-然后等待 Zeabur 自动部署，或者在 Zeabur 手动重新部署。`;
+然后等待 Zeabur 自动重新部署。`;
 ---
 
 <BaseLayout
   title="文档中心 · Project Xiomn"
-  description="Project Xiomn 的文档中心、运维手册、部署规则、备份规则和 Bot 开发入口。"
+  description="Project Xiomn 的文档中心、运维手册、域名与服务来源、部署规则和备份规则。"
   active="docs"
 >
   <section class="hero">
     <p class="kicker">DOCUMENTATION CENTER</p>
     <h1 class="hero-title">Project Xiomn 文档中心。</h1>
     <p class="lead">
-      这里不是普通文章列表，而是 Project Xiomn 的运维控制台。
-      服务器、Zeabur、域名、code-server、Bot、备份、迁移和排错都从这里进入。
+      服务器、Zeabur、域名、code-server、3X-UI、节点、Bot、备份、迁移和排错都从这里进入。
     </p>
     <div class="hero-actions">
-      <a class="primary-action" href="/docs/operations-playbook">打开总运维手册</a>
-      <a class="secondary-action" href="/docs/current-infrastructure">查看服务器状态</a>
+      <a class="primary-action" href="/docs/services-and-domains">查看服务来源记录</a>
+      <a class="secondary-action" href="/docs/operations-playbook">打开总运维手册</a>
     </div>
   </section>
 
   <section class="section">
     <div class="section-head">
-      <div>
-        <p class="kicker">CURRENT ARCHITECTURE</p>
-        <h2 class="section-title">当前真实架构</h2>
-      </div>
-      <p class="section-desc">
-        现在入口已经交给 Zeabur，Nginx 不再负责公网 80 / 443。
-      </p>
+      <div><p class="kicker">CURRENT ARCHITECTURE</p><h2 class="section-title">当前结构</h2></div>
+      <p class="section-desc">先区分网页、程序接口、管理面板和节点域名，再进行排错。</p>
     </div>
-
-    <article class="panel prompt-panel">
-      <pre class="prompt-code"><code>{architecture}</code></pre>
-    </article>
+    <article class="panel prompt-panel"><pre class="prompt-code"><code>{architecture}</code></pre></article>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">IMPORTANT</p>
-        <h2 class="section-title">最重要的入口</h2>
-      </div>
-      <p class="section-desc">
-        出问题时优先看这几个，不要先乱改服务器。
-      </p>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">IMPORTANT</p><h2 class="section-title">最重要的入口</h2></div></div>
     <div class="doc-dashboard">
       {primaryDocs.map(([title, href, text, tag]) => (
-        <a class="doc-dashboard-card" href={href}>
-          <span>{tag}</span>
-          <h3>{title}</h3>
-          <p>{text}</p>
-        </a>
+        <a class="doc-dashboard-card" href={href}><span>{tag}</span><h3>{title}</h3><p>{text}</p></a>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">ROUTES</p>
-        <h2 class="section-title">域名绑定关系</h2>
-      </div>
-      <p class="section-desc">
-        如果某个域名打开错页面，优先检查它在 Zeabur 绑定到了哪个服务。
-      </p>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">ROUTES</p><h2 class="section-title">域名与用途</h2></div></div>
     <div class="route-table">
-      {routeMap.map(([domain, service, port]) => (
-        <div class="route-row">
-          <strong>{domain}</strong>
-          <span>{service}</span>
-          <em>{port}</em>
-        </div>
+      {routeMap.map(([domain, service, role]) => (
+        <div class="route-row"><strong>{domain}</strong><span>{service}</span><em>{role}</em></div>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">DEPLOYMENT</p>
-        <h2 class="section-title">部署与排错</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">DEPLOYMENT</p><h2 class="section-title">部署与排错</h2></div></div>
     <div class="grid three">
       {deployDocs.map(([title, href, text]) => (
-        <article class="card">
-          <h3>{title}</h3>
-          <p>{text}</p>
-          <a href={href}>打开 →</a>
-        </article>
+        <article class="card"><h3>{title}</h3><p>{text}</p><a href={href}>打开 →</a></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">BOT DEVELOPMENT</p>
-        <h2 class="section-title">Telegram AI Bot 开发</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">BOT DEVELOPMENT</p><h2 class="section-title">Telegram AI Bot 开发</h2></div></div>
     <div class="grid three">
       {botDocs.map(([title, href, text]) => (
-        <article class="card">
-          <h3>{title}</h3>
-          <p>{text}</p>
-          <a href={href}>打开 →</a>
-        </article>
+        <article class="card"><h3>{title}</h3><p>{text}</p><a href={href}>打开 →</a></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">BACKUP</p>
-        <h2 class="section-title">备份与迁移</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">BACKUP</p><h2 class="section-title">备份与迁移</h2></div></div>
     <div class="grid two">
       {backupDocs.map(([title, href, text]) => (
-        <article class="card">
-          <h3>{title}</h3>
-          <p>{text}</p>
-          <a href={href}>打开 →</a>
-        </article>
+        <article class="card"><h3>{title}</h3><p>{text}</p><a href={href}>打开 →</a></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">COMMANDS</p>
-        <h2 class="section-title">常用检查命令</h2>
-      </div>
-      <p class="section-desc">
-        这些命令只负责查看状态，不会破坏服务器。
-      </p>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">COMMANDS</p><h2 class="section-title">常用检查命令</h2></div></div>
     <div class="command-grid">
       {quickCommands.map(([title, command]) => (
-        <article class="command-card">
-          <h3>{title}</h3>
-          <pre><code>{command}</code></pre>
-        </article>
+        <article class="command-card"><h3>{title}</h3><pre><code>{command}</code></pre></article>
       ))}
     </div>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">UPDATE FLOW</p>
-        <h2 class="section-title">官网更新流程</h2>
-      </div>
-    </div>
-
-    <article class="panel prompt-panel">
-      <pre class="prompt-code"><code>{updateFlow}</code></pre>
-    </article>
+    <div class="section-head"><div><p class="kicker">UPDATE FLOW</p><h2 class="section-title">官网更新流程</h2></div></div>
+    <article class="panel prompt-panel"><pre class="prompt-code"><code>{updateFlow}</code></pre></article>
   </section>
 
   <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">RULES</p>
-        <h2 class="section-title">必须遵守的规则</h2>
-      </div>
-    </div>
-
+    <div class="section-head"><div><p class="kicker">RULES</p><h2 class="section-title">必须遵守的规则</h2></div></div>
     <div class="timeline">
       {rules.map((item, index) => (
-        <div class="timeline-item">
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <p>{item}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head">
-      <div>
-        <p class="kicker">NEXT</p>
-        <h2 class="section-title">下一步要做的事</h2>
-      </div>
-    </div>
-
-    <div class="timeline">
-      {nextActions.map((item, index) => (
-        <div class="timeline-item">
-          <span>{String(index + 1).padStart(2, "0")}</span>
-          <p>{item}</p>
-        </div>
+        <div class="timeline-item"><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></div>
       ))}
     </div>
   </section>

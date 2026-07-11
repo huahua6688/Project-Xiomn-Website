@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const translations = {
+  zh: {
+    metaTitle: "服务 · Project Xiomn",
+    eyebrow: "SERVICES",
+    title: "统一服务入口。",
+    intro: "公开服务放在这里；开发环境、服务器面板和节点信息统一放入密码保护的系统中心。",
+    botTitle: "Telegram AI Bot",
+    botText: "查看机器人项目介绍、已实现能力和后续路线。",
+    botStatusTitle: "Bot 运行状态",
+    botStatusText: "打开给人阅读的可视化状态页面，不再打开显示 JSON 的程序根接口。",
+    docsTitle: "Project Xiomn 文档",
+    docsText: "查看部署说明、域名关系、故障排查、备份和服务来源记录。",
+    systemTitle: "系统管理中心",
+    systemText: "密码保护区域，包含 Web VS Code、3X-UI、节点域名、Bot 状态和 GitHub 运维入口。",
+    open: "打开 →",
+  },
+  en: {
+    metaTitle: "Services · Project Xiomn",
+    eyebrow: "SERVICES",
+    title: "Unified service entrance.",
+    intro: "Public services are shown here. Development tools, the server panel and node information are kept in the password-protected system center.",
+    botTitle: "Telegram AI Bot",
+    botText: "View the bot project, implemented capabilities and roadmap.",
+    botStatusTitle: "Bot status",
+    botStatusText: "Open the human-readable status page instead of the JSON program endpoint.",
+    docsTitle: "Project Xiomn docs",
+    docsText: "Deployment, domains, troubleshooting, backup and service history.",
+    systemTitle: "System center",
+    systemText: "Password-protected access to Web VS Code, 3X-UI, node information, Bot status and repositories.",
+    open: "Open →",
+  },
+  ja: {
+    metaTitle: "サービス · Project Xiomn",
+    eyebrow: "SERVICES",
+    title: "統合サービス入口。",
+    intro: "公開サービスはこちら。開発環境、サーバーパネル、ノード情報はパスワード保護されたシステムセンターに置きます。",
+    botTitle: "Telegram AI Bot",
+    botText: "Bot の概要、実装済み機能、ロードマップを確認します。",
+    botStatusTitle: "Bot 稼働状態",
+    botStatusText: "JSON のプログラム用入口ではなく、人向けの状態ページを開きます。",
+    docsTitle: "Project Xiomn ドキュメント",
+    docsText: "デプロイ、ドメイン、障害対応、バックアップ、サービス履歴。",
+    systemTitle: "システム管理",
+    systemText: "Web VS Code、3X-UI、ノード情報、Bot 状態、GitHub への保護された入口。",
+    open: "開く →",
+  },
+  km: {
+    metaTitle: "សេវាកម្ម · Project Xiomn",
+    eyebrow: "SERVICES",
+    title: "ច្រកចូលសេវាកម្មតែមួយ។",
+    intro: "សេវាសាធារណៈនៅទីនេះ។ Development tools, server panel និង node information ស្ថិតនៅក្នុង system center ដែលមាន password។",
+    botTitle: "Telegram AI Bot",
+    botText: "មើលព័ត៌មានគម្រោង Bot មុខងារ និង roadmap។",
+    botStatusTitle: "ស្ថានភាព Bot",
+    botStatusText: "បើក status page សម្រាប់មនុស្ស មិនមែន JSON endpoint ទេ។",
+    docsTitle: "ឯកសារ Project Xiomn",
+    docsText: "Deployment, domains, troubleshooting, backup និងប្រវត្តិសេវា។",
+    systemTitle: "មជ្ឈមណ្ឌលគ្រប់គ្រង",
+    systemText: "តំបន់មាន password សម្រាប់ Web VS Code, 3X-UI, node, Bot និង GitHub។",
+    open: "បើក →",
+  },
+  ms: {
+    metaTitle: "Servis · Project Xiomn",
+    eyebrow: "SERVICES",
+    title: "Pintu masuk servis bersepadu.",
+    intro: "Servis awam berada di sini. Development tools, server panel dan maklumat node berada dalam pusat sistem yang dilindungi kata laluan.",
+    botTitle: "Telegram AI Bot",
+    botText: "Lihat projek Bot, kemampuan semasa dan roadmap.",
+    botStatusTitle: "Status Bot",
+    botStatusText: "Buka halaman status untuk manusia, bukan program endpoint yang memaparkan JSON.",
+    docsTitle: "Dokumentasi Project Xiomn",
+    docsText: "Deployment, domain, troubleshooting, backup dan sejarah servis.",
+    systemTitle: "Pusat sistem",
+    systemText: "Akses berpassword ke Web VS Code, 3X-UI, maklumat node, status Bot dan GitHub.",
+    open: "Buka →",
+  },
+};
+
+const services = [
+  {
+    icon: "🤖",
+    title: "botTitle",
+    text: "botText",
+    href: "/telegram-ai-bot",
+  },
+  {
+    icon: "📊",
+    title: "botStatusTitle",
+    text: "botStatusText",
+    href: "https://bot.xiomn.com/status",
+    external: true,
+  },
+  {
+    icon: "📚",
+    title: "docsTitle",
+    text: "docsText",
+    href: "/docs",
+  },
+  {
+    icon: "🔐",
+    title: "systemTitle",
+    text: "systemText",
+    href: "/system",
+  },
+];
+---
+
+<BaseLayout
+  title="服务 · Project Xiomn"
+  description="Project Xiomn 的公开服务和密码保护系统入口。"
+  active="services"
+  translations={translations}
+>
+  <section class="hero">
+    <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
+    <h1 class="hero-title" data-i18n="title">{translations.zh.title}</h1>
+    <p class="lead" data-i18n="intro">{translations.zh.intro}</p>
+  </section>
+
+  <section class="section">
+    <div class="grid two">
+      {services.map((service) => (
+        <article class="card">
+          <div class="card-icon">{service.icon}</div>
+          <h2 data-i18n={service.title}>{translations.zh[service.title]}</h2>
+          <p data-i18n={service.text}>{translations.zh[service.text]}</p>
+          <div class="actions">
+            <a
+              class="btn"
+              href={service.href}
+              target={service.external ? "_blank" : undefined}
+              rel={service.external ? "noreferrer" : undefined}
+              data-i18n="open"
+            >
+              {translations.zh.open}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
