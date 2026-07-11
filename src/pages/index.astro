@@ -3,157 +3,246 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 const translations = {
   zh: {
-    metaTitle: "Project Xiomn",
-    eyebrow: "AI · Telegram · Cloud · Open Source",
-    heroTitleA: "把想法，",
-    heroTitleB: "做成真正能运行的东西。",
-    heroText: "Project Xiomn 是一个个人 AI 实验室，用来构建 Telegram AI Bot、云端服务、自动化工具和开源项目。",
-    primaryBtn: "查看项目",
-    secondaryBtn: "阅读文档",
-    projectsEyebrow: "PROJECTS",
-    projectsTitle: "正在构建的核心项目",
-    projectsDesc: "从 AI Bot 到云端部署，把每一步沉淀成可复用的工程。",
+    metaTitle: "Project Xiomn · AI、Telegram 与个人云服务",
+    eyebrow: "AI · TELEGRAM · CLOUD · OPEN SOURCE",
+    heroTitleA: "把 AI、Bot 和云服务，",
+    heroTitleB: "整理成一个真正可用的个人系统。",
+    heroText:
+      "Project Xiomn 是我的个人技术主页与服务入口，集中记录 Telegram AI Bot、Zeabur 部署、Web VS Code、3X-UI、Xray 节点、自动化工具和长期运维文档。",
+    primaryBtn: "查看全部服务",
+    secondaryBtn: "打开文档中心",
+    systemBtn: "进入系统中心",
+    overviewEyebrow: "WHAT IS XIOMN",
+    overviewTitle: "不只是个人主页。",
+    overviewDesc:
+      "这里既展示正在开发的项目，也统一管理公开入口、服务状态、部署记录和故障恢复说明。",
     botTitle: "Telegram AI Bot",
-    botText: "已部署并持续迭代，支持多 AI Provider、自动切换、联网搜索、网页/图片/语音/文件处理、记忆与消息按钮。",
-    cloudTitle: "Xiomn Cloud",
-    cloudText: "基于 VPS、Nginx、Docker、HTTPS 和自动部署组成的个人云端实验环境。",
-    docsTitle: "Docs System",
-    docsText: "记录部署流程、环境变量、常见错误、AI 接入方案和项目路线图。",
-    roadmapEyebrow: "ROADMAP",
-    roadmapTitle: "接下来的路线",
-    stepOne: "优化自然回答、链接展示与多语言体验",
-    stepTwo: "完善 Gemini Live 音频、TTS 和实时翻译",
-    stepThree: "补齐部署文档、监控与长期稳定性",
-    statusEyebrow: "STATUS",
-    statusTitle: "当前状态",
-    siteOnline: "官网在线",
-    codeOnline: "开发环境在线",
-    botProgress: "Bot 已上线 · 持续迭代",
+    botText:
+      "独立部署在 Zeabur，支持多 AI Provider、联网搜索、网页、图片、语音、文件、记忆和 Telegram 按钮交互。",
+    servicesTitle: "云端服务中心",
+    servicesText:
+      "统一整理个人主页、Bot 状态、Web VS Code、3X-UI 和 Xray / Reality 节点之间的关系。",
+    docsTitle: "运维文档系统",
+    docsText:
+      "记录每个域名从哪里来、属于哪个服务、如何部署、如何备份，以及打不开时应该先检查什么。",
+    architectureEyebrow: "ARCHITECTURE",
+    architectureTitle: "当前服务结构",
+    websiteLabel: "个人主页与统一入口",
+    botLabel: "Telegram AI Bot 后端",
+    codeLabel: "Web VS Code 开发环境",
+    panelLabel: "3X-UI 管理面板",
+    nodeLabel: "Xray / Reality 节点域名",
+    protectedLabel: "密码保护的系统中心",
+    statusEyebrow: "CURRENT STATUS",
+    statusTitle: "现在正在运行的内容",
+    websiteOnline: "官网与文档在线",
+    botOnline: "Bot 已上线 · 持续迭代",
+    systemProtected: "系统中心 · 密码保护",
+    roadmapEyebrow: "NEXT",
+    roadmapTitle: "接下来继续完善",
+    stepOne: "完成个人主页、服务入口和密码保护系统中心的合并",
+    stepTwo: "继续完善 Telegram AI Bot 的模型、语音、图片与稳定性",
+    stepThree: "补齐节点、面板、域名、备份和迁移的长期运维记录",
+    openDetails: "查看详情 →",
   },
   en: {
-    metaTitle: "Project Xiomn",
-    eyebrow: "AI · Telegram · Cloud · Open Source",
-    heroTitleA: "Turn ideas",
-    heroTitleB: "into things that actually run.",
-    heroText: "Project Xiomn is a personal AI lab for building Telegram AI bots, cloud services, automation tools and open-source projects.",
-    primaryBtn: "View projects",
-    secondaryBtn: "Read docs",
-    projectsEyebrow: "PROJECTS",
-    projectsTitle: "Core projects in progress",
-    projectsDesc: "From AI bots to cloud deployment, every step becomes reusable engineering.",
+    metaTitle: "Project Xiomn · AI, Telegram and Personal Cloud",
+    eyebrow: "AI · TELEGRAM · CLOUD · OPEN SOURCE",
+    heroTitleA: "Bring AI, bots and cloud services",
+    heroTitleB: "into one practical personal system.",
+    heroText:
+      "Project Xiomn is my personal technology homepage and service hub for a Telegram AI Bot, Zeabur deployments, Web VS Code, 3X-UI, Xray nodes, automation tools and long-term operations documentation.",
+    primaryBtn: "View all services",
+    secondaryBtn: "Open documentation",
+    systemBtn: "Enter system center",
+    overviewEyebrow: "WHAT IS XIOMN",
+    overviewTitle: "More than a personal homepage.",
+    overviewDesc:
+      "It presents active projects while organizing public entrances, service status, deployment history and recovery notes.",
     botTitle: "Telegram AI Bot",
-    botText: "Deployed and continuously improved, with multi-provider AI, automatic fallback, web search, URL/image/voice/file handling, memory and inline actions.",
-    cloudTitle: "Xiomn Cloud",
-    cloudText: "A personal cloud lab powered by VPS, Nginx, Docker, HTTPS and deployment workflows.",
-    docsTitle: "Docs System",
-    docsText: "Deployment notes, environment variables, common errors, AI integrations and project roadmap.",
-    roadmapEyebrow: "ROADMAP",
-    roadmapTitle: "What comes next",
-    stepOne: "Improve natural replies, link presentation and multilingual UX",
-    stepTwo: "Expand Gemini Live audio, TTS and real-time translation",
-    stepThree: "Complete deployment docs, monitoring and long-term stability",
-    statusEyebrow: "STATUS",
-    statusTitle: "Current status",
-    siteOnline: "Website online",
-    codeOnline: "Development environment online",
-    botProgress: "Bot online · Iterating",
+    botText:
+      "Deployed independently on Zeabur with multiple AI providers, web search, URL, image, voice, file, memory and Telegram inline interactions.",
+    servicesTitle: "Cloud service center",
+    servicesText:
+      "Organizes the relationship between the website, Bot status, Web VS Code, 3X-UI and Xray / Reality nodes.",
+    docsTitle: "Operations documentation",
+    docsText:
+      "Records where every domain came from, which service owns it, how it is deployed, backed up and restored.",
+    architectureEyebrow: "ARCHITECTURE",
+    architectureTitle: "Current service structure",
+    websiteLabel: "Homepage and unified entrance",
+    botLabel: "Telegram AI Bot backend",
+    codeLabel: "Web VS Code development",
+    panelLabel: "3X-UI management panel",
+    nodeLabel: "Xray / Reality node domain",
+    protectedLabel: "Password-protected system center",
+    statusEyebrow: "CURRENT STATUS",
+    statusTitle: "What is running now",
+    websiteOnline: "Website and docs online",
+    botOnline: "Bot online · Iterating",
+    systemProtected: "System center · Protected",
+    roadmapEyebrow: "NEXT",
+    roadmapTitle: "Next improvements",
+    stepOne: "Merge the homepage, service entrance and protected system center",
+    stepTwo: "Continue improving Bot models, voice, images and stability",
+    stepThree: "Complete long-term documentation for nodes, panels, domains, backups and migration",
+    openDetails: "View details →",
   },
   ja: {
-    metaTitle: "Project Xiomn",
-    eyebrow: "AI · Telegram · Cloud · Open Source",
-    heroTitleA: "アイデアを、",
-    heroTitleB: "実際に動くものへ。",
-    heroText: "Project Xiomn は、Telegram AI Bot、クラウドサービス、自動化ツール、オープンソースプロジェクトを作るための個人 AI ラボです。",
-    primaryBtn: "プロジェクトを見る",
-    secondaryBtn: "ドキュメントを見る",
-    projectsEyebrow: "PROJECTS",
-    projectsTitle: "進行中の主要プロジェクト",
-    projectsDesc: "AI Bot からクラウドデプロイまで、すべてを再利用できる工程として蓄積します。",
+    metaTitle: "Project Xiomn · AI、Telegram、個人クラウド",
+    eyebrow: "AI · TELEGRAM · CLOUD · OPEN SOURCE",
+    heroTitleA: "AI、Bot、クラウドサービスを、",
+    heroTitleB: "実用的な個人システムへ。",
+    heroText:
+      "Project Xiomn は、Telegram AI Bot、Zeabur、Web VS Code、3X-UI、Xray ノード、自動化、運用ドキュメントをまとめる個人技術サイトです。",
+    primaryBtn: "サービスを見る",
+    secondaryBtn: "ドキュメントを開く",
+    systemBtn: "システムセンター",
+    overviewEyebrow: "WHAT IS XIOMN",
+    overviewTitle: "単なる個人ホームページではありません。",
+    overviewDesc:
+      "開発中のプロジェクト、公開入口、サービス状態、デプロイ記録、復旧手順を一か所にまとめます。",
     botTitle: "Telegram AI Bot",
-    botText: "すでにデプロイ済みで継続改善中。複数 AI Provider、自動切替、Web 検索、URL・画像・音声・ファイル処理、メモリ、インライン操作に対応します。",
-    cloudTitle: "Xiomn Cloud",
-    cloudText: "VPS、Nginx、Docker、HTTPS、自動デプロイで構成された個人クラウドラボ。",
-    docsTitle: "Docs System",
-    docsText: "デプロイ手順、環境変数、よくあるエラー、AI 接続方案、ロードマップを記録します。",
-    roadmapEyebrow: "ROADMAP",
-    roadmapTitle: "次の計画",
-    stepOne: "自然な回答、リンク表示、多言語 UX を改善",
-    stepTwo: "Gemini Live の音声、TTS、リアルタイム翻訳を拡張",
-    stepThree: "デプロイ文書、監視、長期安定性を強化",
-    statusEyebrow: "STATUS",
-    statusTitle: "現在の状態",
-    siteOnline: "サイト稼働中",
-    codeOnline: "開発環境稼働中",
-    botProgress: "Bot 稼働中 · 継続改善",
+    botText:
+      "Zeabur に独立デプロイされ、複数 AI Provider、Web 検索、URL、画像、音声、ファイル、メモリ、Telegram 操作に対応します。",
+    servicesTitle: "クラウドサービスセンター",
+    servicesText:
+      "個人サイト、Bot 状態、Web VS Code、3X-UI、Xray / Reality ノードの関係を整理します。",
+    docsTitle: "運用ドキュメント",
+    docsText:
+      "各ドメインの由来、所属サービス、デプロイ、バックアップ、復旧方法を記録します。",
+    architectureEyebrow: "ARCHITECTURE",
+    architectureTitle: "現在のサービス構成",
+    websiteLabel: "個人サイトと統合入口",
+    botLabel: "Telegram AI Bot バックエンド",
+    codeLabel: "Web VS Code 開発環境",
+    panelLabel: "3X-UI 管理パネル",
+    nodeLabel: "Xray / Reality ノードドメイン",
+    protectedLabel: "パスワード保護システム",
+    statusEyebrow: "CURRENT STATUS",
+    statusTitle: "現在稼働中",
+    websiteOnline: "サイトと文書が稼働中",
+    botOnline: "Bot 稼働中 · 継続改善",
+    systemProtected: "システムセンター · 保護済み",
+    roadmapEyebrow: "NEXT",
+    roadmapTitle: "次の改善",
+    stepOne: "ホームページ、サービス入口、保護されたシステムセンターを統合",
+    stepTwo: "Bot のモデル、音声、画像、安定性を改善",
+    stepThree: "ノード、パネル、ドメイン、バックアップ、移行文書を完成",
+    openDetails: "詳細を見る →",
   },
   km: {
-    metaTitle: "Project Xiomn",
-    eyebrow: "AI · Telegram · Cloud · Open Source",
-    heroTitleA: "បម្លែងគំនិត",
-    heroTitleB: "ឱ្យក្លាយជាអ្វីដែលដំណើរការបាន។",
-    heroText: "Project Xiomn គឺជាបន្ទប់ពិសោធន៍ AI ផ្ទាល់ខ្លួន សម្រាប់បង្កើត Telegram AI Bot សេវាកម្ម Cloud ឧបករណ៍ស្វ័យប្រវត្តិ និងគម្រោង Open Source។",
-    primaryBtn: "មើលគម្រោង",
-    secondaryBtn: "អានឯកសារ",
-    projectsEyebrow: "PROJECTS",
-    projectsTitle: "គម្រោងសំខាន់ៗកំពុងបង្កើត",
-    projectsDesc: "ពី AI Bot ទៅ Cloud deployment រាល់ជំហានត្រូវបានរក្សាទុកជាវិស្វកម្មដែលប្រើឡើងវិញបាន។",
+    metaTitle: "Project Xiomn · AI, Telegram និង Personal Cloud",
+    eyebrow: "AI · TELEGRAM · CLOUD · OPEN SOURCE",
+    heroTitleA: "រៀបចំ AI, Bot និង Cloud services",
+    heroTitleB: "ឱ្យក្លាយជាប្រព័ន្ធផ្ទាល់ខ្លួនដែលប្រើបានពិត។",
+    heroText:
+      "Project Xiomn ជា personal technology homepage និង service hub សម្រាប់ Telegram AI Bot, Zeabur, Web VS Code, 3X-UI, Xray node, automation និងឯកសារ operations។",
+    primaryBtn: "មើលសេវាទាំងអស់",
+    secondaryBtn: "បើកឯកសារ",
+    systemBtn: "ចូល System Center",
+    overviewEyebrow: "WHAT IS XIOMN",
+    overviewTitle: "មិនមែនត្រឹមតែ personal homepage ទេ។",
+    overviewDesc:
+      "វាបង្ហាញគម្រោង និងរៀបចំ public entrances, service status, deployment records និង recovery notes។",
     botTitle: "Telegram AI Bot",
-    botText: "បានដាក់ឱ្យដំណើរការ និងកំពុងកែលម្អជាបន្តបន្ទាប់ ដោយគាំទ្រ AI Provider ច្រើន ការប្ដូរស្វ័យប្រវត្តិ Web search URL រូបភាព សំឡេង ឯកសារ memory និង inline actions។",
-    cloudTitle: "Xiomn Cloud",
-    cloudText: "បរិស្ថាន Cloud ផ្ទាល់ខ្លួន ដែលប្រើ VPS, Nginx, Docker, HTTPS និង deployment workflow។",
-    docsTitle: "Docs System",
-    docsText: "កត់ត្រា deployment, environment variables, errors, AI integration និង roadmap។",
-    roadmapEyebrow: "ROADMAP",
-    roadmapTitle: "ផែនការបន្ទាប់",
-    stepOne: "កែលម្អចម្លើយធម្មជាតិ ការបង្ហាញ link និងបទពិសោធន៍ពហុភាសា",
-    stepTwo: "ពង្រីក Gemini Live audio, TTS និងការបកប្រែពេលវេលាពិត",
-    stepThree: "បំពេញឯកសារ deployment ការត្រួតពិនិត្យ និងស្ថិរភាពរយៈពេលវែង",
-    statusEyebrow: "STATUS",
-    statusTitle: "ស្ថានភាពបច្ចុប្បន្ន",
-    siteOnline: "គេហទំព័រដំណើរការ",
-    codeOnline: "បរិស្ថានអភិវឌ្ឍន៍ដំណើរការ",
-    botProgress: "Bot ដំណើរការ · កំពុងកែលម្អ",
+    botText:
+      "Deploy ដាច់ដោយឡែកលើ Zeabur និងគាំទ្រ AI Provider ច្រើន, web search, URL, image, voice, file, memory និង Telegram buttons។",
+    servicesTitle: "Cloud service center",
+    servicesText:
+      "រៀបចំទំនាក់ទំនងរវាង website, Bot status, Web VS Code, 3X-UI និង Xray / Reality node។",
+    docsTitle: "Operations documentation",
+    docsText:
+      "កត់ត្រាប្រភព domain, service owner, deployment, backup និង recovery។",
+    architectureEyebrow: "ARCHITECTURE",
+    architectureTitle: "រចនាសម្ព័ន្ធសេវាបច្ចុប្បន្ន",
+    websiteLabel: "Homepage និង unified entrance",
+    botLabel: "Telegram AI Bot backend",
+    codeLabel: "Web VS Code development",
+    panelLabel: "3X-UI management panel",
+    nodeLabel: "Xray / Reality node domain",
+    protectedLabel: "System center មាន password",
+    statusEyebrow: "CURRENT STATUS",
+    statusTitle: "សេវាកម្មដែលកំពុងដំណើរការ",
+    websiteOnline: "Website និង docs online",
+    botOnline: "Bot online · កំពុងកែលម្អ",
+    systemProtected: "System center · Protected",
+    roadmapEyebrow: "NEXT",
+    roadmapTitle: "ការកែលម្អបន្ទាប់",
+    stepOne: "បញ្ចូល homepage, service entrance និង protected system center",
+    stepTwo: "កែលម្អ Bot models, voice, images និង stability",
+    stepThree: "បំពេញ node, panel, domain, backup និង migration docs",
+    openDetails: "មើលព័ត៌មាន →",
   },
   ms: {
-    metaTitle: "Project Xiomn",
-    eyebrow: "AI · Telegram · Cloud · Open Source",
-    heroTitleA: "Tukar idea",
-    heroTitleB: "menjadi sesuatu yang benar-benar berjalan.",
-    heroText: "Project Xiomn ialah makmal AI peribadi untuk membina Telegram AI Bot, servis cloud, alat automasi dan projek sumber terbuka.",
-    primaryBtn: "Lihat projek",
-    secondaryBtn: "Baca dokumen",
-    projectsEyebrow: "PROJECTS",
-    projectsTitle: "Projek utama sedang dibina",
-    projectsDesc: "Daripada AI Bot hingga cloud deployment, setiap langkah menjadi engineering yang boleh digunakan semula.",
+    metaTitle: "Project Xiomn · AI, Telegram dan Personal Cloud",
+    eyebrow: "AI · TELEGRAM · CLOUD · OPEN SOURCE",
+    heroTitleA: "Satukan AI, Bot dan cloud services",
+    heroTitleB: "menjadi sistem peribadi yang benar-benar berguna.",
+    heroText:
+      "Project Xiomn ialah homepage teknologi dan pusat servis peribadi untuk Telegram AI Bot, Zeabur, Web VS Code, 3X-UI, Xray node, automasi dan dokumentasi operasi jangka panjang.",
+    primaryBtn: "Lihat semua servis",
+    secondaryBtn: "Buka dokumentasi",
+    systemBtn: "Masuk pusat sistem",
+    overviewEyebrow: "WHAT IS XIOMN",
+    overviewTitle: "Lebih daripada homepage peribadi.",
+    overviewDesc:
+      "Ia memaparkan projek aktif sambil menyusun public entrances, status servis, rekod deployment dan nota pemulihan.",
     botTitle: "Telegram AI Bot",
-    botText: "Sudah dideploy dan terus dipertingkat, dengan multi-provider AI, fallback automatik, carian web, pemprosesan URL/imej/suara/fail, memori dan inline actions.",
-    cloudTitle: "Xiomn Cloud",
-    cloudText: "Makmal cloud peribadi berasaskan VPS, Nginx, Docker, HTTPS dan workflow deployment.",
-    docsTitle: "Docs System",
-    docsText: "Nota deployment, environment variables, errors, AI integrations dan roadmap.",
-    roadmapEyebrow: "ROADMAP",
-    roadmapTitle: "Langkah seterusnya",
-    stepOne: "Perbaiki jawapan semula jadi, paparan pautan dan pengalaman berbilang bahasa",
-    stepTwo: "Perluas audio Gemini Live, TTS dan terjemahan masa nyata",
-    stepThree: "Lengkapkan dokumentasi deployment, monitoring dan kestabilan jangka panjang",
-    statusEyebrow: "STATUS",
-    statusTitle: "Status semasa",
-    siteOnline: "Website online",
-    codeOnline: "Development environment online",
-    botProgress: "Bot online · Terus ditambah baik",
+    botText:
+      "Dideploy secara berasingan di Zeabur dengan multi AI Provider, web search, URL, imej, suara, fail, memori dan Telegram buttons.",
+    servicesTitle: "Pusat servis cloud",
+    servicesText:
+      "Menyusun hubungan antara website, status Bot, Web VS Code, 3X-UI dan Xray / Reality node.",
+    docsTitle: "Dokumentasi operasi",
+    docsText:
+      "Merekod asal setiap domain, servis pemilik, deployment, backup dan cara pemulihan.",
+    architectureEyebrow: "ARCHITECTURE",
+    architectureTitle: "Struktur servis semasa",
+    websiteLabel: "Homepage dan pintu masuk utama",
+    botLabel: "Backend Telegram AI Bot",
+    codeLabel: "Web VS Code development",
+    panelLabel: "Panel pengurusan 3X-UI",
+    nodeLabel: "Domain node Xray / Reality",
+    protectedLabel: "Pusat sistem berpassword",
+    statusEyebrow: "CURRENT STATUS",
+    statusTitle: "Yang sedang berjalan",
+    websiteOnline: "Website dan docs online",
+    botOnline: "Bot online · Terus ditambah baik",
+    systemProtected: "Pusat sistem · Dilindungi",
+    roadmapEyebrow: "NEXT",
+    roadmapTitle: "Penambahbaikan seterusnya",
+    stepOne: "Gabungkan homepage, service entrance dan protected system center",
+    stepTwo: "Terus perbaiki model, suara, imej dan kestabilan Bot",
+    stepThree: "Lengkapkan dokumentasi node, panel, domain, backup dan migration",
+    openDetails: "Lihat butiran →",
   },
 };
 
 const cards = [
-  { icon: "🤖", title: "botTitle", text: "botText" },
-  { icon: "☁️", title: "cloudTitle", text: "cloudText" },
-  { icon: "📚", title: "docsTitle", text: "docsText" },
+  { icon: "🤖", title: "botTitle", text: "botText", href: "/telegram-ai-bot" },
+  { icon: "☁️", title: "servicesTitle", text: "servicesText", href: "/services" },
+  { icon: "📚", title: "docsTitle", text: "docsText", href: "/docs/services-and-domains" },
+];
+
+const architecture = [
+  ["xiomn.com", "websiteLabel"],
+  ["bot.xiomn.com", "botLabel"],
+  ["code.xiomn.com", "codeLabel"],
+  ["panel.xiomn.com:2053", "panelLabel"],
+  ["node.xiomn.com", "nodeLabel"],
+  ["xiomn.com/system", "protectedLabel"],
 ];
 
 const steps = ["stepOne", "stepTwo", "stepThree"];
 ---
 
-<BaseLayout title="Project Xiomn" description="Project Xiomn" active="home" translations={translations}>
+<BaseLayout
+  title="Project Xiomn · AI、Telegram 与个人云服务"
+  description="Project Xiomn 个人技术主页、Telegram AI Bot、云端服务入口和运维文档中心。"
+  active="home"
+  translations={translations}
+>
   <section class="hero center">
     <p class="kicker" data-i18n="eyebrow">{translations.zh.eyebrow}</p>
     <h1 class="hero-title">
@@ -162,18 +251,19 @@ const steps = ["stepOne", "stepTwo", "stepThree"];
     </h1>
     <p class="lead" data-i18n="heroText">{translations.zh.heroText}</p>
     <div class="actions">
-      <a class="btn primary" href="/projects" data-i18n="primaryBtn">{translations.zh.primaryBtn}</a>
+      <a class="btn primary" href="/services" data-i18n="primaryBtn">{translations.zh.primaryBtn}</a>
       <a class="btn" href="/docs" data-i18n="secondaryBtn">{translations.zh.secondaryBtn}</a>
+      <a class="btn" href="/system" data-i18n="systemBtn">{translations.zh.systemBtn}</a>
     </div>
   </section>
 
   <section class="section">
     <div class="section-head">
       <div>
-        <p class="kicker" data-i18n="projectsEyebrow">{translations.zh.projectsEyebrow}</p>
-        <h2 class="section-title" data-i18n="projectsTitle">{translations.zh.projectsTitle}</h2>
+        <p class="kicker" data-i18n="overviewEyebrow">{translations.zh.overviewEyebrow}</p>
+        <h2 class="section-title" data-i18n="overviewTitle">{translations.zh.overviewTitle}</h2>
       </div>
-      <p class="section-desc" data-i18n="projectsDesc">{translations.zh.projectsDesc}</p>
+      <p class="section-desc" data-i18n="overviewDesc">{translations.zh.overviewDesc}</p>
     </div>
 
     <div class="grid three">
@@ -182,8 +272,50 @@ const steps = ["stepOne", "stepTwo", "stepThree"];
           <div class="card-icon">{card.icon}</div>
           <h3 data-i18n={card.title}>{translations.zh[card.title]}</h3>
           <p data-i18n={card.text}>{translations.zh[card.text]}</p>
+          <div class="actions">
+            <a class="btn" href={card.href} data-i18n="openDetails">{translations.zh.openDetails}</a>
+          </div>
         </article>
       ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <p class="kicker" data-i18n="architectureEyebrow">{translations.zh.architectureEyebrow}</p>
+        <h2 class="section-title" data-i18n="architectureTitle">{translations.zh.architectureTitle}</h2>
+      </div>
+    </div>
+
+    <div class="route-table">
+      {architecture.map(([domain, label]) => (
+        <div class="route-row">
+          <strong>{domain}</strong>
+          <span data-i18n={label}>{translations.zh[label]}</span>
+          <em>{domain === "node.xiomn.com" ? "NODE" : domain.includes("/system") ? "PRIVATE" : "ONLINE"}</em>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="kicker" data-i18n="statusEyebrow">{translations.zh.statusEyebrow}</p>
+    <h2 class="section-title" data-i18n="statusTitle">{translations.zh.statusTitle}</h2>
+
+    <div class="status-list" style="margin-top: 26px;">
+      <article class="status-item">
+        <div class="status-name"><span class="dot online"></span>xiomn.com</div>
+        <div class="status-badge" data-i18n="websiteOnline">{translations.zh.websiteOnline}</div>
+      </article>
+      <article class="status-item">
+        <div class="status-name"><span class="dot online"></span>Telegram AI Bot</div>
+        <div class="status-badge" data-i18n="botOnline">{translations.zh.botOnline}</div>
+      </article>
+      <article class="status-item">
+        <div class="status-name"><span class="dot progress"></span>xiomn.com/system</div>
+        <div class="status-badge" data-i18n="systemProtected">{translations.zh.systemProtected}</div>
+      </article>
     </div>
   </section>
 
@@ -202,26 +334,6 @@ const steps = ["stepOne", "stepTwo", "stepThree"];
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <p class="kicker" data-i18n="statusEyebrow">{translations.zh.statusEyebrow}</p>
-    <h2 class="section-title" data-i18n="statusTitle">{translations.zh.statusTitle}</h2>
-
-    <div class="status-list" style="margin-top: 26px;">
-      <article class="status-item">
-        <div class="status-name"><span class="dot online"></span>xiomn.com</div>
-        <div class="status-badge" data-i18n="siteOnline">{translations.zh.siteOnline}</div>
-      </article>
-      <article class="status-item">
-        <div class="status-name"><span class="dot online"></span>code.xiomn.com</div>
-        <div class="status-badge" data-i18n="codeOnline">{translations.zh.codeOnline}</div>
-      </article>
-      <article class="status-item">
-        <div class="status-name"><span class="dot online"></span>Telegram AI Bot</div>
-        <div class="status-badge" data-i18n="botProgress">{translations.zh.botProgress}</div>
-      </article>
     </div>
   </section>
 </BaseLayout>
