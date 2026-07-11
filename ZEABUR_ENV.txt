@@ -1,0 +1,13 @@
+Project-Xiomn-Website 网站服务需要添加：
+
+PORT=3000
+SYSTEM_PORTAL_TOKEN=你的长密码
+SESSION_SECRET=另一串随机字符
+SYSTEM_SESSION_HOURS=12
+TRUST_PROXY=true
+
+注意：
+1. 加在个人主页网站服务，不是 Telegram Bot 服务。
+2. 不要把真实值提交到 GitHub。
+3. 保存后重新部署网站服务。
+4. 部署完成后打开 https://xiomn.com/system

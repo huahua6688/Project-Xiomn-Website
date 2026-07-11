@@ -1,0 +1,49 @@
+Project-Xiomn-Website /system 合并包
+
+本包实现：
+- /services 公开服务入口
+- /system 密码保护管理中心
+- code.xiomn.com 入口
+- panel.xiomn.com:2053 入口
+- node.xiomn.com 节点说明、复制和 DNS 检测
+- bot.xiomn.com/status 状态入口
+- 服务与域名来源文档
+- 更新域名路由和当前基础设施文档
+- 登录限流、HttpOnly Cookie、安全响应头
+
+需要上传到仓库根目录并覆盖同名文件。
+
+新增文件：
+- .env.example
+- ZEABUR_ENV.txt
+- docs/SERVICES_AND_DOMAINS.md
+- src/pages/services.astro
+- src/pages/docs/services-and-domains.astro
+- test/system.test.js
+
+替换文件：
+- server.js
+- src/layouts/BaseLayout.astro
+- src/pages/status.astro
+- src/pages/docs.astro
+- src/pages/docs/domain-routing.astro
+- src/pages/docs/current-infrastructure.astro
+
+Zeabur 网站服务必须添加：
+PORT=3000
+SYSTEM_PORTAL_TOKEN=你的长密码
+SESSION_SECRET=另一串随机字符
+SYSTEM_SESSION_HOURS=12
+TRUST_PROXY=true
+
+部署完成后：
+1. 打开 https://xiomn.com
+2. 打开 https://xiomn.com/services
+3. 打开 https://xiomn.com/docs/services-and-domains
+4. 打开 https://xiomn.com/system 并输入密码
+
+注意：
+- 环境变量加在 Project-Xiomn-Website 网站服务。
+- 不要加到 Telegram Bot 服务。
+- node.xiomn.com 不是网页。
+- bot.xiomn.com/app 必须从 Telegram 内打开。
