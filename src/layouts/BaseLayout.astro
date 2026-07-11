@@ -30,9 +30,11 @@ const year = new Date().getFullYear();
         <div class="nav-links">
           <a class={active === "home" ? "active" : ""} href="/" data-i18n="navHome">首页</a>
           <a class={active === "projects" ? "active" : ""} href="/projects" data-i18n="navProjects">项目</a>
+          <a class={active === "services" ? "active" : ""} href="/services" data-i18n="navServices">服务</a>
           <a class={active === "docs" ? "active" : ""} href="/docs" data-i18n="navDocs">文档</a>
           <a class={active === "status" ? "active" : ""} href="/status" data-i18n="navStatus">状态</a>
           <a class={active === "about" ? "active" : ""} href="/about" data-i18n="navAbout">关于</a>
+          <a href="/system" data-i18n="navSystem">系统</a>
         </div>
 
         <div class="language-switcher" data-language-menu>
@@ -61,7 +63,7 @@ const year = new Date().getFullYear();
 
       <footer class="footer">
         <span>© {year} Project Xiomn</span>
-        <span data-i18n="footer">由 Astro、Nginx、GitHub 构建。</span>
+        <span data-i18n="footer">由 Astro、Zeabur、GitHub 构建。</span>
       </footer>
     </main>
 
@@ -80,42 +82,52 @@ const year = new Date().getFullYear();
         zh: {
           navHome: "首页",
           navProjects: "项目",
+          navServices: "服务",
           navDocs: "文档",
           navStatus: "状态",
           navAbout: "关于",
-          footer: "由 Astro、Nginx、GitHub 构建。",
+          navSystem: "系统",
+          footer: "由 Astro、Zeabur、GitHub 构建。",
         },
         en: {
           navHome: "Home",
           navProjects: "Projects",
+          navServices: "Services",
           navDocs: "Docs",
           navStatus: "Status",
           navAbout: "About",
-          footer: "Built with Astro, Nginx and GitHub.",
+          navSystem: "System",
+          footer: "Built with Astro, Zeabur and GitHub.",
         },
         ja: {
           navHome: "ホーム",
           navProjects: "プロジェクト",
+          navServices: "サービス",
           navDocs: "ドキュメント",
           navStatus: "状態",
           navAbout: "概要",
-          footer: "Astro、Nginx、GitHub で構築。",
+          navSystem: "システム",
+          footer: "Astro、Zeabur、GitHub で構築。",
         },
         km: {
           navHome: "ទំព័រដើម",
           navProjects: "គម្រោង",
+          navServices: "សេវាកម្ម",
           navDocs: "ឯកសារ",
           navStatus: "ស្ថានភាព",
           navAbout: "អំពី",
-          footer: "បង្កើតដោយ Astro, Nginx និង GitHub។",
+          navSystem: "ប្រព័ន្ធ",
+          footer: "បង្កើតដោយ Astro, Zeabur និង GitHub។",
         },
         ms: {
           navHome: "Utama",
           navProjects: "Projek",
+          navServices: "Servis",
           navDocs: "Dokumen",
           navStatus: "Status",
           navAbout: "Tentang",
-          footer: "Dibina dengan Astro, Nginx dan GitHub.",
+          navSystem: "Sistem",
+          footer: "Dibina dengan Astro, Zeabur dan GitHub.",
         },
       };
 
