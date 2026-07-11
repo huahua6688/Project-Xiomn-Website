@@ -22,6 +22,8 @@ Project-Xiomn-Website /system 合并包
 - test/system.test.js
 
 替换文件：
+- README.md（更新 GitHub 仓库首页介绍）
+- src/pages/index.astro（更新首页介绍、服务结构和入口）
 - server.js
 - src/layouts/BaseLayout.astro
 - src/pages/status.astro
